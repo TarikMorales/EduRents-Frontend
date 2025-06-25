@@ -1,1 +1,43 @@
-<p>product-detail works!</p>
+<h1>Product Detail Works!</h1>
+<div class="product-detail-figma">
+  <div class="product-detail-top">
+    <!-- Left: Image carousel (placeholder for now) -->
+    <div class="product-detail-gallery">
+      <button class="gallery-arrow left">&#8592;</button>
+      <img [src]="product?.imageUrl || 'https://via.placeholder.com/200x300'" alt="Imagen del producto" class="product-image-main" />
+      <button class="gallery-arrow right">&#8594;</button>
+    </div>
+    <!-- Right: Product info -->
+    <div class="product-detail-info">
+      <h2 class="product-title">{{ product?.name || 'Sin nombre' }}</h2>
+      <div class="product-price">S/. {{ product?.price || '---' }}</div>
+      <div class="product-qty">Cantidad: {{ stock ?? '---' }} unidad</div>
+      <button class="pay-btn">Pagar ahora y coordinar envío</button>
+      <div class="product-exchange">Intercambio<br><span>{{ exchangeAvailable ? 'Disponible' : 'No disponible' }}</span></div>
+      <div class="product-stock-available">Stock disponible: {{ stock ?? '---' }}</div>
+    </div>
+  </div>
+  <div class="product-detail-bottom">
+    <!-- Left: Información -->
+    <div class="product-info-card">
+      <h3>Información</h3>
+      <div><b>Facultad:</b> {{ product?.faculty || '---' }}</div>
+      <div><b>Cursos:</b> {{ product?.courses || '---' }}</div>
+      <div><b>Estado:</b> {{ state || '---' }}</div>
+      <div><b>Descripción:</b> {{ product?.description || '---' }}</div>
+    </div>
+    <!-- Right: Información del vendedor -->
+    <div class="seller-info-card">
+      <h3>Información del vendedor</h3>
+      <div class="seller-name">Pedro Rodríguez</div>
+      <div class="seller-rating">★★★★★</div>
+      <button class="seller-profile-btn">Ir a perfil</button>
+      <div class="seller-reputation-icons">
+        <div><span>😊</span><br>Confiabilidad</div>
+        <div><span>⏰</span><br>Sin demoras</div>
+        <div><span>💬</span><br>Buena atención</div>
+      </div>
+      <div class="seller-stats">+100 Tratos concretados</div>
+    </div>
+  </div>
+</div>
