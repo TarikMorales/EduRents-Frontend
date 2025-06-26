@@ -26,6 +26,10 @@ export class AuthService {
     );
   }
 
+  loginWithGoogle(idToken: string): Observable<any> {
+    return this.http.post(`${this.baseURL}/login/google`, { idToken });
+  }
+
   register(registerRequest: RegisterRequest): Observable<RegisterResponse> {
     return this.http.post<RegisterResponse>(`${this.baseURL}/register`,
       registerRequest);
@@ -33,6 +37,8 @@ export class AuthService {
 
   logout(): void {
     this.storageService.clearAuthData();
+    // @ts-ignore
+    google.accounts.id.disableAutoSelect();
   }
 
   isAuthenticated(): boolean {

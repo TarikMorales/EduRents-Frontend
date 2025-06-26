@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
@@ -15,7 +15,7 @@ import { Career } from '../../../shared/model/public-resources/career.model';
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
 
   numeros: number[] = Array.from({ length: 10 }, (_, i) => i + 1);
   opcionesCarreras: Career[] = [];
@@ -44,6 +44,36 @@ export class RegisterComponent {
     this.publicResourcesService.getCarreras().subscribe(data => {
       this.opcionesCarreras = data;
     });
+
+    let datos: { nombre?: string; correo?: string } | null = null;
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras.state as { nombre?: string; correo?: string };
+
+    if (state && (state.nombre || state.correo)) {
+      console.log('Recibido desde state:', state);
+      datos = state;
+      localStorage.setItem('registroDesdeGoogle', JSON.stringify(state));
+    } else {
+      const stored = localStorage.getItem('registroDesdeGoogle');
+      if (stored) {
+        datos = JSON.parse(stored);
+        console.log('Recuperado desde localStorage:', datos);
+      } else {
+        console.log('No se recibieron datos del estado de navegación.');
+      }
+    }
+
+    // Si se obtuvieron datos, llenar el formulario
+    if (datos) {
+      this.registerForm.patchValue({
+        nombres: datos.nombre ?? '',
+        correo: datos.correo ?? ''
+      });
+
+      this.registerForm.get('correo')?.disable();
+
+    }
+
   }
 
   controlHasError(control: string, error: string){
@@ -55,7 +85,7 @@ export class RegisterComponent {
       return;
     };
 
-    const credentials: RegisterRequest = this.registerForm.value;
+    const credentials: RegisterRequest = this.registerForm.getRawValue();
 
     this.authService.register(credentials).subscribe({
       next: () => {
