@@ -4,6 +4,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { UserProfile } from '../../shared/model/profile/user-profile.model';
 import { Observable, tap } from 'rxjs';
+import { UserSeller } from '../../shared/model/profile/user-seller.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { Observable, tap } from 'rxjs';
 export class UserService {
 
   private baseURL = `${environment.baseURL}/user/auth/users`;
+  private baseURLSeller = `${environment.baseURL}/user/auth/sellers`;
   private http = inject(HttpClient);
   private storageService = inject(StorageService);
 
@@ -50,6 +52,21 @@ export class UserService {
           currentProfile.fotoUrl = updatedProfile.foto_url;
           this.storageService.setAuthData(currentProfile);
         }
+      })
+    );
+  }
+
+  userSeller(userId: number, token: string): Observable<UserSeller> {
+    return this.http.post<UserSeller>(`${this.baseURLSeller}/user/${userId}`, null, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).pipe(
+      tap(userSeller => {
+        const currentProfile = this.storageService.getAuthData();
+        if (currentProfile) {
+          currentProfile.rol = 'SELLER';
+          this.storageService.setAuthData(currentProfile);
+        }
+        this.storageService.setUserSellerData(userSeller);
       })
     );
   }

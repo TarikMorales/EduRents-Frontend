@@ -17,7 +17,17 @@
                 </div>
             </div>
             <div class="col-4">
-                <div class="container-fluid">
+                <div *ngIf="!isSeller()" class="container-fluid">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-5 text-center">
+                            <a class="nav-link texto-general texto-link" routerLink="/">Búsqueda</a>
+                        </div>
+                        <div class="col-5 text-center">
+                            <a class="nav-link texto-general texto-link" routerLink="/">Mi Historial</a>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="isSeller()" class="container-fluid">
                     <div class="row align-items-center justify-content-center">
                         <div class="col-4 text-center">
                             <a class="nav-link texto-general texto-link" routerLink="/">Búsqueda</a>

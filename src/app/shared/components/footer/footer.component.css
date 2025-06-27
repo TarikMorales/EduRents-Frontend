@@ -1,11 +1,9 @@
 html {
     min-height: 100%;
-    position: relative;
 }
 
 footer {
     background-color: #CC0A00;
-    position: absolute;
     bottom: 0;
     width: 100%;
     padding-top: 1rem;

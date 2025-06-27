@@ -9,7 +9,6 @@
 }
 
 .contenedor-titulo{
-    margin-top: 2rem;
     margin-bottom: 2rem;
 }
 
@@ -22,6 +21,18 @@
 .contenedor-btn-cambiar-foto{
     margin-top: 3rem;
     margin-bottom: 2rem;
+}
+
+.contenedor-btn-cambiar-rol{
+    margin-top: 3rem;
+}
+
+.contenedor-caracteristicas-vendedor{
+    margin-top: 2rem;
+}
+
+.contenedor-datos-vendedor{
+    margin-top: 2rem;
 }
 
 .texto-general{
@@ -39,10 +50,24 @@
     color: #000000;
 }
 
+.texto-titulo-vendedor{
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #000000;
+}
+
 .texto-label-input{
     font-weight: 700;
     font-size: 1rem;
     color: #4F4F4F;
+}
+
+.texto-descripcion, .texto-descripcion-valor{
+    padding-bottom: 1rem
+}
+
+.texto-descripcion{
+    font-weight: 600;
 }
 
 .fila-inputs{

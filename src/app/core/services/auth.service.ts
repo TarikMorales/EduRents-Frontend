@@ -63,6 +63,7 @@ export class AuthService {
 
   logout(): void {
     this.storageService.clearAuthData();
+    this.storageService.clearUserSellerData();
     // @ts-ignore
     google.accounts.id.disableAutoSelect();
   }

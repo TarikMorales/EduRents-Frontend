@@ -11,6 +11,7 @@ import { PublicResourcesService } from '../../../core/services/public-resources.
 import { AuthResponse } from '../../../shared/model/login/auth-response.model';
 import { UserProfile } from '../../../shared/model/profile/user-profile.model';
 import { UserService } from '../../../core/services/user.service';
+import { UserSeller } from '../../../shared/model/profile/user-seller.model';
 
 @Component({
   selector: 'app-profile',
@@ -24,6 +25,10 @@ export class ProfileComponent implements OnInit{
   numeros: number[] = Array.from({ length: 10 }, (_, i) => i + 1);
   opcionesCarreras: Career[] = [];
   foto : string = "https://cdn-icons-png.flaticon.com/512/12225/12225881.png";
+  esVendedor: boolean = false;
+  confiabilidad: string = '';
+  buenaAtencion: string = '';
+  sinDemoras: string = '';
 
   profileForm: FormGroup;
   private fb = inject(FormBuilder);
@@ -70,6 +75,12 @@ export class ProfileComponent implements OnInit{
 
       this.foto = user.fotoUrl || this.foto;
 
+      this.esVendedor = user.rol === 'SELLER';
+
+      if(this.esVendedor){
+        this.obtenerDatosUsuarioVendedor();
+      }
+
     });
 
     this.profileForm.get('rol')?.disable();
@@ -100,6 +111,35 @@ export class ProfileComponent implements OnInit{
 
   controlHasError(control: string, error: string){
     return this.profileForm.controls[control].hasError(error);
+  }
+
+  cambiarARolVendedor() {
+    this.userService.userSeller(this.authService.getUser()?.id || 0, this.authService.getUser()?.token || '').subscribe({
+      next: () => {
+        this.profileForm.patchValue({
+          rol: 'SELLER'
+        });
+        this.showSnackBar('Rol cambiado a vendedor exitosamente.');
+        this.router.navigate(['/']);
+      },
+      error: () => {
+        this.showSnackBar('Error al cambiar a vendedor.');
+        this.router.navigate(['/']);
+      }
+    });
+  }
+
+  obtenerDatosUsuarioVendedor() {
+    this.userService.userSeller(this.authService.getUser()?.id || 0, this.authService.getUser()?.token || '').subscribe({
+      next: (data) => {
+        this.confiabilidad = data.confiabilidad ? "Sí" : "No";
+        this.buenaAtencion = data.buena_atencion ? "Sí" : "No";
+        this.sinDemoras = data.sin_demoras ? "Sí" : "No";
+      },
+      error: () => {
+        this.showSnackBar('Error al obtener datos del vendedor.');
+      }
+    });
   }
 
   private showSnackBar(message: string): void{
