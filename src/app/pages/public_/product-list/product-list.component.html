@@ -9,7 +9,7 @@
       class="form-control search-input flex-grow-1"
     />
 
-    <div class="position-relative d-inline-block">
+    <div #contenedorFiltros class="position-relative d-inline-block">
       <!-- Botón -->
       <button class="search-filter-button" (click)="alternarFiltros()">Filtros</button>
 
@@ -28,14 +28,8 @@
 </div>
 <div class="container mt-4">
   <div class="d-flex flex-wrap gap-5 justify-content-center">
-    <app-product-card></app-product-card>
-    <app-product-card></app-product-card>
-    <app-product-card></app-product-card>
-    <app-product-card></app-product-card>
-    <app-product-card></app-product-card>
-    <app-product-card></app-product-card>
-    <app-product-card></app-product-card>
-    <app-product-card></app-product-card>
+    <app-product-card  *ngFor="let producto of productos" [producto]="producto">
+    </app-product-card>
   </div>
 </div>
 </body>
