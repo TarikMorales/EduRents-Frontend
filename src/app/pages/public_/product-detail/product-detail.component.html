@@ -1,60 +1,110 @@
 <app-navbar></app-navbar>
-<div class="container-fluid bg-light py-4">
-  <div class="row justify-content-center">
-    <!-- Product Image Carousel -->
-    <div class="col-md-5 d-flex align-items-center justify-content-center">
-      <button class="btn btn-link fs-2">&#8592;</button>
-      <img [src]="getProductImage()" alt="Imagen del producto" class="img-fluid rounded shadow" style="max-width: 300px; max-height: 350px;" />
-      <button class="btn btn-link fs-2">&#8594;</button>
-    </div>
-    <!-- Product Info -->
-    <div class="col-md-4">
-      <div class="card p-4 mb-3">
-        <h2 class="fw-bold text-danger mb-2">{{ getProductName() }}</h2>
-        <div class="fs-3 fw-bold mb-2">{{ getProductPrice() }}</div>
-        <div class="mb-2">Cantidad: <span class="fw-semibold">{{ getStockText() }}</span></div>
-        <button class="btn btn-danger w-100 mb-3">Pagar ahora y coordinar envío</button>
-        <div class="mb-2">Intercambio<br><span class="fw-semibold">{{ getExchangeText() }}</span></div>
-        <div class="mb-2">Stock disponible: <span class="fw-semibold">{{ stock ?? '---' }}</span></div>
+<div class="bg-light min-vh-100 pt-4" style="background: #f7f7f7;">
+  <!-- Search bar and filter -->
+  <div class="container mb-3">
+    <div class="row align-items-center">
+      <div class="col-md-10">
+        <input type="text" class="form-control form-control-lg" placeholder="AGREGAR COMPONENTE DE BUSQUDA AQUI Y QUITAR ESTO." style="border-radius: 12px;" disabled>
+      </div>
+      <div class="col-md-2 d-flex justify-content-end">
+        <button class="btn btn-outline-secondary btn-lg" style="border-radius: 12px; min-width: 120px;" disabled>
+          Filtros <span class="ms-2">&#9660;</span>
+        </button>
       </div>
     </div>
   </div>
-  <div class="row justify-content-center mt-4">
-    <!-- Información -->
-    <div class="col-md-5">
-      <div class="card p-4 mb-3">
-        <h4 class="fw-bold mb-3">Información</h4>
-        <div><b>Facultad:</b> {{ getProductFaculty() }}</div>
-        <div><b>Cursos:</b> {{ getProductCourses() }}</div>
-        <div><b>Estado:</b> {{ getStateText() }}</div>
-        <div><b>Fecha de expiración:</b> {{ getExpirationText() }}</div>
-        <div><b>Descripción:</b> {{ getProductDescription() }}</div>
+
+  <!-- Main product detail section -->
+  <div class="container">
+    <div class="row g-4 align-items-stretch">
+      <!-- Image carousel as card -->
+      <div class="col-md-6 h-100 d-flex align-items-stretch">
+        <div class="card p-4 shadow-sm w-100 h-100 d-flex flex-column justify-content-center align-items-center" style="border-radius: 18px; min-height: 350px;">
+          <div class="d-flex align-items-center justify-content-center w-100 h-100">
+            <button class="btn btn-link fs-1 px-3">&#8592;</button>
+            <img [src]="getProductImage()" alt="Imagen del producto" class="img-fluid rounded" style="max-width: 300px; max-height: 350px; background: #fff;" />
+            <button class="btn btn-link fs-1 px-3">&#8594;</button>
+          </div>
+        </div>
+      </div>
+      <!-- Product info card -->
+      <div class="col-md-6 h-100 d-flex align-items-stretch">
+        <div class="card p-4 shadow-sm w-100 h-100 d-flex flex-column justify-content-between" style="border-radius: 18px; min-height: 350px;">
+          <div>
+            <h2 class="fw-bold mb-1" style="color: #e74c3c;">{{ getProductName() }}</h2>
+            <div class="fs-2 fw-bold mb-2">{{ getProductPrice() }}</div>
+            <div class="mb-2">Cantidad: <span class="fw-semibold">{{ getStockText() }}</span></div>
+            <button class="btn btn-danger w-100 mb-3" style="font-weight: 600; border-radius: 8px;">Pagar ahora y coordinar envío</button>
+            <div class="fw-bold">Intercambio</div>
+            <div class="mb-2">{{ getExchangeText() }}</div>
+            <div class="fw-bold">Stock disponible:</div>
+            <div>{{ stock ?? '---' }}</div>
+          </div>
+        </div>
       </div>
     </div>
-    <!-- Información del vendedor -->
-    <div class="col-md-4">
-      <div class="card p-4 mb-3">
-        <h4 class="fw-bold mb-3">Información del vendedor</h4>
-        <div class="fs-5 fw-bold mb-2">{{ product?.vendedor?.nombreUsuario || '---' }}</div>
-        <div class="mb-2">
-          <span class="text-warning fs-4">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-        </div>
-        <button class="btn btn-outline-danger w-100 mb-3">Ir a perfil</button>
-        <div class="d-flex justify-content-between mb-2">
-          <div class="text-center">
-            <div class="fs-2">{{ product?.vendedor?.confiabilidad ? '😊' : '😐' }}</div>
-            <div class="small">Confiabilidad</div>
-          </div>
-          <div class="text-center">
-            <div class="fs-2">{{ product?.vendedor?.sin_demoras ? '⏰' : '⏳' }}</div>
-            <div class="small">Sin demoras</div>
-          </div>
-          <div class="text-center">
-            <div class="fs-2">{{ product?.vendedor?.buena_atencion ? '💬' : '🤐' }}</div>
-            <div class="small">Buena atención</div>
+    <!-- Info and seller cards -->
+    <div class="row g-4 align-items-stretch h-100 mt-4" style="min-height: 350px;">
+      <div class="col-md-6 h-100 d-flex align-items-stretch">
+        <div class="card p-4 shadow-sm w-100 h-100 d-flex flex-column justify-content-between" style="border-radius: 18px; min-height: 350px;">
+          <div>
+            <h4 class="fw-bold mb-3">Información</h4>
+            <div><b>Disponible hasta:</b> {{ product?.fecha_expiracion ? (product?.fecha_expiracion | date:'dd/MM/yyyy') : '---' }}</div>
+            <div><b>Carrera(s):</b> {{ getProductCarreers() }}</div>
+            <div><b>Categoría(s):</b> {{ getProductCategories() }}</div>
+            <div><b>Estado:</b> {{ getStateText() }}</div>
+            <div><b>Descripción:</b> {{ getProductDescription() }}</div>
+            <div><b>Publicación creada el:</b> {{ product?.fecha_creacion ? (product?.fecha_creacion | date:'dd/MM/yyyy') : '---' }}</div>
+            <div><b>Editado el:</b> {{ product?.fecha_modificacion ? (product?.fecha_modificacion | date:'dd/MM/yyyy') : '---' }}</div>
           </div>
         </div>
-        <div class="text-success fw-semibold">{{ product?.vendedor?.resena || 'Sin reseñas' }}</div>
+      </div>
+      <div class="col-md-6 h-100 d-flex align-items-stretch">
+        <div class="card p-4 shadow-sm w-100 h-100 d-flex flex-column justify-content-between" style="border-radius: 18px; min-height: 350px;">
+          <div>
+            <h4 class="fw-bold mb-3">Información del vendedor</h4>
+            <div class="fs-5 fw-bold mb-1">{{ product?.vendedor?.nombreUsuario || '---' }}</div>
+            <div class="mb-2">
+              
+            </div>
+            <div class="d-flex justify-content-center">
+              <button class="btn btn-danger w-50 mb-3" style="font-weight: 600; border-radius: 8px;">Ir a perfil</button>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <div class="text-center">
+                <img src="assets/Confiabilidad.png" alt="Confiabilidad" style="height: 40px; margin-bottom: 0.3rem;">
+                <div class="small">Confiabilidad</div>
+                <ng-container *ngIf="product?.vendedor?.confiabilidad; else noConfiabilidad">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#27ae60" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                </ng-container>
+                <ng-template #noConfiabilidad>
+                  <span style="font-size: 2rem; color: #f1c40f;">?</span>
+                </ng-template>
+              </div>
+              <div class="text-center">
+                <img src="assets/Reloj.png" alt="Sin demoras" style="height: 40px; margin-bottom: 0.3rem;">
+                <div class="small">Sin demoras</div>
+                <ng-container *ngIf="product?.vendedor?.sin_demoras; else noDemoras">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#27ae60" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                </ng-container>
+                <ng-template #noDemoras>
+                  <span style="font-size: 2rem; color: #e74c3c;">&#10006;</span>
+                </ng-template>
+              </div>
+              <div class="text-center">
+                <img src="assets/BuenaAtencion.png" alt="Buena atención" style="height: 40px; margin-bottom: 0.3rem;">
+                <div class="small">Buena atención</div>
+                <ng-container *ngIf="product?.vendedor?.buena_atencion; else noAtencion">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#27ae60" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                </ng-container>
+                <ng-template #noAtencion>
+                  <span style="font-size: 2rem; color: #e74c3c;">&#10006;</span>
+                </ng-template>
+              </div>
+            </div>
+            <div class="text-success fw-semibold mt-2">+--- Tratos concretados</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

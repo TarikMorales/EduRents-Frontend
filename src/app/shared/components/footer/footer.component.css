@@ -1,0 +1,16 @@
+.footer {
+  width: 100%;
+  background: #F10C00;
+  color: #fff;
+  text-align: center;
+  padding: 1.2rem 0 1rem 0;
+  font-size: 1.1rem;
+  font-family: 'Inter', Arial, sans-serif;
+  position: relative;
+  bottom: 0;
+  left: 0;
+}
+.footer img {
+  height: 32px;
+  margin-bottom: 0.3rem;
+}

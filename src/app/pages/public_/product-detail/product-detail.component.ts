@@ -115,15 +115,14 @@ export class ProductDetailComponent implements OnInit {
   }
 
   getProductPrice(): string {
-    return this.product?.precio ? `S/. ${this.product.precio}` : '---';
+    return this.product?.precio ? `S/. ${this.product.precio.toLocaleString('es-PE', { minimumFractionDigits: 2 })}` : '---';
   }
 
-  getProductFaculty(): string {
-    return this.product?.vendedor?.nombreUsuario || '---';
-  }
-
-  getProductCourses(): string {
+  getProductCarreers(): string {
     return this.product?.cursos_carreras?.length ? this.product.cursos_carreras.join(', ') : '---';
+  }
+  getProductCategories(): string {
+    return this.product?.categorias?.length ? this.product.categorias.join(', ') : '---';
   }
 
   getProductDescription(): string {
@@ -131,7 +130,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   getProductImage(): string {
-    return this.product?.imagenes?.length ? this.product.imagenes[0] : 'https://via.placeholder.com/200x300';
+    return this.product?.imagenes?.length ? this.product.imagenes[0] : 'assets/NoImage.png';
   }
 
   getStockText(): string {
@@ -148,5 +147,25 @@ export class ProductDetailComponent implements OnInit {
 
   getExpirationText(): string {
     return this.expirationDate || '---';
+  }
+
+  getSellerName(): string {
+    return this.product?.vendedor?.nombreUsuario || '---';
+  }
+
+  getSellerDeals(): string {
+    return /* '+100 Tratos concretados' */'';//remplazar con datos del vendedor
+  }
+
+  isSellerReliable(): boolean {
+    return !!this.product?.vendedor?.confiabilidad;
+  }
+
+  isSellerOnTime(): boolean {
+    return !!this.product?.vendedor?.sin_demoras;
+  }
+
+  isSellerAttentive(): boolean {
+    return !!this.product?.vendedor?.buena_atencion;
   }
 }
