@@ -4,6 +4,10 @@ import { CategoryService } from '../../../../services/category.service';
 import { Category } from '../../../../models/product/category';
 import {FormsModule} from "@angular/forms";
 import { EventEmitter, Output } from '@angular/core';
+import {Career} from "../../../../models/career";
+import { CareerService } from '../../../../services/career.service';
+import {Course} from "../../../../models/course";
+import { CoursesService } from '../../../../services/courses.service';
 
 @Component({
   selector: 'app-filter-product-list',
@@ -14,8 +18,15 @@ import { EventEmitter, Output } from '@angular/core';
 })
 export class FilterProductListComponent implements OnInit {
   categorias: Category[] = [];
+  carreras: Career[] = [];
+  cursos: Course[] = []; // Course tiene id, nombre, codigo
 
-  constructor(private categoryService: CategoryService) {}
+  busquedaCurso: string = '';
+  cursosSeleccionados: number[] = [];
+
+  constructor(private categoryService: CategoryService
+              , private careerService: CareerService,
+              private courseService: CoursesService) {}
 
   ngOnInit() {
     this.categoryService.getAllCategories().subscribe({
@@ -26,28 +37,25 @@ export class FilterProductListComponent implements OnInit {
         console.error('Error al obtener categorías:', err);
       }
     });
+
+    this.careerService.getAllCareers().subscribe({
+      next: (data) => {
+        this.carreras = data;
+      },
+      error: (err) => {
+        console.error('Error al obtener carreras:', err);
+      }
+    })
   }
 
-  filtrosDisponibles: string[] = ['Utensilios', 'Decoración', 'Tecnología', 'Ropa', 'Juguetes', 'Papelería'];
   filtrosSeleccionados: number[] = [];
 
   carrerasDisponibles: string[] = ['Ingeniería', 'Administración', 'Medicina', 'Derecho', 'Diseño', 'Arquitectura'];
-  carrerasSeleccionadas: string[] = [];
+  carrerasSeleccionadas: number[] = [];
 
   estadosDisponibles: string[] = ['Nuevo', 'Seminuevo', 'Usado', 'Muy usado'];
   estadosSeleccionados: string[] = [];
 
-  cursosPorCarrera: { [carrera: string]: string[] } = {
-    'Ingeniería': ['Álgebra', 'Programación', 'Cálculo'],
-    'Medicina': ['Anatomía', 'Farmacología', 'Fisiología'],
-    'Administración': ['Contabilidad', 'Marketing', 'Economía'],
-    'Derecho': ['Derecho Penal', 'Derecho Civil', 'Constitucional'],
-    'Diseño': ['Diseño gráfico', 'Color y forma', 'Modelado 3D'],
-    'Arquitectura': ['AutoCAD', 'Diseño estructural', 'Urbanismo']
-  };
-
-  cursosSeleccionados: string[] = [];
-  busquedaCurso: string = '';
   mostrarCursosDropdown: boolean = false;
 
   precioMin: number | null = null;
@@ -66,12 +74,29 @@ export class FilterProductListComponent implements OnInit {
 
   onCarreraChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
-    const value = checkbox.value;
+    const value = parseInt(checkbox.value, 10);
 
     if (checkbox.checked) {
       this.carrerasSeleccionadas.push(value);
     } else {
-      this.carrerasSeleccionadas = this.carrerasSeleccionadas.filter(c => c !== value);
+      this.carrerasSeleccionadas = this.carrerasSeleccionadas.filter(id => id !== value);
+    }
+
+    if (this.carrerasSeleccionadas.length === 1) {
+      const selectedCareerId = this.carrerasSeleccionadas[0];
+      this.courseService.getCoursesByCareer(selectedCareerId).subscribe({
+        next: (data) => {
+          console.log('✅ Cursos recibidos:', data);
+          //this.mostrarCursosDropdown = true;
+          this.cursos = data;
+        },
+        error: (err) => {
+          console.error('Error al obtener cursos:', err);
+          this.cursos = [];
+        }
+      });
+    } else {
+      this.cursos = [];
     }
   }
 
@@ -87,44 +112,25 @@ export class FilterProductListComponent implements OnInit {
     }
   }
 
-  get cursosDisponibles(): string[] {
-    const set = new Set<string>();
-    this.carrerasSeleccionadas.forEach(carrera => {
-      (this.cursosPorCarrera[carrera] || []).forEach(c => set.add(c));
-    });
-    return Array.from(set);
+  cursosFiltrados(): Course[] {
+    const query = this.busquedaCurso.toLowerCase();
+    return this.cursos.filter(curso => curso.nombre.toLowerCase().includes(query));
   }
 
   toggleCursos() {
     this.mostrarCursosDropdown = !this.mostrarCursosDropdown;
   }
 
-  onCursoChange(event: Event) {
-    const checkbox = event.target as HTMLInputElement;
-    const value = checkbox.value;
-
-    if (checkbox.checked) {
-      this.cursosSeleccionados.push(value);
-    } else {
-      this.cursosSeleccionados = this.cursosSeleccionados.filter(c => c !== value);
-    }
-  }
-
-  cursosFiltrados(): string[] {
-    const query = this.busquedaCurso.toLowerCase();
-    return this.cursosDisponibles.filter(c => c.toLowerCase().includes(query));
-  }
-
-  toggleCurso(curso: string) {
-    const index = this.cursosSeleccionados.indexOf(curso);
+  toggleCurso(curso: Course) {
+    const index = this.cursosSeleccionados.indexOf(curso.id);
     if (index > -1) {
       this.cursosSeleccionados.splice(index, 1); // deselecciona
     } else {
-      this.cursosSeleccionados.push(curso); // selecciona
+      this.cursosSeleccionados.push(curso.id); // selecciona
     }
   }
 
-  @Output() filtrosAplicados = new EventEmitter<any>();
+    @Output() filtrosAplicados = new EventEmitter<any>();
   aplicarFiltros() {
     this.filtrosAplicados.emit({
       categorias: this.filtrosSeleccionados,
