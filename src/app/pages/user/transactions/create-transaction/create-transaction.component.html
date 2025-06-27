@@ -1,40 +1,73 @@
-<div class="container mt-5">
+<div class="container mt-4">
   <div class="row">
-    <!-- Columna izquierda: Métodos de pago -->
+    <!-- Flecha de regreso -->
+    <div class="col-12 mb-3">
+      <a (click)="goBack()" class="btn btn-light">
+        <img src="assets/back-arrow.PNG" alt="Volver" width="60">
+      </a>
+    </div>
+
+    <!-- Sección Izquierda -->
     <div class="col-md-6">
-      <h5 class="mb-3">Escoge uno de los métodos de pago</h5>
-      <div class="d-flex flex-column gap-3">
-        <button type="button" class="btn p-0 border-0">
-          <img src="assets/img/applepay.png" alt="Apple Pay" class="img-fluid" (click)="selectPayment('APPLEPAY')">
+      <h4>Escoge uno de los métodos de pago</h4>
+      <div class="d-flex flex-column align-items-start gap-3 mt-3 w-100">
+        <button
+          type="button"
+          class="btn metodo-btn w-100"
+          [ngClass]="{ 'seleccionado': selectedMetodo === 'GOOGLEPAY' }"
+          (click)="selectMetodo('GOOGLEPAY')"
+        >
+          <img src="assets/googlepay.png" alt="Google Pay" class="metodo-img">
         </button>
-        <button type="button" class="btn p-0 border-0">
-          <img src="assets/img/googlepay.png" alt="Google Pay" class="img-fluid" (click)="selectPayment('GOOGLEPAY')">
+        <button
+          type="button"
+          class="btn metodo-btn w-100"
+          [ngClass]="{ 'seleccionado': selectedMetodo === 'APPLEPAY' }"
+          (click)="selectMetodo('APPLEPAY')"
+        >
+          <img src="assets/applepay.png" alt="Apple Pay" class="metodo-img">
         </button>
-        <button type="button" class="btn p-0 border-0">
-          <img src="assets/img/efectivo.png" alt="Efectivo" class="img-fluid" (click)="selectPayment('EFECTIVO')">
+        <button
+          type="button"
+          class="btn metodo-btn w-100"
+          [ngClass]="{ 'seleccionado': selectedMetodo === 'EFECTIVO' }"
+          (click)="selectMetodo('EFECTIVO')"
+        >
+          <img src="assets/cash.PNG" alt="Efectivo" class="metodo-img">
         </button>
-        <button type="button" class="btn p-0 border-0">
-          <img src="assets/img/tarjeta.png" alt="Tarjeta" class="img-fluid" (click)="selectPayment('TARJETA')">
+        <button
+          type="button"
+          class="btn metodo-btn w-100"
+          [ngClass]="{ 'seleccionado': selectedMetodo === 'TARJETA' }"
+          (click)="selectMetodo('TARJETA')"
+        >
+          <img src="assets/card.PNG" alt="Tarjeta" class="metodo-img">
         </button>
-        <button type="button" class="btn p-0 border-0">
-          <img src="assets/img/banca.png" alt="Banca" class="img-fluid" (click)="selectPayment('BANCA')">
+        <button
+          type="button"
+          class="btn metodo-btn w-100"
+          [ngClass]="{ 'seleccionado': selectedMetodo === 'BANCA' }"
+          (click)="selectMetodo('BANCA')"
+        >
+          <img src="assets/bank.PNG" alt="Banca" class="metodo-img">
         </button>
       </div>
     </div>
 
-    <!-- Columna derecha: Resumen -->
-    <div class="col-md-6 d-flex flex-column align-items-start justify-content-between">
-      <div class="w-100">
-        <h5>Precio Total</h5>
-        <p class="fs-4 fw-bold">S/ 15.00</p>
+    <!-- Sección Derecha -->
+    <div class="col-md-6">
+      <h4>Precio total</h4>
+      <p><strong>S/ 15.00</strong></p>
 
-        <h6 class="mt-4">Producto</h6>
-        <img src="assets/img/producto.png" alt="Producto" class="img-thumbnail" style="max-width: 100%; height: auto;">
-      </div>
+      <h5>Producto</h5>
+      <img src="assets/producto-demo.jpg" alt="Producto" width="200">
 
-      <button class="btn btn-success mt-4 align-self-end" (click)="submitTransaction()" [disabled]="transactionForm.invalid">
-        Continuar
-      </button>
+      <form [formGroup]="transactionForm" (ngSubmit)="submitTransaction()" class="mt-4">
+        <input type="hidden" formControlName="idProducto">
+        <button type="submit" class="btn btn-danger" [disabled]="transactionForm.invalid">
+          Continuar
+        </button>
+      </form>
     </div>
   </div>
 </div>
