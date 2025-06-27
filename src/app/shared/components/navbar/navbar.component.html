@@ -37,10 +37,10 @@
             <div class="col-4">
                 <div *ngIf="isLogged()" class="container-fluid contenedor-datos" >
                     <div class="row align-items-center justify-content-center">
-                        <div class="col-4 text-end">
-                            <span class="texto-general texto-nombre-usuario">{{ nombreUsuario }}</span>
-                        </div>
                         <div class="col-4 text-center">
+                            <a class="nav-link texto-link texto-general" routerLink="/user"><span class="texto-general texto-nombre-usuario">{{ nombreUsuario }}</span></a>
+                        </div>
+                        <div class="col-4 text-start">
                             <img src="{{foto}}" alt="" class="img-fluid img-usuario">
                         </div>
                         <div class="col-4 text-center">

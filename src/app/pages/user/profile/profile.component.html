@@ -1,1 +1,181 @@
-<p>profile works!</p>
+<app-navbar></app-navbar>
+
+<div class="container-fluid contenedor-general-perfil">
+
+    <div class="row justify-content-center align-items-center">
+        <div class="col-8">
+            
+            <div class="container-fluid">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-6">
+                        <div class="container-fluid">
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 contenedor-titulo">
+                                    <h1 class="text-start texto-general texto-titulo">Perfil de Usuario</h1>
+                                </div>
+
+                                <div class="col-12 contenedor-datos-perfil">
+
+                                    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+                                        <div class="container-fluid contenedor-inputs">
+                                            <div class="row">
+
+                                                <div class="col-12 fila-inputs">
+                                                    <div class="container-fluid">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="container-fluid">
+                                                                    <div class="row justify-content-center align-items-center">
+                                                                        <div class="col-12">
+                                                                            <span class="texto-general texto-label-input">Nombres</span>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <input type="text" formControlName="nombres" class="form-control input-general" placeholder="Ingrese sus nombres" name="nombres" required>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="container-fluid">
+                                                                    <div class="row justify-content-center align-items-center">
+                                                                        <div class="col-12">
+                                                                            <span class="texto-general texto-label-input">Apellidos</span>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <input type="text" formControlName="apellidos" class="form-control input-general" placeholder="Ingrese sus apellidos" name="apellidos" required>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 fila-inputs">
+                                                    <div class="container-fluid">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="container-fluid">
+                                                                    <div class="row justify-content-center align-items-center">
+                                                                        <div class="col-12">
+                                                                            <span class="texto-general texto-label-input">Correo</span>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <input type="email" formControlName="correo" class="form-control input-general" placeholder="Ingrese su correo" name="correo" required>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="container-fluid">
+                                                                    <div class="row justify-content-center align-items-center">
+                                                                        <div class="col-12">
+                                                                            <span class="texto-general texto-label-input">Rol</span>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <input type="text" formControlName="rol" class="form-control input-general" placeholder="Ingrese su rol" name="rol" required>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 fila-inputs">
+                                                    <div class="container-fluid">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="container-fluid">
+                                                                    <div class="row justify-content-center align-items-center">
+                                                                        <div class="col-12">
+                                                                            <span class="texto-general texto-label-input">Código Universitario</span>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <input type="text" formControlName="codigo_universitario" class="form-control input-general" placeholder="Ingrese su código universitario" name="codigo_universitario" required>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="container-fluid">
+                                                                    <div class="row justify-content-center align-items-center">
+                                                                        <div class="col-12">
+                                                                            <span class="texto-general texto-label-input">Carrera</span>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <select id="carrera" formControlName="id_carrera" class="form-select input-general" name="id_carrera" required>
+                                                                                <option value="" disabled selected>Selecciona una carrera</option>
+                                                                                <option *ngFor="let carrera of opcionesCarreras" [value]="carrera.id">{{ carrera.nombre }}</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 fila-inputs">
+                                                    <div class="container-fluid">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="container-fluid">
+                                                                    <div class="row justify-content-center align-items-center">
+                                                                        <div class="col-12">
+                                                                            <span class="texto-general texto-label-input">Ciclo Universitario</span>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <select id="ciclo" formControlName="ciclo" class="form-select input-general" name="ciclo" required>
+                                                                                <option value="" disabled selected>Selecciona un ciclo</option>
+                                                                                <option *ngFor="let n of numeros" [value]="n">{{ n }}</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="container-fluid">
+                                                                    <div class="row justify-content-center align-items-center">
+                                                                        <div class="col-12 text-center contenedor-btn-form">
+                                                                            <button class="texto-general btn-form" type="submit" [disabled]="profileForm.invalid">Actualizar Perfil</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="container-fluid">
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 text-center pt-4">
+                                    <img src="{{foto}}" alt="foto-perfil" class="img-fluid img-perfil">
+                                </div>
+                                <div class="col-7 text-center contenedor-btn-cambiar-foto">
+                                    <a class="texto-general btn-cambiar-foto" routerLink="/user/change-photo">Cambiar foto de perfil</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<app-footer></app-footer>
