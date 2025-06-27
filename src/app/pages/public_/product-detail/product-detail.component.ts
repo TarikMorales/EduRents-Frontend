@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { ProductDetailService } from '../../../core/services/product-detail.service';
+import { FooterComponent } from '../../../shared/components/footer/footer.component';
 
 // Interfaces for type safety
 interface Product {
@@ -58,7 +59,8 @@ interface ExchangeResponse {
   standalone: true,
   imports: [
     CommonModule,
-    NavbarComponent
+    NavbarComponent,
+    FooterComponent
   ],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'

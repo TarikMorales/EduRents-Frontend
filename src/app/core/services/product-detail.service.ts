@@ -8,12 +8,12 @@ import { Observable, of, catchError } from 'rxjs';
 })
 export class ProductDetailService {
 
-  private baseUrl = `${environment.baseUrl}/public/products`; // Use environment configuration
+  private baseUrl = `${environment.baseURL}/public/products`; // Use environment configuration
   private http = inject(HttpClient);
   
   constructor() { 
     console.log('ProductDetailService initialized with baseUrl:', this.baseUrl);
-    console.log('Environment baseUrl:', environment.baseUrl);
+    console.log('Environment baseUrl:', environment.baseURL);
     console.log('Full environment object:', environment);
   }
 
