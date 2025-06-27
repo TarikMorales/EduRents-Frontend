@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { ProductDetailService } from '../../../core/services/product-detail.service';
@@ -77,7 +77,8 @@ export class ProductDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute, 
-    private productDetailService: ProductDetailService
+    private productDetailService: ProductDetailService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -167,5 +168,11 @@ export class ProductDetailComponent implements OnInit {
 
   isSellerAttentive(): boolean {
     return !!this.product?.vendedor?.buena_atencion;
+  }
+
+  goToSellerProfile() {
+    if (this.product?.vendedor?.id) {
+      this.router.navigate(['/public_/seller-profile', this.product.vendedor.id]);
+    }
   }
 }
