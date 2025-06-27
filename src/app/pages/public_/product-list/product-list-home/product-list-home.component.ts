@@ -1,26 +1,30 @@
 import { Component } from '@angular/core';
-import {ProductCardComponent} from "./product-card/product-card.component";
-import {FilterProductListComponent} from "./filter-product-list/filter-product-list.component";
+import {ProductCardComponent} from "../product-card/product-card.component";
+import {FilterProductListComponent} from "../filter-product-list/filter-product-list.component";
 import {CommonModule} from "@angular/common";
 import {ElementRef,ViewChild ,HostListener, OnInit} from "@angular/core";
-import { Product } from '../../../models/product/producto';
-import { ProductService } from '../../../services/product.service';
+import { Product } from '../../../../models/product/producto';
+import { ProductService } from '../../../../services/product.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({
-  selector: 'app-product-list',
+  selector: 'app-product-home-list',
   standalone: true,
   imports: [
     CommonModule,ProductCardComponent, FilterProductListComponent, HttpClientModule
   ],
-  templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.css'
+  templateUrl: './product-list-home.component.html',
+  styleUrl: './product-list-home.component.css'
 })
-export class ProductListComponent implements OnInit {
+export class ProductListHomeComponent implements OnInit {
   mostrarFiltros: boolean = false;
   productos: Product[] = [];
   productosOriginales: Product[] = [];
+  productosRecientes: Product[] = [];
+  productosTopintercambios: Product[] = [];
+  productosTrendy: Product[] = [];
+
 
   @ViewChild('contenedorFiltros') contenedorFiltros!: ElementRef;
 
@@ -35,6 +39,33 @@ export class ProductListComponent implements OnInit {
       next: (data) => {
         this.productos = data;
         this.productosOriginales = data;
+        console.log('Productos cargados:', data);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error al cargar productos:', err);
+      }
+    });
+    this.productService.getProductsRecents().subscribe({
+      next: (data) => {
+        this.productosRecientes = data;
+        console.log('Productos cargados:', data);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error al cargar productos:', err);
+      }
+    });
+    this.productService.getProductsTopExchanges().subscribe({
+      next: (data) => {
+        this.productosTopintercambios = data;
+        console.log('Productos cargados:', data);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error al cargar productos:', err);
+      }
+    });
+    this.productService.getProductsTrendy().subscribe({
+      next: (data) => {
+        this.productosTrendy = data;
         console.log('Productos cargados:', data);
       },
       error: (err: HttpErrorResponse) => {
