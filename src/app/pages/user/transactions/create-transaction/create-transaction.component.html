@@ -1,0 +1,40 @@
+<div class="container mt-5">
+  <div class="row">
+    <!-- Columna izquierda: Métodos de pago -->
+    <div class="col-md-6">
+      <h5 class="mb-3">Escoge uno de los métodos de pago</h5>
+      <div class="d-flex flex-column gap-3">
+        <button type="button" class="btn p-0 border-0">
+          <img src="assets/img/applepay.png" alt="Apple Pay" class="img-fluid" (click)="selectPayment('APPLEPAY')">
+        </button>
+        <button type="button" class="btn p-0 border-0">
+          <img src="assets/img/googlepay.png" alt="Google Pay" class="img-fluid" (click)="selectPayment('GOOGLEPAY')">
+        </button>
+        <button type="button" class="btn p-0 border-0">
+          <img src="assets/img/efectivo.png" alt="Efectivo" class="img-fluid" (click)="selectPayment('EFECTIVO')">
+        </button>
+        <button type="button" class="btn p-0 border-0">
+          <img src="assets/img/tarjeta.png" alt="Tarjeta" class="img-fluid" (click)="selectPayment('TARJETA')">
+        </button>
+        <button type="button" class="btn p-0 border-0">
+          <img src="assets/img/banca.png" alt="Banca" class="img-fluid" (click)="selectPayment('BANCA')">
+        </button>
+      </div>
+    </div>
+
+    <!-- Columna derecha: Resumen -->
+    <div class="col-md-6 d-flex flex-column align-items-start justify-content-between">
+      <div class="w-100">
+        <h5>Precio Total</h5>
+        <p class="fs-4 fw-bold">S/ 15.00</p>
+
+        <h6 class="mt-4">Producto</h6>
+        <img src="assets/img/producto.png" alt="Producto" class="img-thumbnail" style="max-width: 100%; height: auto;">
+      </div>
+
+      <button class="btn btn-success mt-4 align-self-end" (click)="submitTransaction()" [disabled]="transactionForm.invalid">
+        Continuar
+      </button>
+    </div>
+  </div>
+</div>
