@@ -1,43 +1,60 @@
 <h1>Product Detail Works!</h1>
 <div class="product-detail-figma">
-  <div class="product-detail-top">
-    <!-- Left: Image carousel (placeholder for now) -->
-    <div class="product-detail-gallery">
-      <button class="gallery-arrow left">&#8592;</button>
-      <img [src]="product?.imageUrl || 'https://via.placeholder.com/200x300'" alt="Imagen del producto" class="product-image-main" />
-      <button class="gallery-arrow right">&#8594;</button>
-    </div>
-    <!-- Right: Product info -->
-    <div class="product-detail-info">
-      <h2 class="product-title">{{ product?.name || 'Sin nombre' }}</h2>
-      <div class="product-price">S/. {{ product?.price || '---' }}</div>
-      <div class="product-qty">Cantidad: {{ stock ?? '---' }} unidad</div>
-      <button class="pay-btn">Pagar ahora y coordinar envío</button>
-      <div class="product-exchange">Intercambio<br><span>{{ exchangeAvailable ? 'Disponible' : 'No disponible' }}</span></div>
-      <div class="product-stock-available">Stock disponible: {{ stock ?? '---' }}</div>
-    </div>
+  <!-- Loading state -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Cargando producto...</p>
   </div>
-  <div class="product-detail-bottom">
-    <!-- Left: Información -->
-    <div class="product-info-card">
-      <h3>Información</h3>
-      <div><b>Facultad:</b> {{ product?.faculty || '---' }}</div>
-      <div><b>Cursos:</b> {{ product?.courses || '---' }}</div>
-      <div><b>Estado:</b> {{ state || '---' }}</div>
-      <div><b>Descripción:</b> {{ product?.description || '---' }}</div>
-    </div>
-    <!-- Right: Información del vendedor -->
-    <div class="seller-info-card">
-      <h3>Información del vendedor</h3>
-      <div class="seller-name">Pedro Rodríguez</div>
-      <div class="seller-rating">★★★★★</div>
-      <button class="seller-profile-btn">Ir a perfil</button>
-      <div class="seller-reputation-icons">
-        <div><span>😊</span><br>Confiabilidad</div>
-        <div><span>⏰</span><br>Sin demoras</div>
-        <div><span>💬</span><br>Buena atención</div>
+
+  <!-- Error state -->
+  <div *ngIf="error" class="error-container">
+    <h2>Error al cargar el producto</h2>
+    <p>No se pudo cargar la información del producto. Inténtalo de nuevo más tarde.</p>
+    <button (click)="loadProductData()" class="retry-btn">Reintentar</button>
+  </div>
+
+  <!-- Product content -->
+  <div *ngIf="!loading && !error" class="product-content">
+    <div class="product-detail-top">
+      <!-- Left: Image carousel (placeholder for now) -->
+      <div class="product-detail-gallery">
+        <button class="gallery-arrow left">&#8592;</button>
+        <img [src]="getProductImage()" alt="Imagen del producto" class="product-image-main" />
+        <button class="gallery-arrow right">&#8594;</button>
       </div>
-      <div class="seller-stats">+100 Tratos concretados</div>
+      <!-- Right: Product info -->
+      <div class="product-detail-info">
+        <h2 class="product-title">{{ getProductName() }}</h2>
+        <div class="product-price">{{ getProductPrice() }}</div>
+        <div class="product-qty">Cantidad: {{ getStockText() }}</div>
+        <button class="pay-btn">Pagar ahora y coordinar envío</button>
+        <div class="product-exchange">Intercambio<br><span>{{ getExchangeText() }}</span></div>
+        <div class="product-stock-available">Stock disponible: {{ stock ?? '---' }}</div>
+      </div>
+    </div>
+    <div class="product-detail-bottom">
+      <!-- Left: Información -->
+      <div class="product-info-card">
+        <h3>Información</h3>
+        <div><b>Facultad:</b> {{ getProductFaculty() }}</div>
+        <div><b>Cursos:</b> {{ getProductCourses() }}</div>
+        <div><b>Estado:</b> {{ getStateText() }}</div>
+        <div><b>Fecha de expiración:</b> {{ getExpirationText() }}</div>
+        <div><b>Descripción:</b> {{ getProductDescription() }}</div>
+      </div>
+      <!-- Right: Información del vendedor -->
+      <div class="seller-info-card">
+        <h3>Información del vendedor</h3>
+        <div class="seller-name">{{ product?.vendedor?.nombreUsuario || '---' }}</div>
+        <div class="seller-rating">★★★★★</div>
+        <button class="seller-profile-btn">Ir a perfil</button>
+        <div class="seller-reputation-icons">
+          <div><span>{{ product?.vendedor?.confiabilidad ? '😊' : '😐' }}</span><br>Confiabilidad</div>
+          <div><span>{{ product?.vendedor?.sin_demoras ? '⏰' : '⏳' }}</span><br>Sin demoras</div>
+          <div><span>{{ product?.vendedor?.buena_atencion ? '💬' : '🤐' }}</span><br>Buena atención</div>
+        </div>
+        <div class="seller-stats">{{ product?.vendedor?.resena || 'Sin reseñas' }}</div>
+      </div>
     </div>
   </div>
 </div>
