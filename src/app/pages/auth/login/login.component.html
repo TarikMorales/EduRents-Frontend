@@ -1,1 +1,151 @@
-<p>login works!</p>
+<div class="container-fluid contenedor-general-login">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-7">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-8">
+
+                        <div class="container-fluid contenedor-login">
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 contenedor-bienvenida">
+
+                                    <div class="container-fluid">
+                                        <div class="row align-items-center justify-content-center">
+                                            
+                                            <div class="col-6 text-center contenedor-logo-form">
+                                                <img src="login-register/logo-edurents.png" alt="Logo" class="img-fluid logo-form">
+                                            </div>
+
+                                            <div class="col-10 text-center">
+                                                <h2 class="texto-general titulo-parte1">Bienvenido/a!</h2>
+                                            </div>
+                                            <div class="col-10 text-center">
+                                                <h1 class="texto-general titulo-parte2">Ingrese sus datos</h1>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-12 contenedor-form">
+
+                                    <form class="justify-content-center" [formGroup]="loginForm" (ngSubmit)="onsubmit()">
+
+                                    <div class="container-fluid">
+                                        <div class="row justify-content-center align-items-center">
+
+                                            <div class="col-7 contenedor-campo-form">
+                                                <div class="container-fluid">
+                                                    <div class="row align-items-center justify-content-center">
+                                                        <div class="col-12">
+                                                            <span class="texto-general texto-label-input">Correo:</span>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <input type="email" class="form-control texto-general input-form" placeholder="Ingrese su correo" formControlName="correo">
+                                                        </div>
+                                                        @if(controlHasError('correo', 'required')){
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-error">El correo es obligatorio</span>
+                                                            </div>
+                                                        }
+                                                        @if(controlHasError('correo', 'email')){
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-error">El correo no es válido</span>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-7 contenedor-campo-form">
+                                                <div class="container-fluid">
+                                                    <div class="row align-items-center justify-content-center">
+                                                        <div class="col-12">
+                                                            <span class="texto-general texto-label-input">Contraseña:</span>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <input type="password" class="form-control texto-general input-form" placeholder="Ingrese su contraseña" formControlName="contrasena">
+                                                        </div>
+                                                        @if(controlHasError('contrasena', 'required')){
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-error">La contraseña es obligatoria</span>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-7 text-center contenedor-btn-login">
+
+                                                <button class="texto-general btn-login" type="submit" [disabled]="loginForm.invalid">Iniciar Sesión</button>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    </form>
+
+                                </div>
+
+                                <div class="col-12 contenedor-opciones-adicionales">
+                                    <div class="container-fluid">
+                                        <div class="row justify-content-center align-items-center">
+                                            <div class="col-8 contenedor-btn-login-google">
+                                                <div class="container-fluid">
+                                                    <div class="row align-items-center justify-content-center">
+                                                        <div class="col-12 text-center">
+                                                            <div id="google-signin-button"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-8">
+                                                <div class="container-fluid">
+                                                    <div class="row align-items-center justify-content-center">
+                                                        <div class="col-12 text-center">
+                                                            <span class="texto-general texto-label-opcion">¿No tienes cuenta?</span>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <a class="texto-general texto-opcion" routerLink="/auth/register">Regístrate</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-8 contenedor-copyright">
+
+                                                <span class="texto-general texto-label-opcion">©2025, EduRents</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-5 contenedor-login-imagen">
+            <div class="container-fluid">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-8 contenedor-nombre-app">
+                        <div class="container-fluid">
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-4 contenedor-imagen-login">
+                                    <img src="login-register/logo-edurents-white.png" alt="Imagen de Login" class="img-fluid imagen-login">
+                                </div>
+                                <div class="col-8 contenedor-imagen-login">
+                                    <h3 class="texto-general texto-login-imagen">EduRents</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
