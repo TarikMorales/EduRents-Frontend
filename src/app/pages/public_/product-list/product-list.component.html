@@ -25,6 +25,37 @@
       </div>
     </div>
   </div>
+  <div class="p-4 d-flex align-items-center gap-2">
+
+    <!-- Botón desplegable de orden -->
+    <div class="dropdown">
+      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        Ordenar por
+      </button>
+      <ul class="dropdown-menu">
+        <li><button class="dropdown-item" (click)="cambiarOrden('vistas')">Vistas</button></li>
+      </ul>
+    </div>
+
+    <!-- Botón que muestra el orden activo y permite quitarlo -->
+    <button
+      *ngIf="ordenSeleccionado"
+      class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1"
+      (click)="quitarOrden()"
+    >
+      {{ ordenSeleccionado | titlecase }} ✕
+    </button>
+
+    <!-- Botón para limpiar filtros -->
+    <button
+      *ngIf="tieneFiltrosActivos()"
+      class="btn btn-sm btn-outline-primary"
+      (click)="limpiarFiltros()"
+    >
+      Limpiar filtros
+    </button>
+
+  </div>
 </div>
 <div class="container mt-4">
   <div class="d-flex flex-wrap gap-5 justify-content-center">
