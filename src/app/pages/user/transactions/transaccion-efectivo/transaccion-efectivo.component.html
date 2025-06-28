@@ -1,0 +1,35 @@
+<div class="container text-center mt-5">
+  <img src="assets/check-success.png" alt="Pago exitoso" width="100" class="mb-3" />
+
+  <h2 class="text-danger fw-bold">¡Estás a un solo paso!</h2>
+  <p class="lead mt-3">
+    El vendedor ha sido notificado de tu pago en efectivo. Recibirás el producto y luego podrás realizar el pago.
+  </p>
+
+  <div class="d-grid gap-3 mt-4">
+    <div class="row justify-content-center">
+      <div class="col-md-5 mb-2">
+        <button class="btn btn-danger w-100" (click)="confirmarPago()">Confirmar pago</button>
+      </div>
+      <div class="col-md-5 mb-2">
+        <button class="btn btn-danger w-100" (click)="irAConfirmarPagos()">Ir a confirmar pagos</button>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-md-5 mb-2">
+        <button class="btn btn-outline-danger w-100" (click)="cancelarTransaccion()">Cancelar transacción</button>
+      </div>
+      <div class="col-md-5 mb-2">
+        <button class="btn btn-outline-danger w-100" (click)="reclamarEntrega()">Reclamar entrega</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="motivoReclamo" class="alert alert-warning mt-4 text-start">
+    <strong>Motivo del reclamo:</strong>
+    <p class="mb-0">{{ motivoReclamo }}</p>
+  </div>
+
+  <button class="btn btn-link mt-4 text-danger" (click)="volver()">← Volver al inicio</button>
+</div>

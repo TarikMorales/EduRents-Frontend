@@ -1,0 +1,21 @@
+.card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+img {
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.btn {
+  min-width: 100px;
+}
+
+.text-success {
+  font-weight: 600;
+}
+
+.text-danger {
+  font-weight: 600;
+}

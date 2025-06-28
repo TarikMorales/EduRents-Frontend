@@ -1,3 +1,4 @@
+
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
 import { inject, Injectable } from '@angular/core';
@@ -36,6 +37,8 @@ export class AuthService {
       registerRequest);
   }
 
+  logout(): void {
+    this.storageService.clearAuthData();
   forgotPassword(email: string): Observable<RecoverProcessResponse> {
     const params = new HttpParams().set('correo', email);
     return this.http.post<RecoverProcessResponse>(`${this.baseURL}/forgot-password`, null, { params })

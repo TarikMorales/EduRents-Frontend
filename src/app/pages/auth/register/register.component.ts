@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -87,6 +88,64 @@ export class RegisterComponent implements OnInit {
       next: () => {
         this.showSnackBar('Registro exitoso');
         localStorage.removeItem('registroDesdeGoogle');
+        this.router.navigate(['/auth/login']);
+      },
+      error: () => {
+        this.showSnackBar('Error en el registro. Por favor, intenta de nuevo.');
+      },
+    });
+  }
+
+  private showSnackBar(message: string): void{
+    this.snackBar.open(message, 'Close',{
+      duration: 2000,
+      verticalPosition: 'top'
+    })
+  }
+
+  numeros: number[] = Array.from({ length: 10 }, (_, i) => i + 1);
+  opcionesCarreras: Career[] = [];
+
+  registerForm: FormGroup;
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+  private snackBar = inject(MatSnackBar);
+  private authService = inject(AuthService);
+  private publicResourcesService = inject(PublicResourcesService);
+
+  constructor(){
+    this.registerForm = this.fb.group({
+      correo: ['', [Validators.required, Validators.email]],
+      contrasena: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
+      ciclo: ['', [Validators.required]],
+      nombres: ['', [Validators.required]],
+      apellidos: ['', [Validators.required]],
+      id_carrera: ['', [Validators.required]],
+      foto_url: ['', [Validators.required]],
+      codigo_universitario: ['', [Validators.required]]
+    });
+  }
+
+  ngOnInit() {
+    this.publicResourcesService.getCarreras().subscribe(data => {
+      this.opcionesCarreras = data;
+    });
+  }
+
+  controlHasError(control: string, error: string){
+    return this.registerForm.controls[control].hasError(error);
+  }
+
+  onSubmit(){
+    if(this.registerForm.invalid){
+      return;
+    };
+
+    const credentials: RegisterRequest = this.registerForm.value;
+
+    this.authService.register(credentials).subscribe({
+      next: () => {
+        this.showSnackBar('Registro exitoso');
         this.router.navigate(['/auth/login']);
       },
       error: () => {
