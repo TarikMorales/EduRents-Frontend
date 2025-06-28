@@ -21,8 +21,7 @@ export class ProductListComponent implements OnInit {
   mostrarFiltros: boolean = false;
   productos: Product[] = [];
   productosOriginales: Product[] = [];
-  ordenSeleccionado: string ='';
-  filtrosActivos: any = {};
+
 
   @ViewChild('contenedorFiltros') contenedorFiltros!: ElementRef;
 
@@ -50,7 +49,7 @@ export class ProductListComponent implements OnInit {
   }
 
   filtrarProductos(filtros: any) {
-    this.filtrosActivos = filtros;
+
     console.log('Filtros aplicados:', filtros);
 
     const categoriaId = filtros.categorias?.[0];
@@ -123,6 +122,7 @@ export class ProductListComponent implements OnInit {
           error: (err) => console.error('Error (todos):', err),
         });
       }
+
     }
 
     this.mostrarFiltros = false;
@@ -168,6 +168,7 @@ export class ProductListComponent implements OnInit {
       f.precioMax != null
     );
   }
+
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent) {
