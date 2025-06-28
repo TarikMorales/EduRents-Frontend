@@ -1,0 +1,30 @@
+body{
+  font-family: Inter, sans-serif;
+}
+
+.search-box{
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  height: 90px;
+}
+
+.search-input{
+  border-radius: 10px;
+  border: 1px #BDBDBD solid;
+  height: 60px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.search-filter-button{
+  border-radius: 10px;
+  border: 1px #BDBDBD solid;
+  height: 60px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: white;
+}
+
+.search-filter-button:hover{
+  background-color: #f8f8f8;
+}
+

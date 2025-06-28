@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+
 import { LandingComponent } from './pages/public_/landing/landing.component';
 import { CreateTransactionComponent } from './pages/user/transactions/create-transaction/create-transaction.component';
 import { CreatePaymentCardComponent } from './pages/user/transactions/create-payment-card/create-payment-card.component';
