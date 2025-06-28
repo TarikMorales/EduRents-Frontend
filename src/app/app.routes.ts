@@ -24,6 +24,7 @@ export const routes: Routes = [
 
 
 import { LandingComponent } from './pages/public_/landing/landing.component';
+
 import { CreateTransactionComponent } from './pages/user/transactions/create-transaction/create-transaction.component';
 import { CreatePaymentCardComponent } from './pages/user/transactions/create-payment-card/create-payment-card.component';
 import { TransaccionGuardadaVirtualComponent } from './pages/user/transactions/transaccion-guardada-virtual/transaccion-guardada-virtual.component';
