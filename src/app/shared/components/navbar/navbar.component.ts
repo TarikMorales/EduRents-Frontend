@@ -36,4 +36,8 @@ export class NavbarComponent {
     }
   }
 
+  isSeller(): boolean {
+    return this.authService.getUser()?.rol === 'SELLER';
+  }
+
 }
