@@ -1,0 +1,44 @@
+<div class="container text-center mt-5">
+  <img src="assets/check-success.png" alt="Pago exitoso" width="100" class="mb-3" />
+
+  <h3 class="text-danger">¡Pago realizado correctamente!</h3>
+
+  <p class="text-muted mt-3 text-justify">
+    En Edurent, tu pago está 100% protegido. Nos encargamos de mantener tu dinero seguro en todo momento. Una vez que
+    realizas el pago, este se retiene de forma segura hasta que tanto tú como la otra parte confirmen la entrega y
+    recepción del producto. Puedes confirmar la entrega ahora, o hacerlo más adelante desde la sección “Mi Historial”
+    > “Confirmar pagos”, cuando estés completamente satisfecho. Si después de 30 días no se realiza la confirmación, el
+    sistema cancelará automáticamente la operación y el dinero será devuelto íntegramente a tu cuenta, sin
+    complicaciones. Este sistema te da el control total y la tranquilidad de que tu dinero está protegido hasta que
+    todo esté en orden.
+  </p>
+
+  <p class="text-muted fw-bold mt-3">En Edurent, tu confianza es nuestra prioridad.</p>
+
+  <div class="d-grid gap-3 mt-4">
+    <div class="row justify-content-center">
+      <div class="col-md-5 mb-2">
+        <button class="btn btn-danger w-100" (click)="confirmarPago()">Confirmar pago</button>
+      </div>
+      <div class="col-md-5 mb-2">
+        <button class="btn btn-danger w-100" (click)="irHistorial()">Ir a confirmar pagos</button>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-md-5 mb-2">
+        <button class="btn btn-outline-danger w-100" (click)="cancelarTransaccion()">Cancelar transacción</button>
+      </div>
+      <div class="col-md-5 mb-2">
+        <button class="btn btn-outline-danger w-100" (click)="reclamarEntrega()">Reclamar entrega</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="motivoReclamo" class="alert alert-warning mt-4 text-start">
+    <strong>Motivo del reclamo:</strong>
+    <p class="mb-0">{{ motivoReclamo }}</p>
+  </div>
+
+  <button class="btn btn-link mt-4 text-danger" (click)="volver()">← Volver al inicio</button>
+</div>
