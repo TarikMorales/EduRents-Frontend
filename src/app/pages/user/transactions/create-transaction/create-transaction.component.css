@@ -1,0 +1,44 @@
+img {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #f9f9f9;
+}
+
+button.btn img {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 6px;
+  background-color: #f9f9f9;
+  transition: transform 0.2s ease;
+}
+
+button.btn:hover img {
+  transform: scale(1.05);
+}
+
+.metodo-btn {
+  background-color: #f9f9f9;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+  transition: all 0.3s ease;
+}
+
+.metodo-btn:hover {
+  transform: scale(1.03);
+  border-color: #aaa;
+}
+
+.metodo-btn.seleccionado {
+  background-color: #fff3cd;     /* amarillo claro */
+  border-color: #ffc107;
+  box-shadow: 0 0 6px #ffeeba;
+}
+
+.metodo-img {
+  width: 100%;
+  max-width: 200px;
+  display: block;
+  margin: auto;
+}

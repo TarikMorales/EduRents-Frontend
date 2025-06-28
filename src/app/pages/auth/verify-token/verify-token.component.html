@@ -1,0 +1,130 @@
+
+<div class="container-fluid contenedor-general-vt">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-7">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-8">
+
+                        <div class="container-fluid contenedor-vt">
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 contenedor-bienvenida">
+
+                                    <div class="container-fluid">
+                                        <div class="row align-items-center justify-content-center">
+                                            
+                                            <div class="col-6 text-center contenedor-logo-form">
+                                                <img src="login-register/logo-edurents.png" alt="Logo" class="img-fluid logo-form">
+                                            </div>
+
+                                            <div class="col-10 text-center">
+                                                <h2 class="texto-general titulo-parte1">Recuperar contraseña</h2>
+                                            </div>
+                                            <div class="col-10 text-center">
+                                                <h1 class="texto-general titulo-parte2">Ingrese sus datos</h1>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-12 contenedor-form">
+
+                                    <form class="justify-content-center" [formGroup]="verifyTokenForm" (ngSubmit)="onsubmit()">
+
+                                    <div class="container-fluid">
+                                        <div class="row justify-content-center align-items-center">
+
+                                            <div class="col-7 contenedor-campo-form">
+                                                <div class="container-fluid">
+                                                    <div class="row align-items-center justify-content-center">
+                                                        <div class="col-12">
+                                                            <span class="texto-general texto-label-input">Token:</span>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <input type="text" class="form-control texto-general input-form" placeholder="Ingrese su token" formControlName="token">
+                                                        </div>
+                                                        @if(controlHasError('token', 'required')){
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-error">El token es obligatorio</span>
+                                                            </div>
+                                                        }
+                                                        @if(controlHasError('token', 'minlength')){
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-error">El token no es válido</span>
+                                                            </div>
+                                                        }
+                                                        @if(controlHasError('token', 'maxlength')){
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-error">El token no es válido</span>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-7 text-center contenedor-btn-vt">
+
+                                                <button class="texto-general btn-vt" type="submit" [disabled]="verifyTokenForm.invalid">Enviar Código</button>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    </form>
+
+                                </div>
+
+                                <div class="col-12 contenedor-opciones-adicionales">
+                                    <div class="container-fluid">
+                                        <div class="row justify-content-center align-items-center">
+                                            <div class="col-8">
+                                                <div class="container-fluid">
+                                                    <div class="row align-items-center justify-content-center">
+                                                        <div class="col-12 text-center">
+                                                            <span class="texto-general texto-label-opcion">¿No te llego el mensaje?</span>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <a class="texto-general texto-opcion" routerLink="/auth/forgot-password">Reingresar correo</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-8 contenedor-copyright">
+
+                                                <span class="texto-general texto-label-opcion">©2025, EduRents</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-5 contenedor-vt-imagen">
+            <div class="container-fluid">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-8 contenedor-nombre-app">
+                        <div class="container-fluid">
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-4 contenedor-imagen-vt">
+                                    <img src="login-register/logo-edurents-white.png" alt="Imagen de Recuperacion de Contraseña" class="img-fluid imagen-vt">
+                                </div>
+                                <div class="col-8 contenedor-imagen-vt">
+                                    <h3 class="texto-general texto-vt-imagen">EduRents</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
