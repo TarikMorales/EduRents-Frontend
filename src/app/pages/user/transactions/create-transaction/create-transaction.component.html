@@ -1,0 +1,77 @@
+<app-navbar></app-navbar>
+
+<div class="container" style="margin-top: 5rem; margin-bottom: 5rem;">
+  <div class="row">
+    <!-- Flecha de regreso -->
+    <div class="col-12 mb-3">
+      <a (click)="goBack()" class="btn btn-light">
+        <img src="assets/back-arrow.PNG" alt="Volver" width="60">
+      </a>
+    </div>
+
+    <!-- Sección Izquierda -->
+    <div class="col-md-6">
+      <h4>Escoge uno de los métodos de pago</h4>
+      <div class="d-flex flex-column align-items-start gap-3 mt-3 w-100">
+        <button
+          type="button"
+          class="btn metodo-btn w-100"
+          [ngClass]="{ 'seleccionado': selectedMetodo === 'GOOGLEPAY' }"
+          (click)="selectMetodo('GOOGLEPAY')"
+        >
+          <img src="assets/googlepay.png" alt="Google Pay" class="metodo-img">
+        </button>
+        <button
+          type="button"
+          class="btn metodo-btn w-100"
+          [ngClass]="{ 'seleccionado': selectedMetodo === 'APPLEPAY' }"
+          (click)="selectMetodo('APPLEPAY')"
+        >
+          <img src="assets/applepay.png" alt="Apple Pay" class="metodo-img">
+        </button>
+        <button
+          type="button"
+          class="btn metodo-btn w-100"
+          [ngClass]="{ 'seleccionado': selectedMetodo === 'EFECTIVO' }"
+          (click)="selectMetodo('EFECTIVO')"
+        >
+          <img src="assets/cash.PNG" alt="Efectivo" class="metodo-img">
+        </button>
+        <button
+          type="button"
+          class="btn metodo-btn w-100"
+          [ngClass]="{ 'seleccionado': selectedMetodo === 'TARJETA' }"
+          (click)="selectMetodo('TARJETA')"
+        >
+          <img src="assets/card.PNG" alt="Tarjeta" class="metodo-img">
+        </button>
+        <button
+          type="button"
+          class="btn metodo-btn w-100"
+          [ngClass]="{ 'seleccionado': selectedMetodo === 'BANCA' }"
+          (click)="selectMetodo('BANCA')"
+        >
+          <img src="assets/bank.PNG" alt="Banca" class="metodo-img">
+        </button>
+      </div>
+    </div>
+
+    <!-- Sección Derecha -->
+    <div class="col-md-6">
+      <h4>Precio total</h4>
+      <p><strong>S/ 15.00</strong></p>
+
+      <h5>Producto</h5>
+      <img src="assets/producto-demo.jpg" alt="Producto" width="200">
+
+      <form [formGroup]="transactionForm" (ngSubmit)="submitTransaction()" class="mt-4">
+        <input type="hidden" formControlName="idProducto">
+        <button type="submit" class="btn btn-danger" [disabled]="transactionForm.invalid">
+          Continuar
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

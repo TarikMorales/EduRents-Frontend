@@ -1,0 +1,44 @@
+<div class="container mt-5">
+  <h3 class="mb-4">Ofertas de Intercambio</h3>
+
+  <div *ngIf="intercambios.length === 0">No tienes ofertas de intercambio realizadas.</div>
+
+  <div class="card mb-3" *ngFor="let oferta of intercambios">
+    <div class="card-body">
+      <div class="row">
+        <!-- Producto solicitado -->
+        <div class="col-md-5 d-flex">
+          <img *ngIf="oferta.productoSolicitadoImagenUrl" 
+               [src]="oferta.productoSolicitadoImagenUrl" 
+               alt="Producto solicitado" 
+               class="img-fluid me-3" 
+               width="100" />
+          <div>
+            <h6>Producto solicitado:</h6>
+            <p class="mb-0"><strong>{{ oferta.productoSolicitadoNombre }}</strong></p>
+          </div>
+        </div>
+
+        <!-- Producto ofrecido -->
+        <div class="col-md-5 d-flex">
+          <img *ngIf="oferta.productoOfrecidoImagenUrl" 
+               [src]="oferta.productoOfrecidoImagenUrl" 
+               alt="Producto ofrecido" 
+               class="img-fluid me-3" 
+               width="100" />
+          <div>
+            <h6>Producto ofrecido:</h6>
+            <p class="mb-0"><strong>{{ oferta.productoOfrecidoNombre }}</strong></p>
+          </div>
+        </div>
+
+        <!-- Estado -->
+        <div class="col-md-2 text-end">
+          <p class="mb-1">Estado:</p>
+          <span [ngClass]="getEstadoColor(oferta.estado)"><strong>{{ oferta.estado }}</strong></span>
+          <p class="mt-2"><small>{{ oferta.fechaCreacion | date:'mediumDate' }}</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

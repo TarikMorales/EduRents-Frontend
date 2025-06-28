@@ -1,0 +1,83 @@
+<app-navbar></app-navbar>
+<div class="container-fluid bg-light min-vh-100" style="padding-top: 10rem;">
+  <div class="container">
+    <h2 class="fw-bold mb-4">Perfil de Vendedor</h2>
+    <div class="row g-4">
+      <!-- Columna izquierda: Perfil y biografía -->
+      <div class="col-md-4">
+        <div class="card p-4 text-center h-100">
+          <ng-container *ngIf="seller && 'foto' in seller && seller.foto">
+            
+          </ng-container>
+          <div class="fw-bold mb-5" style="font-size: 1.5rem;">{{ seller?.nombreUsuario }}</div>
+          <div class="mb-2"><b>Reseña:</b></div>
+          <div>{{ getSellerReview() }}</div>
+        </div>
+      </div>
+      <!-- Columna derecha: Calificación y reputación -->
+      <div class="col-md-8">
+        <div class="card p-4 h-100">
+          <div class="fw-bold mb-3 text-center" style="font-size: 1.5rem;">Calificación</div>
+          <div class="d-flex justify-content-around">
+            <!-- Confiabilidad -->
+            <div class="text-center">
+              <img src="assets/Confiabilidad.png" alt="Confiabilidad" style="height: 40px;">
+              <div>Confiabilidad</div>
+              <ng-container *ngIf="isSellerReliable(); else noConf">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#27ae60" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+              </ng-container>
+              <ng-template #noConf>
+                <span style="font-size: 2rem; color: #f1c40f;">?</span>
+              </ng-template>
+            </div>
+            <!-- Sin demoras -->
+            <div class="text-center">
+              <img src="assets/Reloj.png" alt="Sin demoras" style="height: 40px;">
+              <div>Sin demoras</div>
+              <ng-container *ngIf="isSellerOnTime(); else noDem">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#27ae60" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+              </ng-container>
+              <ng-template #noDem>
+                <span style="font-size: 2rem; color: #e74c3c;">&#10006;</span>
+              </ng-template>
+            </div>
+            <!-- Buena atención -->
+            <div class="text-center">
+              <img src="assets/BuenaAtencion.png" alt="Buena atención" style="height: 40px;">
+              <div>Buena atención</div>
+              <ng-container *ngIf="isSellerAttentive(); else noAt">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#27ae60" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+              </ng-container>
+              <ng-template #noAt>
+                <span style="font-size: 2rem; color: #e74c3c;">&#10006;</span>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Botón separado -->
+    <div class="row mt-4">
+      <div class="col-12 d-flex justify-content-center">
+        <button class="btn btn-danger w-25" (click)="onShowProducts()">
+          {{ showProducts ? 'Ocultar Productos' : 'Ver Productos' }}
+        </button>
+      </div>
+    </div>
+    <!-- Grilla de productos -->
+    <div *ngIf="showProducts" class="row row-cols-1 row-cols-md-2 g-4 mt-2">
+      <div class="col" *ngFor="let product of products">
+        <div class="card h-100 p-3 text-center">
+          <img [src]="product.imagenes[0].url" alt="Imagen del producto" class="img-fluid rounded mb-2" style="max-width: 180px; max-height: 180px; object-fit: cover;">
+          <h5 class="fw-bold mt-2">{{ product.nombre }}</h5>
+          <div class="mb-2">S/. {{ product.precio | number:'1.2-2' }}</div>
+          <button class="btn btn-outline-danger w-100" (click)="goToProductDetail(product.id)">Ver detalle</button>
+        </div>
+      </div>
+      <div *ngIf="!loadingProducts && products.length === 0" class="text-center text-muted col-12">
+        No hay productos publicados por este vendedor.
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

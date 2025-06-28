@@ -1,0 +1,47 @@
+.texto-general{
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    padding: 0;
+    margin: 0;
+}
+
+.texto-titulo{
+    font-size: 2rem;
+    font-weight: 600;
+    color: #000000;
+}
+
+.contenedor-general{
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+}
+
+.fila-input{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btn-crear{
+    width: 80%;
+    background-color: #F10C00;
+    border: none;
+    color: #FFFFFF;
+    font-size: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.btn-crear:disabled{
+    background-color: #D8D7D6;
+}
+
+.imagen-producto{
+    max-width: 300px;
+    max-height: 300px;
+    border-radius: 10%;
+    object-fit: cover;
+    filter: drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.1));
+    margin-bottom: 3rem;
+}

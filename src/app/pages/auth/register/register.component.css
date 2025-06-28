@@ -1,0 +1,109 @@
+.texto-general{
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    padding: 0;
+    margin: 0;
+}
+
+.contenedor-general-register{
+    height: 100vh;
+    position: relative;
+}
+
+.adorno-fondo{
+    position: absolute;
+    width: 100%;
+    height: 45%;
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    background-color: #F10C00;
+    z-index: -1;
+}
+
+.contenedor-contenido{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.contenedor-form{
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.contenedor-titulo-form{
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.contenedor-btn-register{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.fila-inputs{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.texto-nombre-app{
+    font-size: 3rem;
+    font-weight: 500;
+    color: #FFFFFF;
+}
+
+.texto-titulo{
+    font-size: 2rem;
+    font-weight: 700;
+    color: #34495E;
+}
+
+.img-form{
+    max-width: 50%;
+    width: 100%;
+    height: auto;
+}
+
+.texto-titulo-form{
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #34495E;
+}
+
+.texto-label-input{
+    font-weight: 700;
+    font-size: 1rem;
+    color: #4F4F4F;
+}
+
+.texto-opcion-adicional{
+    color: #A0AEC0;
+    font-size: 0.8rem;
+}
+
+.texto-opcion{
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: #34495E;
+}
+
+.btn-register{
+    width: 80%;
+    background-color: #F10C00;
+    border: none;
+    color: #FFFFFF;
+    font-size: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.btn-register:disabled{
+    background-color: #D8D7D6;
+}
