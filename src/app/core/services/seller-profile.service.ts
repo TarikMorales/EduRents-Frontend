@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { SellerProfileResponse } from '../../shared/model/public-resources/seller-profile-response.model';
+import { Image } from '../../shared/model/product/image.model';
 
 export interface SellerDTO {
   id: number;
@@ -31,7 +32,7 @@ export interface ShowProductDTO {
   fecha_creacion: string;
   fecha_modificacion: string;
   fecha_expiracion: string;
-  imagenes: string[];
+  imagenes: Image[];
   categorias: string[];
   cursos_carreras: string[];
 }

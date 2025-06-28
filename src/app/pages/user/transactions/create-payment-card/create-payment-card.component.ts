@@ -4,13 +4,15 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } 
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TransactionService } from '../../../../core/services/transaction.service';
+import { NavbarComponent } from "../../../../shared/components/navbar/navbar.component";
+import { FooterComponent } from "../../../../shared/components/footer/footer.component";
 
 @Component({
   selector: 'app-create-payment-card',
   standalone: true,
   templateUrl: './create-payment-card.component.html',
   styleUrls: ['./create-payment-card.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink]
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink, NavbarComponent, FooterComponent]
 })
 export class CreatePaymentCardComponent {
   paymentForm: FormGroup;

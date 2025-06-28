@@ -8,5 +8,5 @@ export interface Seller {
   sin_demoras: boolean;
   buena_atencion: boolean;
   productos?: Product[];
-  usuario: User;
+  nombreUsuario: User;
 }

@@ -3,17 +3,23 @@ import {ProductCardComponent} from "../product-card/product-card.component";
 import {FilterProductListComponent} from "../filter-product-list/filter-product-list.component";
 import {CommonModule} from "@angular/common";
 import {ElementRef,ViewChild ,HostListener, OnInit} from "@angular/core";
-import { Product } from '../../../../models/product/producto';
-import { ProductService } from '../../../../services/product.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
+import { Product } from '../../../../shared/model/product-filter/product/producto';
+import { ProductService } from '../../../../core/services/product-filter/product.service';
+import { NavbarComponent } from "../../../../shared/components/navbar/navbar.component";
+import { FooterComponent } from "../../../../shared/components/footer/footer.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-home-list',
   standalone: true,
   imports: [
-    CommonModule,ProductCardComponent, FilterProductListComponent, HttpClientModule
-  ],
+    CommonModule, ProductCardComponent, FilterProductListComponent, HttpClientModule,
+    NavbarComponent,
+    FooterComponent,
+    RouterLink
+],
   templateUrl: './product-list-home.component.html',
   styleUrl: './product-list-home.component.css'
 })

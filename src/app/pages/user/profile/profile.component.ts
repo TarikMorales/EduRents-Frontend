@@ -120,7 +120,8 @@ export class ProfileComponent implements OnInit{
           rol: 'SELLER'
         });
         this.showSnackBar('Rol cambiado a vendedor exitosamente.');
-        this.router.navigate(['/']);
+        this.authService.logout();
+        this.router.navigate(['/auth/login']);
       },
       error: () => {
         this.showSnackBar('Error al cambiar a vendedor.');

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AuthResponse } from '../../shared/model/login/auth-response.model';
-
 import { RecoverProcessResponse } from '../../shared/model/forgot-password/recover-process-response.model';
 import { UserSeller } from '../../shared/model/profile/user-seller.model';
 
@@ -10,17 +9,12 @@ import { UserSeller } from '../../shared/model/profile/user-seller.model';
 export class StorageService {
 
   private authKey = 'edurents_auth';
-
   private recoverKey = 'edurents_recover';
   private sellerKey = 'user_seller';
-
 
   constructor() {}
 
   setAuthData(data: AuthResponse): void {
-    console.log(data);
-    localStorage.setItem(this.authKey, JSON.stringify(data));
-  }
     // console.log(data);
     localStorage.setItem(this.authKey, JSON.stringify(data));
   }

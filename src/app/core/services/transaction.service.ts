@@ -9,7 +9,7 @@ import { TransactionDTO } from '../../shared/model/transaction/transaction.model
 })
 export class TransactionService {
   private http = inject(HttpClient);
-  private baseURL = `${environment.baseURL}/transactions`;
+  private baseURL = `${environment.baseURL}/user/auth/transactions`;
   
   getTransactionsByUser(idUsuario: number, estado = '', metodo = ''): Observable<TransactionDTO[]> {
     return this.http.get<TransactionDTO[]>(`${this.baseURL}/usuario/${idUsuario}`, {
@@ -25,14 +25,14 @@ export class TransactionService {
   }
 
   confirmarTransaccion(id: number): Observable<any> {
-    return this.http.put(`${this.baseURL}/${id}/confirmar`, {});
+    return this.http.put(`${this.baseURL}/${id}/confirm`, {});
   }
 
   cancelarTransaccion(id: number): Observable<any> {
-    return this.http.put(`${this.baseURL}/${id}/cancelar`, {});
+    return this.http.delete(`${this.baseURL}/${id}`, {});
   }
 
   reclamarTransaccion(id: number, motivo: string): Observable<any> {
-    return this.http.put(`${this.baseURL}/${id}/reclamar`, { motivo });
+    return this.http.put(`${this.baseURL}/${id}/claim`, { motivo });
   }
 }

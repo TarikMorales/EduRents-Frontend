@@ -10,21 +10,12 @@ import { ExchangeOfferResponse } from '../../shared/model/exchange-offer/exchang
 export class ExchangeOfferService {
 
   private http = inject(HttpClient);
-  private baseURL = `${environment.baseURL}/intercambios`; // Ajusta según tu backend
+  private baseURL = `${environment.baseURL}/user/auth/exchanges`; 
 
   constructor() {}
 
   // Obtener todas las ofertas enviadas por un usuario
   getOffersByUser(userId: number): Observable<ExchangeOfferResponse[]> {
-    return this.http.get<ExchangeOfferResponse[]>(`${this.baseURL}/usuario/${userId}`);
-  }
-
-  // (Opcional para futuro)
-  acceptOffer(id: number): Observable<void> {
-    return this.http.put<void>(`${this.baseURL}/${id}/aceptar`, {});
-  }
-
-  rejectOffer(id: number): Observable<void> {
-    return this.http.put<void>(`${this.baseURL}/${id}/rechazar`, {});
+    return this.http.get<ExchangeOfferResponse[]>(`${this.baseURL}/user/${userId}`);
   }
 }

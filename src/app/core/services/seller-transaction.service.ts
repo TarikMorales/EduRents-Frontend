@@ -14,19 +14,6 @@ export class SellerTransactionService {
 
   // Transacciones del vendedor
   getTransactionsBySeller(idVendedor: number): Observable<TransactionDTO[]> {
-    return this.http.get<TransactionDTO[]>(`${this.baseUrl}/transactions/vendedor/${idVendedor}`);
-  }
-
-  // Ofertas de intercambio recibidas
-  getExchangeOffersBySeller(idVendedor: number): Observable<ExchangeOfferResponse[]> {
-    return this.http.get<ExchangeOfferResponse[]>(`${this.baseUrl}/exchange-offers/vendedor/${idVendedor}`);
-  }
-
-  acceptExchangeOffer(id: number): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/exchange-offers/${id}/aceptar`, {});
-  }
-
-  rejectExchangeOffer(id: number): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/exchange-offers/${id}/rechazar`, {});
+    return this.http.get<TransactionDTO[]>(`${this.baseUrl}/seller/auth/transactions/seller/${idVendedor}`);
   }
 }

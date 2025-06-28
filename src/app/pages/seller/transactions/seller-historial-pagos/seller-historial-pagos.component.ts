@@ -5,11 +5,13 @@ import { TransactionDTO } from '../../../../shared/model/transaction/transaction
 import { AuthService } from '../../../../core/services/auth.service';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { NavbarComponent } from "../../../../shared/components/navbar/navbar.component";
+import { FooterComponent } from "../../../../shared/components/footer/footer.component";
 
 @Component({
   selector: 'app-seller-historial-pagos',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, NavbarComponent, FooterComponent],
   providers: [DatePipe],
   templateUrl: './seller-historial-pagos.component.html',
   styleUrls: ['./seller-historial-pagos.component.css']

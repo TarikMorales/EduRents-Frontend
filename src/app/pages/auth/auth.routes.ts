@@ -12,7 +12,6 @@ export const authRoutes: Routes = [
         component: AuthLayoutComponent,
         children:[
             {path:'login', component:LoginComponent},
-            {path:'register', component:RegisterComponent}
             {path:'register', component:RegisterComponent},
             {path: 'forgot-password', component: ForgotPasswordComponent},
             {path: 'verify-token', component: VerifyTokenComponent},

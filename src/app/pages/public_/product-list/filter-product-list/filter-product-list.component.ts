@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CategoryService } from '../../../../services/category.service';
-import { Category } from '../../../../models/product/category';
 import {FormsModule} from "@angular/forms";
 import { EventEmitter, Output } from '@angular/core';
-import {Career} from "../../../../models/career";
-import { CareerService } from '../../../../services/career.service';
-import {Course} from "../../../../models/course";
-import { CoursesService } from '../../../../services/courses.service';
+import { CategoryService } from '../../../../core/services/product-filter/category.service';
+import { CareerService } from '../../../../core/services/product-filter/career.service';
+import { CoursesService } from '../../../../core/services/product-filter/courses.service';
+import { Category } from '../../../../shared/model/product-filter/product/category';
+import { Career } from '../../../../shared/model/product-filter/career';
+import { Course } from '../../../../shared/model/product-filter/course';
 
 @Component({
   selector: 'app-filter-product-list',
@@ -132,14 +132,19 @@ export class FilterProductListComponent implements OnInit {
 
     @Output() filtrosAplicados = new EventEmitter<any>();
   aplicarFiltros() {
-    this.filtrosAplicados.emit({
+    const filtrosParaEnviar = {
       categorias: this.filtrosSeleccionados,
       carreras: this.carrerasSeleccionadas,
       estados: this.estadosSeleccionados,
       cursos: this.cursosSeleccionados,
       precioMin: this.precioMin,
       precioMax: this.precioMax
-    });
+    };
+    
+    console.log('📋 Filtros aplicados desde el componente de filtros:', filtrosParaEnviar);
+    console.log('🏫 Carreras seleccionadas específicamente:', this.carrerasSeleccionadas);
+    
+    this.filtrosAplicados.emit(filtrosParaEnviar);
   }
 
   close() {

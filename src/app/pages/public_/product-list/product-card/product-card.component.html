@@ -1,7 +1,7 @@
   <body>
     <div class="d-flex flex-column bg-white justify-content-center align-items-center" style="height: 365px; width: 279px; border-radius: 10px">
       <div class="w-100" style="height: 222px">
-        <img src="" alt="Imagen del producto" style="height: 100%; width: 100%; object-fit: cover">
+        <img [src]="producto.imagenes?.[0]?.url" alt="Imagen del producto" style="height: 100%; width: 100%; object-fit: cover">
       </div>
       <hr class="my-2 w-100">
       <div class="d-flex flex-column w-100">
@@ -15,7 +15,18 @@
           </p>
           <div class="d-flex flex-row" style="gap: 3px">
             <h6 style="font-weight: bolder; font-size: 14px">Publicado por:</h6>
-            <h6 style="font-weight: bolder; font-size: 14px">{{ producto.vendedor?.usuario?.nombres || 'Anónimo' }}</h6>
+            <h6 style="font-weight: bolder; font-size: 14px">{{ producto.vendedor.nombreUsuario || 'Anónimo' }}</h6>
+          </div>
+          <div class="container-fluid">
+            <div class="row justify-content-center align-items-center">
+              <div class="col-12 text-center my-2">
+                <button class="texto-general btn-crear" (click)="verProducto(producto.id)">Ver Producto</button>
+              </div>
+              <div class="col-12 text-center my-2">
+                <button class="texto-general btn-crear" (click)="iniciarTransaccion(producto.id)">Iniciar Transacción</button>
+              </div>
+
+            </div>
           </div>
         </div>
       </div>

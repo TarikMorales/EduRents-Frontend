@@ -10,7 +10,7 @@ import { ExchangeOfferResponse } from '../../shared/model/exchange-offer/exchang
 export class SellerExchangeOfferService {
 
   private http = inject(HttpClient);
-  private baseUrl = `${environment.baseURL}/exchange-offers`;
+  private baseUrl = `${environment.baseURL}/seller/auth/exchanges`;
 
   constructor() {}
 
@@ -19,10 +19,10 @@ export class SellerExchangeOfferService {
   }
 
   aceptarOferta(id: number): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/${id}/accept`, {});
+    return this.http.put<void>(`${this.baseUrl}/${id}/aceptar`, {});
   }
 
   rechazarOferta(id: number): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/${id}/reject`, {});
+    return this.http.put<void>(`${this.baseUrl}/${id}/rechazar`, {});
   }
 }

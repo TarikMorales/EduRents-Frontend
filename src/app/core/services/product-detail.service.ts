@@ -12,9 +12,9 @@ export class ProductDetailService {
   private http = inject(HttpClient);
   
   constructor() { 
-    console.log('ProductDetailService initialized with baseUrl:', this.baseUrl);
-    console.log('Environment baseUrl:', environment.baseURL);
-    console.log('Full environment object:', environment);
+    // console.log('ProductDetailService initialized with baseUrl:', this.baseUrl);
+    // console.log('Environment baseUrl:', environment.baseURL);
+    // console.log('Full environment object:', environment);
   }
 
   // Mock data for when backend is not available

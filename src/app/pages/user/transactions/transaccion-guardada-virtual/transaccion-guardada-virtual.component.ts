@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { NavbarComponent } from "../../../../shared/components/navbar/navbar.component";
+import { FooterComponent } from "../../../../shared/components/footer/footer.component";
 
 @Component({
   selector: 'app-transaccion-guardada-virtual',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NavbarComponent, FooterComponent],
   templateUrl: './transaccion-guardada-virtual.component.html',
   styleUrls: ['./transaccion-guardada-virtual.component.css']
 })
@@ -25,9 +27,7 @@ export class TransaccionGuardadaVirtualComponent implements OnInit {
   }
 
   irHistorial(): void {
-    this.router.navigate(['/historial-pagos'], {
-      queryParams: { estado: 'PENDIENTE' }
-    });
+    this.router.navigate(['/mi-historial']);
   }
 
   cancelarTransaccion(): void {

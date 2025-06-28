@@ -1,0 +1,16 @@
+.container {
+  max-width: 600px;
+  margin: auto;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+textarea {
+  resize: vertical;
+}
+
+.text-danger {
+  font-weight: 500;
+}
