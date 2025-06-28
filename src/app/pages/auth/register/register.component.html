@@ -1,1 +1,224 @@
-<p>register works!</p>
+
+
+<div class="container-fluid contenedor-general-register p-0">
+
+    <div class="adorno-fondo"></div>
+
+    <div class="row justify-content-center align-items-center">
+
+        <div class="col-5 contenedor-contenido">
+
+            <div class="col-12 contenedor-titulo">
+
+                <div class="container-fluid">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-8">
+
+                            <div class="container-fluid">
+                                <div class="row justify-content-center align-items-center">
+                                    <div class="col-4 text-end">
+                                        <img src="login-register/logo-edurents-white.png" alt="Imagen de Login" class="img-fluid img-form">
+                                    </div>
+                                    <div class="col-8">
+                                        <h2 class="texto-general texto-nombre-app">EduRents</h2>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-8 text-center">
+                            <h1 class="texto-general texto-titulo">Crea tu cuenta</h1>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-12 contenedor-form">
+
+                <div class="container-fluid">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-10 contenedor-titulo-form text-center">
+                            <h3 class="texto-general texto-titulo-form">Regístrate</h3>
+                        </div>
+
+                        <div class="col-10 contenedor-inputs">
+
+                            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+                            <div class="container-fluid">
+                                <div class="row justify-content-center align-items-center">
+
+                                    <div class="col-12 fila-inputs">
+                                        <div class="container-fluid">
+                                            <div class="row justify-content-evenly align-items-center">
+
+                                                <div class="col-6">
+                                                    <div class="container-fluid">
+                                                        <div class="row justify-content-center align-items-center">
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-label-input">Nombres</span>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <input type="text" formControlName="nombres" class="form-control input-general" placeholder="Ingrese sus nombres" name="nombres" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="container-fluid">
+                                                        <div class="row justify-content-center align-items-center">
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-label-input">Apellidos</span>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <input type="text" formControlName="apellidos" class="form-control input-general" placeholder="Ingrese sus apellidos" name="apellidos" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 fila-inputs">
+                                        <div class="container-fluid">
+                                            <div class="row justify-content-evenly align-items-center">
+
+                                                <div class="col-6">
+                                                    <div class="container-fluid">
+                                                        <div class="row justify-content-center align-items-center">
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-label-input">Correo</span>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <input type="text" formControlName="correo" class="form-control input-general" placeholder="Ingrese su correo" name="correo" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="container-fluid">
+                                                        <div class="row justify-content-center align-items-center">
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-label-input">Contraseña</span>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <input type="password" formControlName="contrasena" class="form-control input-general" placeholder="Ingrese su contraseña" name="contrasena" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 fila-inputs">
+                                        <div class="container-fluid">
+                                            <div class="row justify-content-evenly align-items-center">
+
+                                                <div class="col-6">
+                                                    <div class="container-fluid">
+                                                        <div class="row justify-content-center align-items-center">
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-label-input">Codigo Universitario</span>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <input type="text" formControlName="codigo_universitario" class="form-control input-general" placeholder="Ingrese su codigo universitario" name="codigo_universitario" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="container-fluid">
+                                                        <div class="row justify-content-center align-items-center">
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-label-input">Ciclo Universitario</span>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <select id="ciclo" formControlName="ciclo" class="form-select input-general" name="ciclo" required>
+                                                                    <option value="" disabled selected>Selecciona un ciclo</option>
+                                                                    <option *ngFor="let n of numeros" [value]="n">{{ n }}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 fila-inputs">
+                                        <div class="container-fluid">
+                                            <div class="row justify-content-evenly align-items-center">
+
+                                                <div class="col-6">
+                                                    <div class="container-fluid">
+                                                        <div class="row justify-content-center align-items-center">
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-label-input">Carrera</span>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <select id="carrera" formControlName="id_carrera" class="form-select input-general" name="id_carrera" required>
+                                                                    <option value="" disabled selected>Selecciona una carrera</option>
+                                                                    <option *ngFor="let carrera of opcionesCarreras" [value]="carrera.id">{{ carrera.nombre }}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="container-fluid">
+                                                        <div class="row justify-content-center align-items-center">
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-label-input">Foto (URL)</span>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <input type="url" formControlName="foto_url" class="form-control input-general" placeholder="Ingrese la URL de su foto" name="foto_url" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-7 text-center contenedor-btn-register">
+                                        <button class="texto-general btn-register" type="submit" [disabled]="registerForm.invalid">Registrarse</button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-12 contenedor-opciones-adicionales">
+
+                <div class="container-fluid">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-7 text-center">
+                            <span class="texto-general texto-opcion-adicional">¿Ya tienes una cuenta?</span>
+                        </div>
+                        <div class="col-7 text-center">
+                            <a class="texto-general texto-opcion" routerLink="/auth/login">Ingresar</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
