@@ -1,4 +1,7 @@
+import { Component, inject } from '@angular/core';
+=======
 import { Component, inject, OnInit } from '@angular/core';
+
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
@@ -28,6 +31,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    localStorage.removeItem('registroDesdeGoogle');
+
     // @ts-ignore
     google.accounts.id.initialize({
       // client_id: `${environment.googleClientId}`,
