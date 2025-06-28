@@ -1,9 +1,13 @@
 import { Component, inject } from '@angular/core';
+=======
+import { Component, inject, OnInit } from '@angular/core';
+
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
 import { AuthRequest } from '../../../shared/model/login/auth-request.model';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +16,7 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup; 
   private fb = inject(FormBuilder);
   private router = inject(Router);
@@ -24,6 +28,27 @@ export class LoginComponent {
       correo: ['', [Validators.required, Validators.email]],
       contrasena: ['', [Validators.required]]
     });
+  }
+
+  ngOnInit(): void {
+
+    localStorage.removeItem('registroDesdeGoogle');
+
+    // @ts-ignore
+    google.accounts.id.initialize({
+      // client_id: `${environment.googleClientId}`,
+      client_id: environment.googleClientId,
+      callback: (response: any) => this.handleCredentialResponse(response),
+    });
+
+    const googleButton = document.getElementById('google-signin-button');
+    if (googleButton) {
+      // @ts-ignore
+      google.accounts.id.renderButton(
+        googleButton,
+        { type: 'standard', theme: 'outline', size: 'large' }
+      );
+    }
   }
 
   controlHasError(control: string, error: string){
@@ -46,6 +71,36 @@ export class LoginComponent {
       error: () => {
         this.showSnackBar('Error en el inicio de sesión. Por favor, intenta de nuevo.');
       },
+    });
+  }
+
+  handleCredentialResponse(response: any): void {
+    const idToken = response.credential;
+
+    this.authService.loginWithGoogle(idToken).subscribe({
+      next: (res: any) => {
+        if (res.token) {
+          localStorage.setItem("edurents_auth", JSON.stringify(res));
+          this.showSnackBar('Inicio de sesión exitoso');
+          this.router.navigate(['/']);
+        } else if (res.usuarioNoRegistrado) {
+
+          const datos = {
+            nombre: res.nombre,
+            correo: res.correo
+          };
+        
+          // Guardar en localStorage por si el usuario recarga la página
+          localStorage.setItem('registroDesdeGoogle', JSON.stringify(datos));
+
+          this.router.navigate(['/auth/register'], {
+            state: datos
+          });
+        }
+      },
+      error: () => {
+        this.showSnackBar('Error autenticando con Google');
+      }
     });
   }
 
