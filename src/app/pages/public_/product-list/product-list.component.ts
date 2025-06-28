@@ -22,6 +22,7 @@ export class ProductListComponent implements OnInit {
   productos: Product[] = [];
   productosOriginales: Product[] = [];
 
+
   @ViewChild('contenedorFiltros') contenedorFiltros!: ElementRef;
 
   constructor(private productService: ProductService) {}
@@ -48,55 +49,127 @@ export class ProductListComponent implements OnInit {
   }
 
   filtrarProductos(filtros: any) {
+
     console.log('Filtros aplicados:', filtros);
 
     const categoriaId = filtros.categorias?.[0];
     const carreraId = filtros.carreras?.[0];
     const cursoId = filtros.cursos?.[0];
 
-    // 🧠 Lógica para decidir qué endpoint llamar según los filtros
+    const ordenarPorVistas = this.ordenSeleccionado === 'vistas';
+
     if (categoriaId && carreraId && cursoId) {
-      // 👉 categoría + carrera + curso
-      this.productService.getProductsByCareerAndCourseAndCategory(carreraId, cursoId, categoriaId).subscribe({
-        next: (productos) => (this.productos = productos),
-        error: (err) => console.error('Error al obtener productos (todos los filtros):', err),
-      });
+      if (ordenarPorVistas) {
+        this.productService.getProductsByCareerAndCourseAndCategoryViews(carreraId, cursoId, categoriaId).subscribe({
+          next: (productos) => (this.productos = productos),
+          error: (err) => console.error('Error (vistas, todos los filtros):', err),
+        });
+      } else {
+        this.productService.getProductsByCareerAndCourseAndCategory(carreraId, cursoId, categoriaId).subscribe({
+          next: (productos) => (this.productos = productos),
+          error: (err) => console.error('Error (todos los filtros):', err),
+        });
+      }
 
     } else if (carreraId && cursoId) {
-      // 👉 carrera + curso
-      this.productService.getProductsByCareerAndCourse(carreraId, cursoId).subscribe({
-        next: (productos) => (this.productos = productos),
-        error: (err) => console.error('Error al obtener productos (carrera + curso):', err),
-      });
-
-    } else if (categoriaId && carreraId) {
-      // 👉 categoría + carrera (no tienes endpoint directo, podría ser útil crear uno si lo necesitas)
-      console.warn('No hay endpoint directo para categoría + carrera. Considera combinarlo en backend.');
+      if (ordenarPorVistas) {
+        this.productService.getProductsByCareerAndCourseViews(carreraId, cursoId).subscribe({
+          next: (productos) => (this.productos = productos),
+          error: (err) => console.error('Error (vistas, carrera + curso):', err),
+        });
+      } else {
+        this.productService.getProductsByCareerAndCourse(carreraId, cursoId).subscribe({
+          next: (productos) => (this.productos = productos),
+          error: (err) => console.error('Error (carrera + curso):', err),
+        });
+      }
 
     } else if (categoriaId) {
-      // 👉 solo categoría
-      this.productService.getProductsByCategory(categoriaId).subscribe({
-        next: (productos) => (this.productos = productos),
-        error: (err) => console.error('Error al obtener productos por categoría:', err),
-      });
+      if (ordenarPorVistas) {
+        this.productService.getProductsByCategoryViews(categoriaId).subscribe({
+          next: (productos) => (this.productos = productos),
+          error: (err) => console.error('Error (vistas, categoría):', err),
+        });
+      } else {
+        this.productService.getProductsByCategory(categoriaId).subscribe({
+          next: (productos) => (this.productos = productos),
+          error: (err) => console.error('Error (categoría):', err),
+        });
+      }
 
     } else if (carreraId) {
-      // 👉 solo carrera
-      this.productService.getProductsByCareer(carreraId).subscribe({
-        next: (productos) => (this.productos = productos),
-        error: (err) => console.error('Error al obtener productos por carrera:', err),
-      });
+      if (ordenarPorVistas) {
+        this.productService.getProductsByCareerViews(carreraId).subscribe({
+          next: (productos) => (this.productos = productos),
+          error: (err) => console.error('Error (vistas, carrera):', err),
+        });
+      } else {
+        this.productService.getProductsByCareer(carreraId).subscribe({
+          next: (productos) => (this.productos = productos),
+          error: (err) => console.error('Error (carrera):', err),
+        });
+      }
 
     } else {
-      // ❌ Ningún filtro válido -> cargar todos los productos
-      this.productService.getAllProducts().subscribe({
-        next: (productos) => (this.productos = productos),
-        error: (err) => console.error('Error al obtener todos los productos:', err),
-      });
+      if (ordenarPorVistas) {
+        this.productService.getAllProducts().subscribe({
+          next: (productos) => (this.productos = productos),
+          error: (err) => console.error('Error (vistas, todos):', err),
+        });
+      } else {
+        this.productService.getAllProducts().subscribe({
+          next: (productos) => (this.productos = productos),
+          error: (err) => console.error('Error (todos):', err),
+        });
+      }
+
     }
 
     this.mostrarFiltros = false;
   }
+
+  cambiarOrden(orden: string) {
+    this.ordenSeleccionado = orden;
+
+    // Si ya tienes filtros activos, los vuelves a aplicar
+    if (this.filtrosActivos) {
+      this.filtrarProductos(this.filtrosActivos);
+    } else {
+      // Si no hay filtros, puedes cargar todo con orden
+      this.filtrarProductos({});
+    }
+  }
+
+  quitarOrden() {
+    this.ordenSeleccionado = '';
+    this.filtrarProductos(this.filtrosActivos);
+  }
+
+  limpiarFiltros() {
+    this.filtrosActivos = {
+      categorias: [],
+      carreras: [],
+      estados: [],
+      cursos: [],
+      precioMin: null,
+      precioMax: null
+    };
+    this.filtrarProductos(this.filtrosActivos);
+  }
+
+  tieneFiltrosActivos(): boolean {
+    const f = this.filtrosActivos;
+    return (
+      (f.categorias && f.categorias.length) ||
+      (f.carreras && f.carreras.length) ||
+      (f.estados && f.estados.length) ||
+      (f.cursos && f.cursos.length) ||
+      f.precioMin != null ||
+      f.precioMax != null
+    );
+  }
+
+
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent) {
     if (

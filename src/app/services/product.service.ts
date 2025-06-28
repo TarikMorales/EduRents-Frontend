@@ -46,4 +46,53 @@ export class ProductService {
     });
     return this.http.get<Product[]>(`${this.apiUrl}/career/${careerId}/course/${courseId}/category/${categoryId}`, { headers });
   }
+
+  getProductsRecents(): Observable<Product[]> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5pZWxhQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJleHAiOjE3NTM1OTkyMjF9.uoTHpASoTNDoQlMI-G9-xu2TzelVEMAVqftLXuZehx_qQSox9vWlDJ2aWRxPReax5AzwGhedpDHRw60VCv_snQ'
+    });
+    return this.http.get<Product[]>(`${this.apiUrl}/products/recents`, { headers });
+  }
+  getProductsTopExchanges(): Observable<Product[]> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5pZWxhQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJleHAiOjE3NTM1OTkyMjF9.uoTHpASoTNDoQlMI-G9-xu2TzelVEMAVqftLXuZehx_qQSox9vWlDJ2aWRxPReax5AzwGhedpDHRw60VCv_snQ'
+    });
+    return this.http.get<Product[]>(`${this.apiUrl}/products/top-exchanges`, { headers });
+  }
+  getProductsTrendy(): Observable<Product[]> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5pZWxhQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJleHAiOjE3NTM1OTkyMjF9.uoTHpASoTNDoQlMI-G9-xu2TzelVEMAVqftLXuZehx_qQSox9vWlDJ2aWRxPReax5AzwGhedpDHRw60VCv_snQ'
+    });
+    return this.http.get<Product[]>(`${this.apiUrl}/products/trendy`, { headers });
+  }
+
+  //Por views
+
+  getProductsByCategoryViews(categoriaId: number): Observable<Product[]> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5pZWxhQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJleHAiOjE3NTM1OTkyMjF9.uoTHpASoTNDoQlMI-G9-xu2TzelVEMAVqftLXuZehx_qQSox9vWlDJ2aWRxPReax5AzwGhedpDHRw60VCv_snQ'
+    });
+    return this.http.get<Product[]>(`${this.apiUrl}/category/${categoriaId}/views`, { headers });
+  }
+
+  getProductsByCareerViews(careerId: number): Observable<Product[]> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5pZWxhQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJleHAiOjE3NTM1OTkyMjF9.uoTHpASoTNDoQlMI-G9-xu2TzelVEMAVqftLXuZehx_qQSox9vWlDJ2aWRxPReax5AzwGhedpDHRw60VCv_snQ'
+    });
+    return this.http.get<Product[]>(`${this.apiUrl}/career/${careerId}/views`, { headers });
+  }
+
+  getProductsByCareerAndCourseViews(careerId: number, courseId: number): Observable<Product[]> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5pZWxhQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJleHAiOjE3NTM1OTkyMjF9.uoTHpASoTNDoQlMI-G9-xu2TzelVEMAVqftLXuZehx_qQSox9vWlDJ2aWRxPReax5AzwGhedpDHRw60VCv_snQ'
+    });
+    return this.http.get<Product[]>(`${this.apiUrl}/career/${careerId}/course/${courseId}/views`, { headers });
+  }
+
+  getProductsByCareerAndCourseAndCategoryViews(careerId: number, courseId: number, categoryId: number): Observable<Product[]> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5pZWxhQGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1VTRVIiLCJleHAiOjE3NTM1OTkyMjF9.uoTHpASoTNDoQlMI-G9-xu2TzelVEMAVqftLXuZehx_qQSox9vWlDJ2aWRxPReax5AzwGhedpDHRw60VCv_snQ'
+    });
+    return this.http.get<Product[]>(`${this.apiUrl}/career/${careerId}/course/${courseId}/category/${categoryId}/views`, { headers });
+  }
 }
