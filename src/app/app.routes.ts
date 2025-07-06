@@ -12,6 +12,10 @@ export const routes: Routes = [
         loadChildren: () => import('./pages/public_/public.routes').then(m => m.publicRoutes)
     },
     {
+        path: 'user',
+        loadChildren: () => import('./pages/user/user.routes').then(u => u.userRoutes)
+    },
+    {
         path: '', redirectTo: 'public_/product-detail/1', pathMatch: 'full'
     },
     {
