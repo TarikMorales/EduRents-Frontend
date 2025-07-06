@@ -9,6 +9,7 @@ import { Product } from '../../../shared/model/product-filter/product/producto';
 import { ProductService } from '../../../core/services/product-filter/product.service';
 import { NavbarComponent } from "../../../shared/components/navbar/navbar.component";
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-product-list',
@@ -16,8 +17,8 @@ import { FooterComponent } from "../../../shared/components/footer/footer.compon
   imports: [
     CommonModule, ProductCardComponent, FilterProductListComponent, HttpClientModule,
     NavbarComponent,
-    FooterComponent
-],
+    FooterComponent, FormsModule
+  ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
@@ -34,6 +35,18 @@ export class ProductListComponent implements OnInit {
   constructor(private productService: ProductService) {}
 
   ngOnInit() {
+    const filtrosGuardados = localStorage.getItem('filtrosGuardados');
+
+    this.filtrosActivos = filtrosGuardados
+      ? JSON.parse(filtrosGuardados)
+      : {
+        categorias: [],
+        carreras: [],
+        cursos: [],
+        estados: [],
+        precioMin: null,
+        precioMax: null
+      };
     this.cargarProductos();
   }
 
@@ -60,18 +73,26 @@ export class ProductListComponent implements OnInit {
   filtrarProductos(filtros: any) {
     this.filtrosActivos = filtros;
     this.cargandoProductos = true;
-    console.log('Filtros aplicados:', filtros);
+    console.log('📦 Filtros aplicados:', filtros);
 
-    // Si no hay filtros, mostrar todos los productos
-    const sinFiltros = !this.tieneFiltrosAplicados(filtros);
-    
-    if (sinFiltros) {
-      this.cargarTodosLosProductos();
-      return;
-    }
+    const ordenarPorVistas = this.ordenSeleccionado === 'vistas';
+    const filtrosConOrden = {
+      ...filtros,
+      ordenarPorVistas: ordenarPorVistas
+    };
 
-    // Aplicar filtros específicos
-    this.aplicarFiltrosEspecificos(filtros);
+    this.productService.getProductosFiltrados(filtrosConOrden).subscribe({
+      next: (productos) => {
+        this.productos = productos;
+        this.cargandoProductos = false;
+      },
+      error: (err) => {
+        console.error('❌ Error al cargar productos filtrados:', err);
+        this.productos = [];
+        this.cargandoProductos = false;
+      }
+    });
+
     this.mostrarFiltros = false;
   }
 
@@ -88,7 +109,7 @@ export class ProductListComponent implements OnInit {
 
   private cargarTodosLosProductos() {
     const ordenarPorVistas = this.ordenSeleccionado === 'vistas';
-    
+
     this.productService.getAllProducts().subscribe({
       next: (productos) => {
         this.productos = productos;
@@ -125,7 +146,7 @@ export class ProductListComponent implements OnInit {
   }
 
   private filtrarPorTodosLosCampos(carreraId: number, cursoId: number, categoriaId: number, ordenarPorVistas: boolean) {
-    const service = ordenarPorVistas ? 
+    const service = ordenarPorVistas ?
       this.productService.getProductsByCareerAndCourseAndCategoryViews(carreraId, cursoId, categoriaId) :
       this.productService.getProductsByCareerAndCourseAndCategory(carreraId, cursoId, categoriaId);
 
@@ -180,7 +201,7 @@ export class ProductListComponent implements OnInit {
 
   private filtrarPorCarrera(carreraId: number, ordenarPorVistas: boolean) {
     console.log('🔍 Filtrando por carrera:', carreraId, 'ordenarPorVistas:', ordenarPorVistas);
-    
+
     const service = ordenarPorVistas ?
       this.productService.getProductsByCareerViews(carreraId) :
       this.productService.getProductsByCareer(carreraId);
@@ -222,7 +243,7 @@ export class ProductListComponent implements OnInit {
 
     // Filtrar por estado si está especificado
     if (filtros.estados && filtros.estados.length > 0) {
-      productosFiltrados = productosFiltrados.filter(producto => 
+      productosFiltrados = productosFiltrados.filter(producto =>
         filtros.estados.includes(producto.estado)
       );
       console.log(`Filtro por estado: ${productosFiltrados.length} de ${productosIniciales} productos`);
@@ -231,7 +252,7 @@ export class ProductListComponent implements OnInit {
     // Filtrar por precio mínimo
     if (filtros.precioMin != null) {
       const antesDelFiltro = productosFiltrados.length;
-      productosFiltrados = productosFiltrados.filter(producto => 
+      productosFiltrados = productosFiltrados.filter(producto =>
         producto.precio >= filtros.precioMin
       );
       console.log(`Filtro por precio mínimo (${filtros.precioMin}): ${productosFiltrados.length} de ${antesDelFiltro} productos`);
@@ -240,7 +261,7 @@ export class ProductListComponent implements OnInit {
     // Filtrar por precio máximo
     if (filtros.precioMax != null) {
       const antesDelFiltro = productosFiltrados.length;
-      productosFiltrados = productosFiltrados.filter(producto => 
+      productosFiltrados = productosFiltrados.filter(producto =>
         producto.precio <= filtros.precioMax
       );
       console.log(`Filtro por precio máximo (${filtros.precioMax}): ${productosFiltrados.length} de ${antesDelFiltro} productos`);
@@ -249,8 +270,8 @@ export class ProductListComponent implements OnInit {
     // Filtrar por múltiples categorías (si no se usó el filtro de servidor)
     if (filtros.categorias && filtros.categorias.length > 1) {
       const antesDelFiltro = productosFiltrados.length;
-      productosFiltrados = productosFiltrados.filter(producto => 
-        producto.categorias.some(categoria => 
+      productosFiltrados = productosFiltrados.filter(producto =>
+        producto.categorias.some(categoria =>
           filtros.categorias.includes(categoria.id)
         )
       );
@@ -260,8 +281,8 @@ export class ProductListComponent implements OnInit {
     // Filtrar por múltiples carreras (si no se usó el filtro de servidor)
     if (filtros.carreras && filtros.carreras.length > 1) {
       const antesDelFiltro = productosFiltrados.length;
-      productosFiltrados = productosFiltrados.filter(producto => 
-        producto.cursos_carreras?.some(cursoCarrera => 
+      productosFiltrados = productosFiltrados.filter(producto =>
+        producto.cursos_carreras?.some(cursoCarrera =>
           filtros.carreras.includes(cursoCarrera.curso_carrera.carrera.id)
         )
       );
@@ -271,8 +292,8 @@ export class ProductListComponent implements OnInit {
     // Filtrar por múltiples cursos (si no se usó el filtro de servidor)
     if (filtros.cursos && filtros.cursos.length > 1) {
       const antesDelFiltro = productosFiltrados.length;
-      productosFiltrados = productosFiltrados.filter(producto => 
-        producto.cursos_carreras?.some(cursoCarrera => 
+      productosFiltrados = productosFiltrados.filter(producto =>
+        producto.cursos_carreras?.some(cursoCarrera =>
           filtros.cursos.includes(cursoCarrera.curso_carrera.curso.id)
         )
       );
@@ -301,6 +322,8 @@ export class ProductListComponent implements OnInit {
   }
 
   limpiarFiltros() {
+    localStorage.removeItem('filtrosGuardados');
+
     this.filtrosActivos = {
       categorias: [],
       carreras: [],

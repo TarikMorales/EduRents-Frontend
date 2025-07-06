@@ -71,6 +71,7 @@
           id="minPrecio"
           class="form-control"
           [(ngModel)]="precioMin"
+          (ngModelChange)="guardarFiltrosEnLocalStorage()"
           placeholder="S./0"
           style="width: 125px; height: 24px"
         />
@@ -84,6 +85,7 @@
           id="maxPrecio"
           class="form-control"
           [(ngModel)]="precioMax"
+          (ngModelChange)="guardarFiltrosEnLocalStorage()"
           placeholder="S/.100"
           style="width: 125px; height: 24px"
         />
@@ -117,10 +119,13 @@
       />
 
       <!-- Lista de cursos como botones -->
-      <div class="d-flex flex-column gap-2">
+      <div class="d-flex flex-column gap-2" #dropdownRef>
         <button
           type="button"
           class="btn curso-btn text-start w-100"
+          [ngClass]="{
+            'seleccionado': cursosSeleccionados.includes(curso.id)
+          }"
           style="border: none;"
           *ngFor="let curso of cursosFiltrados()"
           (click)="toggleCurso(curso)"
