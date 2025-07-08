@@ -66,6 +66,9 @@
                   <!-- Product Info -->
                   <div class="col-md-6 col-sm-5 col-8">
                     <h5 class="mb-1">{{ alert.productName }}</h5>
+                    <div class="alert-type mb-2">
+                      <span class="badge bg-secondary">{{ getAlertTypeLabel(alert.tipo ?? '') }}</span>
+                    </div>
                     <p class="text-success fw-bold mb-1">S/ {{ alert.productPrice | number:'1.2-2' }}</p>
                     <p class="text-muted small mb-0">
                       <mat-icon class="me-1" style="font-size: 1rem;">schedule</mat-icon>

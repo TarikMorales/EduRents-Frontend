@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ProductDetailService } from '../../../core/services/product-detail.service';
 
 @Component({
   selector: 'app-alerts',
@@ -33,6 +34,7 @@ export class AlertsComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
+  private productDetailService = inject(ProductDetailService);
 
   alerts: ShowAlertDTO[] = [];
   loading = false;
@@ -55,6 +57,25 @@ export class AlertsComponent implements OnInit {
 
     this.alertsService.getAlertsByUser(user.id).subscribe({
       next: (alerts) => {
+        // Mapeo de campos del backend a los del frontend
+        alerts.forEach(alert => {
+          alert.idProduct = alert.id_producto ?? alert.idProduct;
+          alert.productName = alert.nombre_producto ?? alert.productName;
+          alert.createdAt = alert.fecha_creacion ?? alert.createdAt;
+          alert.idUser = alert.id_usuario ?? alert.idUser;
+          alert.tipo = alert.tipo ?? '';
+          // Enriquecer con datos del producto si quieres (opcional)
+          this.productDetailService.getProductById(alert.idProduct).subscribe({
+            next: (product) => {
+              alert.productPrice = product.precio;
+              alert.productImage = (product.imagenes && product.imagenes[0]) || 'assets/NoImage.png';
+            },
+            error: () => {
+              alert.productPrice = 0;
+              alert.productImage = 'assets/NoImage.png';
+            }
+          });
+        });
         this.alerts = alerts;
         this.loading = false;
       },
@@ -96,12 +117,12 @@ export class AlertsComponent implements OnInit {
   }
 
   viewProduct(alert: ShowAlertDTO): void {
-    this.router.navigate(['/product', alert.idProduct]);
+    this.router.navigate(['/public_/product-detail', alert.idProduct]);
   }
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES', {
+    return isNaN(date.getTime()) ? '' : date.toLocaleDateString('es-ES', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -118,6 +139,18 @@ export class AlertsComponent implements OnInit {
     const target = event.target as HTMLImageElement;
     if (target) {
       target.src = 'assets/NoImage.png';
+    }
+  }
+
+  getAlertTypeLabel(tipo: string): string {
+    switch (tipo) {
+      case 'CAMBIO_PRECIO': return 'Cambio de precio';
+      case 'CAMBIO_STOCK': return 'Cambio de stock';
+      case 'NUEVA_FECHA_EXPIRACION': return 'Nueva fecha de expiración';
+      case 'PRODUCTO_REPUBLICADO': return 'Producto republicado';
+      case 'PRODUCTO_ELIMINADO': return 'Producto eliminado';
+      case 'OTRO': return 'Otro';
+      default: return tipo;
     }
   }
 

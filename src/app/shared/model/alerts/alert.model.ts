@@ -4,6 +4,7 @@ export interface AlertDTO {
   idProduct: number;
   viewed?: boolean;
   createdAt?: string;
+  tipo?: string;
 }
 
 export interface ShowAlertDTO {
@@ -12,7 +13,13 @@ export interface ShowAlertDTO {
   idProduct: number;
   viewed: boolean;
   createdAt: string;
-  productName: string;
-  productPrice: number;
+  productName?: string;
+  productPrice?: number;
   productImage?: string;
+  tipo?: string;
+  // Campos alternativos del backend
+  id_producto?: number;
+  nombre_producto?: string;
+  fecha_creacion?: string;
+  id_usuario?: number;
 } 

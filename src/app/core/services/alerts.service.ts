@@ -5,6 +5,14 @@ import { environment } from '../../../environments/environment';
 import { AlertDTO, ShowAlertDTO } from '../../shared/model/alerts/alert.model';
 import { StorageService } from './storage.service';
 
+export interface CreateAlertDTO {
+  tipo: string;
+  mensaje: string;
+  visto: boolean;
+  id_producto: number;
+  id_usuario: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -29,7 +37,7 @@ export class AlertsService {
   }
 
   // Create a new alert
-  createAlert(alertDTO: AlertDTO): Observable<AlertDTO> {
+  createAlert(alertDTO: CreateAlertDTO): Observable<AlertDTO> {
     return this.http.post<AlertDTO>(this.baseURL, alertDTO, { headers: this.getAuthHeaders() });
   }
 
