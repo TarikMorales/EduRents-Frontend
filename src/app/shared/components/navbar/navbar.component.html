@@ -29,7 +29,15 @@
                             <a class="nav-link texto-general texto-link" routerLink="/">Mi Historial</a>
                         </div>
                         <div class="col-3 text-center">
-                            <a class="nav-link texto-general texto-link" routerLink="/user/alerts">Alertas</a>
+                            <a class="nav-link texto-general texto-link position-relative" routerLink="/user/alerts">
+                              <span style="display: flex; align-items: center;">
+                                <mat-icon>notifications</mat-icon>
+                                Alertas
+                                <span *ngIf="unviewedAlertsCount > 0" class="badge bg-danger ms-1">
+                                  {{ unviewedAlertsCount > 99 ? '99+' : unviewedAlertsCount }}
+                                </span>
+                              </span>
+                            </a>
                         </div>
                     </div>
                 </div>

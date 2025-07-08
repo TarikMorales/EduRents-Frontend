@@ -17,9 +17,11 @@ export interface ShowAlertDTO {
   productPrice?: number;
   productImage?: string;
   tipo?: string;
+  mensaje?: string;
   // Campos alternativos del backend
   id_producto?: number;
   nombre_producto?: string;
   fecha_creacion?: string;
   id_usuario?: number;
+  visto?: boolean; // <-- Agregado para compatibilidad backend
 } 

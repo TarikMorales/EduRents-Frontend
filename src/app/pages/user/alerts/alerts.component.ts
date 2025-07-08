@@ -12,6 +12,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ProductDetailService } from '../../../core/services/product-detail.service';
+import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { FooterComponent } from '../../../shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-alerts',
@@ -24,7 +26,9 @@ import { ProductDetailService } from '../../../core/services/product-detail.serv
     MatCardModule,
     MatChipsModule,
     MatProgressSpinnerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    NavbarComponent,
+    FooterComponent
   ],
   templateUrl: './alerts.component.html',
   styleUrl: './alerts.component.css'
@@ -64,6 +68,7 @@ export class AlertsComponent implements OnInit {
           alert.createdAt = alert.fecha_creacion ?? alert.createdAt;
           alert.idUser = alert.id_usuario ?? alert.idUser;
           alert.tipo = alert.tipo ?? '';
+          alert.viewed = alert.visto ?? alert.viewed; // <-- Mapeo correcto
           // Enriquecer con datos del producto si quieres (opcional)
           this.productDetailService.getProductById(alert.idProduct).subscribe({
             next: (product) => {
@@ -76,7 +81,7 @@ export class AlertsComponent implements OnInit {
             }
           });
         });
-        this.alerts = alerts;
+        this.alerts = [...alerts]; // Fuerza refresco de Angular
         this.loading = false;
       },
       error: (error) => {
@@ -89,9 +94,10 @@ export class AlertsComponent implements OnInit {
   }
 
   markAsViewed(alert: ShowAlertDTO): void {
+    console.log('Marcando como vista', alert); // <-- Log para depuración
     this.alertsService.markAsViewed(alert.id).subscribe({
       next: () => {
-        alert.viewed = true;
+        this.loadAlerts(); // Recarga la lista desde el backend
         this.showSnackBar('Alerta marcada como vista');
       },
       error: (error) => {
