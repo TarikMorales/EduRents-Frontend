@@ -1,0 +1,64 @@
+<app-navbar></app-navbar>
+
+<div class="container-fluid contenedor-boton-buscar">
+  <div class="row justify-content-center align-items-center">
+    <div class="col-10 text-start">
+      <a routerLink="/product-list" class="btn btn-primary" style="background-color: #CC0A00; border: none">Buscar productos</a>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid my-4">
+
+  <div class="row justify-content-center align-items-center">
+
+    <div class="col-4 text-center">
+       <!-- Sección: Tendencia -->
+      <h3 class="mt-5 mb-3">🔥 Tendencia</h3>
+      <div class="horizontal-scroll justify-content-center">
+        <div class="container-fluid" >
+          <div class="row justify-content-center align-items-center">
+            <div class="col-8 text-center" *ngFor="let producto of productosTrendy" style="margin-top: 2rem; margin-bottom: 2rem">
+              <app-product-card [producto]="producto"></app-product-card>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-4 text-center">
+
+      <!-- Sección: Recientes -->
+      <h3 class="mt-5 mb-3">🕒 Recientes</h3>
+      <div class="horizontal-scroll justify-content-center">
+        <div class="container-fluid" >
+          <div class="row justify-content-center align-items-center">
+            <div class="col-8 text-center" *ngFor="let producto of productosRecientes" style="margin-top: 2rem; margin-bottom: 2rem">
+              <app-product-card [producto]="producto"></app-product-card>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-4 text-center">
+
+      <!-- Sección: Top-Intercambios -->
+      <h3 class="mt-5 mb-3">🌟 Top-Intercambios</h3>
+      <div class="horizontal-scroll justify-content-center">
+        <div class="container-fluid" >
+          <div class="row justify-content-center align-items-center">
+            <div class="col-8 text-center" *ngFor="let producto of productosTopintercambios" style="margin-top: 2rem; margin-bottom: 2rem">
+              <app-product-card [producto]="producto"></app-product-card>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<app-footer></app-footer>
