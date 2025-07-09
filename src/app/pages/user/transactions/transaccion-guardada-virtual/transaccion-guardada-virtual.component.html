@@ -1,3 +1,5 @@
+<app-navbar></app-navbar>
+
 <div class="container text-center mt-5">
   <img src="assets/check-success.png" alt="Pago exitoso" width="100" class="mb-3" />
 
@@ -30,7 +32,7 @@
         <button class="btn btn-outline-danger w-100" (click)="cancelarTransaccion()">Cancelar transacción</button>
       </div>
       <div class="col-md-5 mb-2">
-        <button class="btn btn-outline-danger w-100" (click)="reclamarEntrega()">Reclamar entrega</button>
+        <button class="btn btn-outline-danger w-100" (click)="reclamarEntrega()" [disabled]="haHechoReclamo">Reclamar entrega</button>
       </div>
     </div>
   </div>
@@ -40,5 +42,7 @@
     <p class="mb-0">{{ motivoReclamo }}</p>
   </div>
 
-  <button class="btn btn-link mt-4 text-danger" (click)="volver()">← Volver al inicio</button>
+  <button class="btn btn-link mt-4 text-danger" (click)="volver()">← Volver</button>
 </div>
+
+<app-footer></app-footer>
