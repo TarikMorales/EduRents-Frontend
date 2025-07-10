@@ -60,6 +60,11 @@
                                                             <div class="col-12">
                                                                 <input type="text" formControlName="nombres" class="form-control input-general" placeholder="Ingrese sus nombres" name="nombres" required>
                                                             </div>
+                                                            @if(registerForm.get('nombres').invalid && registerForm.get('nombres').touched) {
+                                                                <div class="text-danger">
+                                                                    <small>El campo nombres es obligatorio.</small>
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
@@ -72,6 +77,11 @@
                                                             <div class="col-12">
                                                                 <input type="text" formControlName="apellidos" class="form-control input-general" placeholder="Ingrese sus apellidos" name="apellidos" required>
                                                             </div>
+                                                            @if(registerForm.get('apellidos').invalid && registerForm.get('apellidos').touched) {
+                                                                <div class="text-danger">
+                                                                    <small>El campo apellidos es obligatorio.</small>
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
@@ -93,6 +103,11 @@
                                                             <div class="col-12">
                                                                 <input type="text" formControlName="correo" class="form-control input-general" placeholder="Ingrese su correo" name="correo" required>
                                                             </div>
+                                                            @if(registerForm.get('correo').invalid && registerForm.get('correo').touched) {
+                                                                <div class="text-danger">
+                                                                    <small>El campo correo es obligatorio.</small>
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
@@ -105,6 +120,11 @@
                                                             <div class="col-12">
                                                                 <input type="password" formControlName="contrasena" class="form-control input-general" placeholder="Ingrese su contraseña" name="contrasena" required>
                                                             </div>
+                                                            @if(registerForm.get('contrasena').invalid && registerForm.get('contrasena').touched) {
+                                                                <div class="text-danger">
+                                                                    <small>El campo contraseña es obligatorio.</small>
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
@@ -126,6 +146,11 @@
                                                             <div class="col-12">
                                                                 <input type="text" formControlName="codigo_universitario" class="form-control input-general" placeholder="Ingrese su codigo universitario" name="codigo_universitario" required>
                                                             </div>
+                                                            @if(registerForm.get('codigo_universitario').invalid && registerForm.get('codigo_universitario').touched) {
+                                                                <div class="text-danger">
+                                                                    <small>El campo codigo universitario es obligatorio.</small>
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
@@ -177,6 +202,11 @@
                                                             <div class="col-12">
                                                                 <input type="url" formControlName="foto_url" class="form-control input-general" placeholder="Ingrese la URL de su foto" name="foto_url" required>
                                                             </div>
+                                                            @if(registerForm.get('foto_url').invalid && registerForm.get('foto_url').touched) {
+                                                                <div class="text-danger">
+                                                                    <small>El campo foto es obligatorio.</small>
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
