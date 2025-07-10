@@ -1,0 +1,294 @@
+<app-navbar></app-navbar>
+<div class="container-fluid bg-light" style="padding-top: 8rem; padding-bottom: 8rem; height: auto">
+  <div class="container">
+    <h2 class="fw-bold" style="margin-bottom: 5rem">Perfil de Vendedor</h2>
+    <div class="row g-4">
+      <!-- Columna izquierda: Perfil y biografía -->
+      <div class="col-md-8">
+        <div class="card p-4 text-center h-100">
+          <div class="fw-bold mb-5" style="font-size: 1.5rem; margin-top: 2rem">
+            Nombre del negocio: {{ seller?.nombreNegocio }}
+          </div>
+          <div class="mb-2"><b>Usuario encargado:</b></div>
+          <div class="mb-2">{{ getSellerUser() }}</div>
+          <div class="mt-2"><b>Presentación:</b></div>
+          <div class="mb-2">{{ getSellerPresentation() }}</div>
+          <div class="mt-2"><b>Correo de contacto:</b></div>
+          <div class="mb-2">{{ getSellerEmail() }}</div>
+          <div class="mt-2"><b>Numéro de teléfono:</b></div>
+          <div class="mb-4">{{ getSellerPhoneNumber() }}</div>
+        </div>
+      </div>
+      <!-- Columna derecha: Calificación y reputación -->
+      <div class="col-md-4">
+        <div class="card p-4 h-100">
+          <div class="fw-bold mb-3 text-center" style="font-size: 1.5rem">
+            Calificación
+          </div>
+          <div class="d-flex justify-content-around">
+            <!-- Confiabilidad -->
+             <div class="container-fluid">
+              <div class="row justify-content-center align-items-center">
+                <div class="col-12" style="margin-top: 1rem; margin-bottom: 1rem">
+                  <div class="text-center">
+                    <img src="assets/Confiabilidad.png" alt="Confiabilidad" style="height: 40px" />
+                    <div>Confiabilidad</div>
+                    <ng-container *ngIf="isSellerReliable(); else noConf">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#27ae60" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </ng-container>
+                    <ng-template #noConf>
+                      <span style="font-size: 2rem; color: #f1c40f">?</span>
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="col-12" style="margin-top: 1rem; margin-bottom: 1rem">
+                  <div class="text-center">
+                    <img src="assets/Reloj.png" alt="Sin demoras" style="height: 40px" />
+                    <div>Sin demoras</div>
+                    <ng-container *ngIf="isSellerOnTime(); else noDem">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#27ae60" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </ng-container>
+                    <ng-template #noDem>
+                      <span style="font-size: 2rem; color: #e74c3c">&#10006;</span>
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="col-12" style="margin-top: 1rem; margin-bottom: 1rem">
+                 <div class="text-center">
+                   <img src="assets/BuenaAtencion.png" alt="Buena atención" style="height: 40px" />
+                   <div>Buena atención</div>
+                   <ng-container *ngIf="isSellerAttentive(); else noAt">
+                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#27ae60" stroke-width="3"
+                       stroke-linecap="round" stroke-linejoin="round">
+                       <polyline points="20 6 9 17 4 12" />
+                     </svg>
+                   </ng-container>
+                   <ng-template #noAt>
+                     <span style="font-size: 2rem; color: #e74c3c">&#10006;</span>
+                   </ng-template>
+                 </div>
+                </div>
+             </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón separado -->
+    <div class="row" style="margin-top: 3rem">
+      <div class="col-12">
+        <div class="container-fluid">
+          <div class="row justify-content-between">
+            <div class="col-6">
+              <div class="container-fluid contenedor-resenas">
+                <div class="row justify-content-center align-items-center">
+
+                  <div class="col-12" *ngIf="!heHechoResena && usuarioLogueado">
+                    <div class="container-fluid" style="margin-top: 1rem">
+                      <div class="row justify-content-start align-items-center">
+
+                        <div class="col-6">
+                          <h4 class="texto-general texto-escribir-resena">¡Escríbele una reseña!</h4>
+                        </div>
+                        <div class="col-4 text-start">
+                          <button class="btn btn-escribir-resena" (click)="createReview()">Crear Reseña</button>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12" *ngIf="!usuarioLogueado">
+                    <div class="container-fluid" style="margin-top: 1rem">
+                      <div class="row justify-content-start align-items-center">
+
+                        <div class="col-10">
+                          <h4 class="texto-general texto-escribir-resena">¡Inicia Sesión para escribir una reseña!</h4>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12" *ngIf="heHechoResena && usuarioLogueado && resenaPropia">
+                    <div class="container-fluid" style="margin-top: 1rem">
+                      <div class="row justify-content-start align-items-center">
+
+                        <div class="col-10">
+                          <h4 class="texto-general texto-escribir-resena">Tu Reseña:</h4>
+                        </div>
+
+                        <div class="col-12">
+                          <div class="container-fluid contenedor-producto">
+                            <div class="row justify-content-center align-items-center">
+                              <div class="col-12">
+                                <h5 class="texto-general texto-nombre-resena">
+                                  Por: {{ resenaPropia.nombreUsuario }}
+                                </h5>
+                                <div class="texto-general texto-contenido-resena">
+                                  - {{ resenaPropia.contenido }}
+                                </div>
+                                <div class="texto-general texto-contenido-resena">
+                                  <strong>Fecha de publicación:</strong> {{resenaPropia.fecha | date: 'dd/MM/yyyy'}}
+                                </div>
+                              </div>
+                              <div class="col-12" style="margin-top: 1rem; margin-bottom: 1rem">
+                                <div class="container-fluid">
+                                  <div class="row justify-content-end align-items-center">
+
+                                    <div class="col-4">
+                                      <span class="texto-general texto-critica">
+                                        <strong>Confiabilidad: </strong>{{resenaPropia.confiabilidad ? 'Sí' : 'No'}}</span>
+                                    </div>
+
+                                    <div class="col-4">
+                                      <span class="texto-general texto-critica">
+                                        <strong>Sin demoras: </strong>{{resenaPropia.sinDemoras ? 'Sí' : 'No'}}</span>
+                                    </div>
+
+                                    <div class="col-4">
+                                      <span class="texto-general texto-critica">
+                                        <strong>Buena atención: </strong>{{resenaPropia.buenaAtencion ? 'Sí' : 'No'}}</span>
+                                    </div>
+
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="container-fluid">
+                                  <div class="row justify-content-end align-items-center">
+                                    <div class="col-6 text-center">
+                                      <button class="texto-general btn-editar" (click)="editReview()">Editar Reseña</button>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                      <button class="texto-general btn-eliminar" (click)="deleteReview()">Eliminar Reseña</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 text-start contenedor-boton-resenas">
+                    <button class="btn btn-outline-danger" style="margin: 0" (click)="onShowReviews()">
+                      {{ mostrarResenas ? "Ocultar Reseñas" : "Ver Reseñas" }}
+                    </button>
+                  </div>
+
+                  <div class="col-12" *ngIf="mostrarResenas" style="margin-top: 2rem; margin-bottom: 2rem">
+                    <div class="container-fluid">
+                      <div class="row justify-content-center align-items-center">
+                        <div class="col-12" *ngFor="let resena of resenas">
+                          <div class="container-fluid contenedor-producto">
+                            <div class="row justify-content-center align-items-center">
+                              <div class="col-12">
+                                <h5 class="texto-general texto-nombre-resena">
+                                  Por: {{ resena.nombreUsuario }}
+                                </h5>
+                                <div class="texto-general texto-contenido-resena">
+                                  - {{ resena.contenido }}
+                                </div>
+                                <div class="texto-general texto-contenido-resena">
+                                  <strong>Fecha de publicación:</strong> {{resena.fecha | date: 'dd/MM/yyyy'}}
+                                </div>
+                              </div>
+                              <div class="col-12" style="margin-top: 1rem; margin-bottom: 1rem">
+                                <div class="container-fluid">
+                                  <div class="row justify-content-end align-items-center">
+
+                                    <div class="col-4">
+                                      <span class="texto-general texto-critica">
+                                        <strong>Confiabilidad: </strong>{{resena.confiabilidad ? 'Sí' : 'No'}}</span>
+                                    </div>
+
+                                    <div class="col-4">
+                                      <span class="texto-general texto-critica">
+                                        <strong>Sin demoras: </strong>{{resena.sinDemoras ? 'Sí' : 'No'}}</span>
+                                    </div>
+
+                                    <div class="col-4">
+                                      <span class="texto-general texto-critica">
+                                        <strong>Buena atención: </strong>{{resena.buenaAtencion ? 'Sí' : 'No'}}</span>
+                                    </div>
+
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 text-center" *ngIf="resenas.length === 0 && !heHechoResena && usuarioLogueado">
+                          No hay reseñas publicadas para este vendedor.
+                        </div>
+                        <div class="col-12 text-center" *ngIf="resenas.length === 0 && heHechoResena && usuarioLogueado">
+                          No hay más reseñas publicadas para este vendedor.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="container-fluid contenedor-productos">
+                <div class="row justify-content-center align-items-center">
+                  <div class="col-12 text-start contenedor-boton-productos">
+                    <button class="btn btn-outline-danger" style="margin: 0" (click)="onShowProducts()">
+                      {{ showProducts ? "Ocultar Productos" : "Ver Productos" }}
+                    </button>
+                  </div>
+
+                  <div class="col-12" *ngIf="showProducts" style="margin-top: 2rem; margin-bottom: 2rem">
+                    <div class="container-fluid">
+                      <div class="row justify-content-center align-items-center">
+                        <div class="col-5" *ngFor="let product of products">
+                          <div class="container-fluid contenedor-producto">
+                            <div class="row justify-content-center align-items-center">
+                              <div class="col-12 text-center" style="margin-top: 1rem; margin-bottom: 1rem">
+                                <img [src]="product.imagenes[0].url" alt="Imagen del producto"
+                                  class="img-fluid img-producto" />
+                              </div>
+                              <div class="col-12">
+                                <h5 class="texto-general texto-nombre-producto">
+                                  {{ product.nombre }}
+                                </h5>
+                                <div class="texto-general texto-precio-producto">
+                                  S/. {{ product.precio | number : "1.2-2" }}
+                                </div>
+                                <button class="btn btn-outline-danger w-100" (click)="goToProductDetail(product.id)">
+                                  Ver detalle
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 text-center" *ngIf="!loadingProducts && products.length === 0">
+                          No hay productos publicados por este vendedor.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

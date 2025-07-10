@@ -1,0 +1,170 @@
+.texto-general{
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    padding: 0;
+    margin: 0;
+}
+
+.texto-nombre-producto{
+    color: #34495E;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.texto-precio-producto{
+    padding-bottom: 0.5rem;
+    color: black;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.texto-nombre-resena{
+    color: #34495E;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.texto-contenido-resena{
+    color: black;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-weight: 400;
+    font-size: 0.8rem;
+}
+
+.texto-escribir-resena{
+  color: #34495E;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.texto-critica{
+  color: black;
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+.btn-escribir-resena{
+  background-color: #F10C00;
+  color: white;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  border: none;
+}
+
+.btn-escribir-resena:hover{
+  background-color: #CC0A00;
+}
+
+.contenedor-productos, .contenedor-resenas{
+  background-color: white;
+  border: 2px solid #E0E0E0;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.contenedor-producto{
+  background-color: whitesmoke;
+  border-radius: 1rem;
+  padding: 1rem;
+  border: 2px solid #E0E0E0;
+}
+
+.contenedor-boton-resenas, .contenedor-boton-productos{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.btn-editar, .btn-eliminar {
+    width: 50%;
+    background-color: #CC0A00;
+    border: none;
+    color: #FFFFFF;
+    font-size: 0.7rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.btn-eliminar{
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+.card {
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  border: none;
+  height: 100%;
+}
+img[alt="Foto del vendedor"] {
+  display: block;
+  margin: 0 auto 1rem auto;
+  border-radius: 50%;
+  background: #f7f7f7;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+.btn-danger, .btn-outline-danger {
+  background: #F10C00;
+  border: none;
+  font-weight: 600;
+  border-radius: 8px;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+.btn-outline-danger {
+  background: #fff;
+  color: #F10C00;
+  border: 2px solid #F10C00;
+}
+.btn-danger:hover, .btn-outline-danger:hover {
+  background: #CC0A00;
+  color: #fff;
+}
+.card .fw-bold {
+  font-size: 1.1rem;
+}
+.card h4, .card h5 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.text-start div {
+  margin-bottom: 0.3rem;
+}
+.separated-products-btn {
+  margin: 2rem auto 1.5rem auto;
+  display: block;
+  max-width: 350px;
+}
+.row-cols-md-2 > .col {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.img-producto{
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: cover;
+}
+
+@media (max-width: 1100px) {
+  .row.g-4 {
+    flex-direction: column;
+    align-items: center;
+  }
+  .col-md-5, .col-md-7, .col-md-4 {
+    min-width: 320px;
+    width: 90%;
+  }
+}
+@media (max-width: 900px) {
+  .row-cols-md-2 > .col {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}

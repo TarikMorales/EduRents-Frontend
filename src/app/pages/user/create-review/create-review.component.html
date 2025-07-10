@@ -1,0 +1,101 @@
+<app-navbar></app-navbar>
+
+<div class="container-fluid contenedor-general">
+  <div class="row justify-content-center align-items-center">
+    <div class="col-6">
+      <div class="container-fluid">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-12 text-center">
+            <h1 class="texto-general texto-titulo">Crea una reseña para:</h1>
+          </div>
+          <div class="col-8 text-center" style="margin-top: 1.2rem;">
+            <h2 class="texto-general texto-nombre-negocio">{{ seller?.nombreNegocio }}</h2>
+          </div>
+          <div class="col-8 text-center" style="margin-bottom: 1.5rem;">
+            <span class="texto-general texto-descripcion-negocio">{{seller?.presentacion}}</span>
+            <br>
+            <span class="texto-general texto-descripcion-negocio"><strong>Por: </strong> {{seller?.nombreUsuario}}</span>
+          </div>
+          <div class="col-8 contenedor-formulario">
+            <form [formGroup]="reviewForm" (ngSubmit)="onsubmit()">
+              <div class="mb-3">
+                <label for="contenido" class="form-label texto-general texto-label-input">Contenido de la reseña</label>
+                <textarea id="contenido" formControlName="contenido" class="form-control" rows="3" placeholder="Ingrese su reseña"></textarea>
+                @if (controlHasError('contenido', 'required')) {
+                  <div class="text-danger">El contenido de la reseña es obligatorio.</div>
+                }
+              </div>
+              <div class="mb-3">
+                <label for="confiabilidad" class="form-label texto-general texto-label-input">Confiabilidad</label>
+                <div class="container-fluid" style="margin-top: 1rem; margin-bottom: 1rem;">
+                  <div class="row justify-content-start align-items-center">
+                    <div class="col-4" *ngFor="let opcion of opciones">
+                      <input
+                        type="radio"
+                        [value]="opcion.value"
+                        formControlName="confiabilidad"
+                        [id]="'confiabilidad' + opcion.value"
+                      />
+                      <label [for]="'confiabilidad' + opcion.value" style="margin-left: 1rem;">{{ opcion.label }}</label>
+                    </div>
+                  </div>
+                </div>
+                @if (controlHasError('confiabilidad', 'required')) {
+                  <div class="text-danger">Determine la confiabilidad del vendedor</div>
+                }
+              </div>
+              <div class="mb-3">
+                <label for="sinDemoras" class="form-label texto-general texto-label-input">Sin demoras</label>
+                <div class="container-fluid" style="margin-top: 1rem; margin-bottom: 1rem;">
+                  <div class="row justify-content-start align-items-center">
+                    <div class="col-4" *ngFor="let opcion of opciones">
+                      <input
+                        type="radio"
+                        [value]="opcion.value"
+                        formControlName="sinDemoras"
+                        [id]="'sinDemoras' + opcion.value"
+                      />
+                      <label [for]="'sinDemoras' + opcion.value" style="margin-left: 1rem;">{{ opcion.label }}</label>
+                    </div>
+                  </div>
+                </div>
+                @if (controlHasError('sinDemoras', 'required')) {
+                  <div class="text-danger">Determine si el vendedor ha presentado demoras</div>
+                }
+              </div>
+              <div class="mb-3">
+                <label for="buenaAtencion" class="form-label texto-general texto-label-input">Buena atención</label>
+                <div class="container-fluid" style="margin-top: 1rem; margin-bottom: 1rem;">
+                  <div class="row justify-content-start align-items-center">
+                    <div class="col-4" *ngFor="let opcion of opciones">
+                      <input
+                        type="radio"
+                        [value]="opcion.value"
+                        formControlName="buenaAtencion"
+                        [id]="'buenaAtencion' + opcion.value"
+                      />
+                      <label [for]="'buenaAtencion' + opcion.value" style="margin-left: 1rem;">{{ opcion.label }}</label>
+                    </div>
+                  </div>
+                </div>
+                @if (controlHasError('buenaAtencion', 'required')) {
+                  <div class="text-danger">Determine si el vendedor ha brindado una buena atención</div>
+                }
+              </div>
+              <div class="col-6 text-start contenedor-boton-enviar">
+                <button type="submit" class="texto-general btn-enviar" [disabled]="reviewForm.invalid">Enviar Reseña</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="col-7 text-center" style="margin-top: 1.5rem;">
+            <button class="texto-general btn-volver" (click)="volver()">Volver</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

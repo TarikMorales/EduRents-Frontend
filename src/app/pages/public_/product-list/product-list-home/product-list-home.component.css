@@ -1,0 +1,48 @@
+body{
+  font-family: Inter, sans-serif;
+}
+
+.search-box{
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  height: 90px;
+}
+
+.search-input{
+  border-radius: 10px;
+  border: 1px #BDBDBD solid;
+  height: 60px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.search-filter-button{
+  border-radius: 10px;
+  border: 1px #BDBDBD solid;
+  height: 60px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: white;
+}
+
+.search-filter-button:hover{
+  background-color: #f8f8f8;
+}
+.horizontal-scroll {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.horizontal-scroll app-product-card {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  min-width: 250px; /* Ajusta al tamaño de tu tarjeta */
+}
+
+.contenedor-boton-buscar{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}

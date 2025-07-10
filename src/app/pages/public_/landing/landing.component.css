@@ -1,0 +1,111 @@
+.hero {
+  background-color: var(--light-color);
+  padding: 8rem 0;
+  text-align: center;
+}
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+}
+.hero h1 .highlight {
+  color: var(--primary-color);
+}
+.hero .lead {
+  font-size: 1.25rem;
+  max-width: 700px;
+  margin: 1.5rem auto;
+  color: #6c757d;
+}
+.hero .btn {
+  font-size: 1.1rem;
+  padding: 0.8rem 2rem;
+  font-weight: 600;
+  margin: 0.5rem;
+}
+.hero .btn-primary {
+  background-color: #F10C00;
+  border-color: var(--primary-color);
+}
+.hero .btn-light {
+  border: 1px solid #ddd;
+}
+/* --- Sections --- */
+.section {
+  padding: 6rem 0;
+}
+.section-bg {
+  background-color: var(--light-gray);
+}
+.section-title {
+  text-align: center;
+  margin-bottom: 4rem;
+  font-weight: 700;
+  font-size: 2.5rem;
+}
+.section-title span {
+  color: var(--primary-color);
+}
+/* --- Features Section --- */
+.feature-card {
+  background-color: var(--light-color);
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  padding: 2.5rem;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  height: 100%;
+}
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+.feature-icon {
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+}
+.feature-card h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+/* --- How It Works Section --- */
+.step {
+  text-align: center;
+}
+.step-number {
+  width: 70px;
+  height: 70px;
+  background-color: var(--primary-color);
+  color: var(--light-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem auto;
+  font-size: 2rem;
+  font-weight: 700;
+  border: 5px solid #fde4e2;
+}
+.step h4 {
+  font-weight: 600;
+}
+/* --- Scope Section --- */
+.scope-section {
+  background-color: var(--light-color);
+}
+.scope-content img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+.scope-text {
+  padding-left: 3rem;
+}
+.scope-text h2 {
+  font-weight: 700;
+}
+.scope-text .badge {
+  background-color: var(--primary-color) !important;
+  font-size: 1rem;
+  font-weight: 400;
+}

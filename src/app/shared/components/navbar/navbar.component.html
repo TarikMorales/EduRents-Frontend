@@ -1,1 +1,73 @@
-<p>navbar works!</p>
+<nav>
+    <div class="container-fluid contenedor-navbar">
+        <div class="row align-items-center justify-content-center">
+
+            <div class="col-2">
+                <div class="container-fluid">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-4">
+                            <a class="navbar-brand" routerLink="/" >
+                                <img src="login-register/logo-edurents-white.png" alt="Logo" class="logo" class="img-fluid logo-navbar">
+                            </a>
+                        </div>
+                        <div class="col-8">
+                            <h1 class="texto-general titulo-navbar">EduRents</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div *ngIf="!isSeller()" class="container-fluid">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-5 text-center">
+                            <a class="nav-link texto-general texto-link" routerLink="/product-list-home">Búsqueda</a>
+                        </div>
+                        <div class="col-5 text-center">
+                            <a class="nav-link texto-general texto-link" routerLink="/mi-historial">Mi Historial</a>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="isSeller()" class="container-fluid">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-4 text-center">
+                            <a class="nav-link texto-general texto-link" routerLink="/product-list-home">Búsqueda</a>
+                        </div>
+                        <div class="col-4 text-center">
+                            <a class="nav-link texto-general texto-link" routerLink="/seller/my-products">Mis Publicaciones</a>
+                        </div>
+                        <div class="col-4 text-center">
+                            <a class="nav-link texto-general texto-link" routerLink="/mi-historial">Mi Historial</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+            </div>
+
+            <div class="col-4">
+                <div *ngIf="isLogged()" class="container-fluid contenedor-datos" >
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-4 text-center">
+                            <a class="nav-link texto-link texto-general" routerLink="/user"><span class="texto-general texto-nombre-usuario">{{ nombreUsuario }}</span></a>
+                        </div>
+                        <div class="col-4 text-start">
+                            <img src="{{foto}}" alt="" class="img-fluid img-usuario">
+                        </div>
+                        <div class="col-4 text-center">
+                            <button class="texto-general texto-link btn-sesion" (click)="logout()">Cerrar Sesión</button>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="!isLogged()" class="container-fluid contenedor-datos">
+                    <div class="row align-items-center justify-content-end">
+                        <div class="col-7 text-center">
+                            <a class="nav-link texto-general texto-link" routerLink="/auth/login">Iniciar Sesión</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</nav>

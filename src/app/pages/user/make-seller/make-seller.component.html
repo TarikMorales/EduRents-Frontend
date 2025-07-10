@@ -1,0 +1,166 @@
+<app-navbar></app-navbar>
+
+<div class="container-fluid contenedor-general">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-5 contenedor-seller-imagen">
+            <div class="container-fluid">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-8 contenedor-nombre-app">
+                        <div class="container-fluid">
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 contenedor-imagen-seller">
+                                    <h1 class="texto-general texto-seller-imagen">¡Conviértete en vendedor!</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-7">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-8">
+
+                        <div class="container-fluid contenedor-seller">
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 contenedor-bienvenida">
+
+                                    <div class="container-fluid">
+                                        <div class="row align-items-center justify-content-center">
+                                            
+                                            <div class="col-6 text-center contenedor-logo-form">
+                                                <a routerLink="/"><img src="login-register/logo-edurents.png" alt="Logo" class="img-fluid logo-form"></a>
+                                            </div>
+
+                                            <div class="col-10 text-center" style="margin-bottom: 1rem;">
+                                                <h2 class="texto-general titulo-parte1">Nuevo Vendedor</h2>
+                                            </div>
+                                            <div class="col-10 text-center">
+                                                <h3 class="texto-general titulo-parte2">Complementa tu información con los siguientes datos:</h3>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-12 contenedor-form">
+
+                                    <form class="justify-content-center" [formGroup]="sellerForm" (ngSubmit)="onSubmit()">
+
+                                    <div class="container-fluid">
+                                        <div class="row justify-content-center align-items-center">
+
+                                            <div class="col-7 contenedor-campo-form">
+                                                <div class="container-fluid">
+                                                    <div class="row align-items-center justify-content-center">
+                                                        <div class="col-12">
+                                                            <span class="texto-general texto-label-input">Nombre del negocio:</span>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <input type="text" class="form-control texto-general input-form" placeholder="Ingrese el nombre del negocio" formControlName="nombreNegocio">
+                                                        </div>
+                                                        @if(controlHasError('nombreNegocio', 'required')){
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-error">El nombre del negocio es obligatorio</span>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-7 contenedor-campo-form">
+                                                <div class="container-fluid">
+                                                    <div class="row align-items-center justify-content-center">
+                                                        <div class="col-12">
+                                                            <span class="texto-general texto-label-input">Ingrese una presentación de su negocio:</span>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <textarea class="form-control texto-general input-form" placeholder="Ingrese una presentación de su negocio" formControlName="presentacion" cols="30" rows="5"></textarea>
+                                                        </div>
+                                                        @if(controlHasError('presentacion', 'required')){
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-error">La presentación del negocio es obligatoria</span>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-7 contenedor-campo-form">
+                                                <div class="container-fluid">
+                                                    <div class="row align-items-center justify-content-center">
+                                                        <div class="col-12">
+                                                            <span class="texto-general texto-label-input">Correo de contacto:</span>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <input type="text" class="form-control texto-general input-form" placeholder="Ingrese su correo de contacto" formControlName="correo">
+                                                        </div>
+                                                        @if(controlHasError('correo', 'required')){
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-error">El correo de contacto es obligatorio</span>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-7 contenedor-campo-form">
+                                                <div class="container-fluid">
+                                                    <div class="row align-items-center justify-content-center">
+                                                        <div class="col-12">
+                                                            <span class="texto-general texto-label-input">Número de contacto:</span>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <input type="number" class="form-control texto-general input-form" placeholder="Ingrese su número de contacto" formControlName="numeroTelefono">
+                                                        </div>
+                                                        @if(controlHasError('numeroTelefono', 'required')){
+                                                            <div class="col-12">
+                                                                <span class="texto-general texto-error">El número de contacto es obligatorio</span>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-7 text-center contenedor-btn-seller">
+
+                                                <button class="texto-general btn-seller" type="submit" [disabled]="sellerForm.invalid">Ser Vendedor</button>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    </form>
+
+                                </div>
+
+                                <div class="col-12 contenedor-opciones-adicionales">
+                                    <div class="container-fluid">
+                                        <div class="row justify-content-center align-items-center">                                          
+                                            <div class="col-7">
+                                                <div class="container-fluid">
+                                                    <div class="row align-items-center justify-content-center">
+                                                        <div class="col-12 text-center">
+                                                            <a class="texto-general texto-opcion" routerLink="/user">Volver</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

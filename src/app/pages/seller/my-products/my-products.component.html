@@ -1,1 +1,84 @@
-<p>my-products works!</p>
+<app-navbar></app-navbar>
+
+<div class="container-fluid contenedor-general">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-10">
+            <div class="container-fluid">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-1">
+                        <a routerLink="/" class="btn btn-light">
+                            <img src="assets/back-arrow.PNG" alt="Volver" width="60">
+                        </a>
+                    </div>
+                    <div class="col-3">
+                        <h1 class="texto-general texto-titulo">Mis publicaciones</h1>
+                    </div>
+                    <div class="col-3">
+                        <a routerLink="/seller/new-product" class="texto-general btn-crear">Crear un nuevo producto</a>
+                    </div>
+                    <div class="col-5"></div>
+                    <div *ngIf="hayProductos" class="col-12 contenedor-publicaciones">
+                        <div class="container-fluid">
+                            <div class="row justify-content-center align-items-center">
+
+                                <div *ngFor="let producto of productos" class="col-3 text-center">
+                                    <div class="container-fluid contenedor-producto">
+                                        <div class="row justify-content-center align-items-center">
+                                            <div class="col-12 contenedor-imagen-producto">
+                                                <img src="{{ producto.imagenes.length > 0 ? producto.imagenes[0].url : 'https://colorsremain.com/wp-content/plugins/elementor/assets/images/placeholder.png' }}" alt="Imagen del producto" class="img-fluid imagen-producto">
+                                            </div>
+                                            <div class="col-12 contenedor-datos-principales-producto">
+                                                <div class="container-fluid">
+                                                    <div class="row justify-content-center align-items-center">
+                                                        <div class="col-8 text-start">
+                                                            <span class="texto-general texto-nombre-producto">{{ producto.nombre }}</span>
+                                                        </div>
+                                                        <div class="col-4 text-end">
+                                                            <span class="texto-general texto-precio">S/ {{ producto.precio }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 contenedor-datos-secundarios-producto">
+                                                <div class="container-fluid">
+                                                    <div class="row justify-content-center align-items-center">
+                                                        <div class="col-12 text-start">
+                                                            <span class="texto-general texto-datos-producto">Intercambio {{ producto.acepta_intercambio ? 'disponible' : 'no disponible' }}</span>
+                                                        </div>
+                                                        <div class="col-12 text-start">
+                                                            <span class="texto-general texto-datos-producto">Publicado por: {{ producto.vendedor.nombreUsuario }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-8 contenedor-btn">
+                                                <button class="texto-general btn-crear" (click)="editarProducto(producto.id)">Editar producto</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!hayProductos" class="col-12 contenedor-publicaciones">
+
+                        <div class="container-fluid">
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-6 text-center contenedor-texto-no-productos">
+                                    <span class="texto-general texto-no-productos">No tienes productos publicados</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

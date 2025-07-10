@@ -1,0 +1,25 @@
+<app-navbar></app-navbar>
+
+<div class="contenedor" style="margin-top: 5rem; margin-bottom: 20rem;">
+
+<button class="btn btn-outline-danger" (click)="cambiarAVistaUsuario()">Cambiar a vista usuario</button>
+
+<div class="container mt-4">
+  <div class="row">
+    <!-- Historial de Transacciones (solo lectura) -->
+    <div class="col-md-6 border-end pe-4">
+      <h4 class="mb-3 text-center">Transacciones de tus productos</h4>
+      <app-seller-historial-pagos />
+    </div>
+
+    <!-- Ofertas de intercambio (con aceptar/rechazar) -->
+    <div class="col-md-6 ps-4">
+      <h4 class="mb-3 text-center">Ofertas de intercambio recibidas</h4>
+      <app-seller-historial-intercambios />
+    </div>
+  </div>
+</div>
+
+</div>
+
+<app-footer></app-footer>

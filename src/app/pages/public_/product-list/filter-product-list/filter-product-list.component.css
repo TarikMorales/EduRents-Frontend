@@ -1,0 +1,20 @@
+body{
+  font-family: Inter, sans-serif;
+}
+
+.curso-btn {
+  border: 1px solid #ccc;
+  background-color: white;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.curso-btn:hover {
+  background-color: #dc3545; /* rojo Bootstrap */
+  color: white;
+  border-color: #dc3545;
+}
+.seleccionado {
+  background-color: #dc3545; /* rojo Bootstrap */
+  color: white;
+  border-color: #dc3545;
+}
