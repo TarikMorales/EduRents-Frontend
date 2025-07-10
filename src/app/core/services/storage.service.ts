@@ -4,15 +4,24 @@ import { RecoverProcessResponse } from '../../shared/model/forgot-password/recov
 import { UserSeller } from '../../shared/model/profile/user-seller.model';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class StorageService {
+    private productDetailDataKey = 'productDetailData';
+    private authDataKey = 'edurents_auth';
 
   private authKey = 'edurents_auth';
   private recoverKey = 'edurents_recover';
   private sellerKey = 'user_seller';
 
-  constructor() {}
+    setProductDetailData(data: any):void {
+        localStorage.setItem(this.productDetailDataKey, JSON.stringify(data));
+    }
+    
+    getProductDetailData(): any {
+        const data = localStorage.getItem(this.productDetailDataKey);
+        return data ? JSON.parse(data) : null;
+    }
 
   setAuthData(data: AuthResponse): void {
     // console.log(data);

@@ -26,14 +26,15 @@ export const routes: Routes = [
         loadChildren: () => import('./pages/auth/auth.routes').then(a=>a.authRoutes)
     },
     {
-        path: 'user',
-        loadChildren: () => import('./pages/user/user.routes').then(u => u.userRoutes)
-    },
-    {
         path: 'seller',
         loadChildren: () => import('./pages/seller/seller.routes').then(s => s.sellerRoutes)
     },
     {
+        path: 'user',
+        loadChildren: () => import('./pages/user/user.routes').then(u => u.userRoutes)
+    },
+    {
+        path: '', redirectTo: 'public_/product-detail/1', pathMatch: 'full'
         path: 'public',
         loadChildren: () => import('./pages/public_/public.routes').then(m => m.publicRoutes)
     },

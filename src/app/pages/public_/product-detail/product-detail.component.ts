@@ -4,7 +4,11 @@ import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { ProductDetailService } from '../../../core/services/product-detail.service';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
-import { Location } from '@angular/common';
+import { FollowedProductService } from '../../../core/services/followed-product.service';
+import { AlertsService, CreateAlertDTO } from '../../../core/services/alerts.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 // Interfaces for type safety
 interface Product {
@@ -81,10 +85,11 @@ export class ProductDetailComponent implements OnInit {
     private route: ActivatedRoute, 
     private productDetailService: ProductDetailService,
     private router: Router,
-    location: Location
-  ) {
-    this.location = location;
-  }
+    private followedProductService: FollowedProductService,
+    private alertsService: AlertsService,
+    private authService: AuthService,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     this.productId = +this.route.snapshot.paramMap.get('id')!;
@@ -192,11 +197,37 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  onBuyNow(){
-    this.router.navigate(['/create-transaction']);
-  }
-
-  goBack(){
-    this.location.back();
+  seguirProducto() {
+    const user = this.authService.getUser();
+    if (!user) {
+      this.snackBar.open('Debes iniciar sesión para seguir productos', 'Cerrar', { duration: 3000 });
+      return;
+    }
+    this.followedProductService.followProduct(user.id, this.productId).subscribe({
+      next: () => {
+        const alerta: CreateAlertDTO = {
+          tipo: 'OTRO',
+          mensaje: 'Producto seguido',
+          visto: false,
+          id_producto: this.productId,
+          id_usuario: user.id
+        };
+        this.alertsService.createAlert(alerta).subscribe({
+          next: () => {
+            this.snackBar.open('¡Producto seguido y alerta creada!', 'Cerrar', { duration: 3000 });
+          },
+          error: () => {
+            this.snackBar.open('Producto seguido, pero error al crear la alerta', 'Cerrar', { duration: 3000 });
+          }
+        });
+      },
+      error: (err) => {
+        if (err.status === 400) {
+          this.snackBar.open('Ya sigues este producto.', 'Cerrar', { duration: 3000 });
+        } else {
+          this.snackBar.open('Error al seguir el producto', 'Cerrar', { duration: 3000 });
+        }
+      }
+    });
   }
 }

@@ -29,14 +29,26 @@
                 </div>
                 <div *ngIf="isSeller()" class="container-fluid">
                     <div class="row align-items-center justify-content-center">
-                        <div class="col-4 text-center">
-                            <a class="nav-link texto-general texto-link" routerLink="/product-list-home">Búsqueda</a>
+                        <div class="col-3 text-center">
+                            <a class="nav-link texto-general texto-link" routerLink="/">Búsqueda</a>
                         </div>
-                        <div class="col-4 text-center">
-                            <a class="nav-link texto-general texto-link" routerLink="/seller/my-products">Mis Publicaciones</a>
+                        <div class="col-3 text-center">
+                            <a class="nav-link texto-general texto-link" routerLink="/">Mis Publicaciones</a>
                         </div>
-                        <div class="col-4 text-center">
-                            <a class="nav-link texto-general texto-link" routerLink="/mi-historial">Mi Historial</a>
+                        <div class="col-3 text-center">
+                            <a class="nav-link texto-general texto-link" routerLink="/">Mi Historial</a>
+
+                        </div>
+                        <div class="col-3 text-center">
+                            <a class="nav-link texto-general texto-link position-relative" routerLink="/user/alerts">
+                              <span style="display: flex; align-items: center;">
+                                <mat-icon>notifications</mat-icon>
+                                Alertas
+                                <span *ngIf="unviewedAlertsCount > 0" class="badge bg-danger ms-1">
+                                  {{ unviewedAlertsCount > 99 ? '99+' : unviewedAlertsCount }}
+                                </span>
+                              </span>
+                            </a>
                         </div>
                     </div>
                 </div>

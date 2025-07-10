@@ -27,6 +27,7 @@
             <h2 class="fw-bold mb-1" style="color: #e74c3c;">{{ getProductName() }}</h2>
             <div class="fs-2 fw-bold mb-2">{{ getProductPrice() }}</div>
             <div class="mb-2">Cantidad: <span class="fw-semibold">{{ getStockText() }}</span></div>
+
             <button class="btn btn-danger w-100 mb-3" style="font-weight: 600; border-radius: 8px;" (click)="onBuyNow()">Pagar ahora y coordinar envío</button>
             <div class="fw-bold">Intercambio</div>
             <div class="mb-2">{{ getExchangeText() }}</div>

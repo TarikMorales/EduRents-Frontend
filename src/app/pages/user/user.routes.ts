@@ -1,14 +1,29 @@
-import { Routes } from "@angular/router";
-import { ProfileComponent } from "./profile/profile.component";
-import { ChangePhotoComponent } from "./change-photo/change-photo.component";
+import { Routes } from '@angular/router';
+import { AlertsComponent } from './alerts/alerts.component';
+import { ProfileComponent } from './profile/profile.component';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { FollowedProductsComponent } from './followed-products/followed-products.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 export const userRoutes: Routes = [
     {
-        path: '',
+        path: 'alerts',
+        component: AlertsComponent
+    },
+    {
+        path: 'profile',
         component: ProfileComponent
     },
     {
-        path: 'change-photo',
-        component: ChangePhotoComponent
+        path: 'transactions',
+        component: TransactionsComponent
+    },
+    {
+        path: 'followed-products',
+        component: FollowedProductsComponent
+    },
+    {
+        path: 'change-password',
+        component: ChangePasswordComponent
     }
-]
+];
