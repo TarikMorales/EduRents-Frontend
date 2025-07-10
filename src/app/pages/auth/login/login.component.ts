@@ -90,6 +90,8 @@ export class LoginComponent implements OnInit {
           // Guardar en localStorage por si el usuario recarga la página
           localStorage.setItem('registroDesdeGoogle', JSON.stringify(datos));
 
+          this.showSnackBar('Usuario no registrado. Por favor, completa el registro.');
+
           this.router.navigate(['/auth/register'], {
             state: datos
           });

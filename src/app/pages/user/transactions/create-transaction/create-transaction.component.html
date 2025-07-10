@@ -59,16 +59,34 @@
     <!-- Sección Derecha -->
     <div class="col-md-6">
       <h4>Precio total</h4>
-      <p><strong>S/ 15.00</strong></p>
+      <p>
+        <strong *ngIf="product">S/ {{ product.precio | number:'1.2-2' }}</strong>
+        <strong *ngIf="!product">S/ ---</strong>
+      </p>
 
       <h5>Producto</h5>
-      <img src="assets/producto-demo.jpg" alt="Producto" width="200">
+      <img
+        [src]="product?.imagenes?.[0]?.url || 'assets/NoImage.png'"
+        alt="Producto"
+        class="img-fluid rounded product-img"
+      />
+      <p class="mt-2 fw-bold" *ngIf="product">{{ product.nombre }}</p>
+
+      <!-- Mensaje de error si ya se hizo transacción -->
+      <p class="text-danger mt-2" *ngIf="errorTransaccionExistente">
+        Ya realizaste una transacción sobre este producto.
+      </p>
 
       <form [formGroup]="transactionForm" (ngSubmit)="submitTransaction()" class="mt-4">
-        <input type="hidden" formControlName="idProducto">
-        <button type="submit" class="btn btn-danger" [disabled]="transactionForm.invalid">
+        <input type="hidden" formControlName="idProducto" />
+        <button
+          type="submit"
+          class="btn btn-danger"
+          [disabled]="transactionForm.invalid || errorTransaccionExistente || !product"
+        >
           Continuar
         </button>
+
       </form>
     </div>
   </div>

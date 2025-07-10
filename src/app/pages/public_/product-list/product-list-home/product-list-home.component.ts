@@ -16,7 +16,7 @@ import {FormsModule} from "@angular/forms";
   selector: 'app-product-home-list',
   standalone: true,
   imports: [
-    CommonModule, ProductCardComponent, FilterProductListComponent, HttpClientModule,
+    CommonModule, ProductCardComponent, HttpClientModule,
     NavbarComponent,
     FooterComponent,
     RouterLink, FormsModule
@@ -46,7 +46,6 @@ export class ProductListHomeComponent implements OnInit {
       next: (data) => {
         this.productos = data;
         this.productosOriginales = data;
-        console.log('Productos cargados:', data);
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error al cargar productos:', err);
@@ -55,7 +54,6 @@ export class ProductListHomeComponent implements OnInit {
     this.productService.getProductsRecents().subscribe({
       next: (data) => {
         this.productosRecientes = data;
-        console.log('Productos cargados:', data);
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error al cargar productos:', err);
@@ -64,7 +62,6 @@ export class ProductListHomeComponent implements OnInit {
     this.productService.getProductsTopExchanges().subscribe({
       next: (data) => {
         this.productosTopintercambios = data;
-        console.log('Productos cargados:', data);
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error al cargar productos:', err);
@@ -73,7 +70,6 @@ export class ProductListHomeComponent implements OnInit {
     this.productService.getProductsTrendy().subscribe({
       next: (data) => {
         this.productosTrendy = data;
-        console.log('Productos cargados:', data);
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error al cargar productos:', err);
@@ -86,7 +82,6 @@ export class ProductListHomeComponent implements OnInit {
   }
 
   filtrarProductos(filtros: any) {
-    console.log('Filtros aplicados:', filtros);
 
     const categoriaId = filtros.categorias?.[0];
     const carreraId = filtros.carreras?.[0];

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ExchangeOfferResponse } from '../../../../shared/model/exchange-offer/exchange-offer.model';
 import { AuthService } from '../../../../core/services/auth.service';
 import { RouterLink } from '@angular/router';
-import { SellerExchangeOfferService } from '../../../../core/services/seller-exchange-offer.service';
-import { DatePipe } from '@angular/common';
+import { ExchangeOfferService } from '../../../../core/services/exchange-offer.service';
 
 @Component({
   selector: 'app-seller-historial-intercambios',
@@ -17,9 +16,10 @@ import { DatePipe } from '@angular/common';
 export class SellerHistorialIntercambiosComponent implements OnInit {
   ofertas: ExchangeOfferResponse[] = [];
   idVendedor: number | null = null;
+  token: string = '';
 
   constructor(
-    private sellerExchangeOfferService: SellerExchangeOfferService,
+    private exchangeOfferService: ExchangeOfferService,
     private authService: AuthService
   ) {}
 
@@ -27,33 +27,39 @@ export class SellerHistorialIntercambiosComponent implements OnInit {
     const user = this.authService.getUser();
     if (user) {
       this.idVendedor = user.id;
+      this.token = user.token;
       this.cargarOfertas();
     }
   }
 
   cargarOfertas(): void {
-    if (!this.idVendedor) return;
+    if (!this.idVendedor || !this.token) return;
 
-    this.sellerExchangeOfferService.getOffersToSeller(this.idVendedor)
+    this.exchangeOfferService.getOfertasPorVendedor(this.idVendedor, this.token)
       .subscribe(data => {
         this.ofertas = data;
       });
   }
 
   aceptar(id: number): void {
-    this.sellerExchangeOfferService.aceptarOferta(id).subscribe(() => this.cargarOfertas());
+    if (!this.idVendedor || !this.token) return;
+
+    this.exchangeOfferService.responderOferta(id, this.idVendedor, true, this.token)
+      .subscribe(() => this.cargarOfertas());
   }
 
   rechazar(id: number): void {
-    this.sellerExchangeOfferService.rechazarOferta(id).subscribe(() => this.cargarOfertas());
+    if (!this.idVendedor || !this.token) return;
+
+    this.exchangeOfferService.responderOferta(id, this.idVendedor, false, this.token)
+      .subscribe(() => this.cargarOfertas());
   }
 
   getEstadoColor(estado: string): string {
     switch (estado) {
       case 'PENDIENTE': return 'text-warning';
-      case 'ACEPTADA': return 'text-success';
-      case 'RECHAZADA': return 'text-danger';
-      case 'CANCELADA': return 'text-secondary';
+      case 'ACEPTADO': return 'text-success';
+      case 'RECHAZADO': return 'text-danger';
       default: return '';
     }
   }

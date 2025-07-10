@@ -29,6 +29,10 @@ export class ProfileComponent implements OnInit{
   confiabilidad: string = '';
   buenaAtencion: string = '';
   sinDemoras: string = '';
+  correoVendedor: string = '';
+  telefonoVendedor: number = 0;
+  presentacionVendedor: string = '';
+  nombreNegocioVendedor: string = '';
 
   profileForm: FormGroup;
   private fb = inject(FormBuilder);
@@ -114,28 +118,30 @@ export class ProfileComponent implements OnInit{
   }
 
   cambiarARolVendedor() {
-    this.userService.userSeller(this.authService.getUser()?.id || 0, this.authService.getUser()?.token || '').subscribe({
-      next: () => {
-        this.profileForm.patchValue({
-          rol: 'SELLER'
-        });
-        this.showSnackBar('Rol cambiado a vendedor exitosamente.');
-        this.authService.logout();
-        this.router.navigate(['/auth/login']);
-      },
-      error: () => {
-        this.showSnackBar('Error al cambiar a vendedor.');
-        this.router.navigate(['/']);
-      }
-    });
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
+    if (this.authService.getUser()?.rol === 'SELLER') {
+      this.showSnackBar('Ya eres un vendedor');
+      this.router.navigate(['/user']);
+      return;
+    }
+
+    this.router.navigate(['/user/make-seller']);
   }
 
   obtenerDatosUsuarioVendedor() {
-    this.userService.userSeller(this.authService.getUser()?.id || 0, this.authService.getUser()?.token || '').subscribe({
+    this.userService.getUserSellerData(this.authService.getUser()?.id || 0).subscribe({
       next: (data) => {
         this.confiabilidad = data.confiabilidad ? "Sí" : "No";
         this.buenaAtencion = data.buena_atencion ? "Sí" : "No";
         this.sinDemoras = data.sin_demoras ? "Sí" : "No";
+        this.correoVendedor = data.correoElectronico;
+        this.telefonoVendedor = data.numeroTelefono;
+        this.presentacionVendedor = data.presentacion;
+        this.nombreNegocioVendedor = data.nombreNegocio;
       },
       error: () => {
         this.showSnackBar('Error al obtener datos del vendedor.');

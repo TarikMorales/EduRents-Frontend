@@ -30,6 +30,9 @@ export class ProductListComponent implements OnInit {
   filtrosActivos: any = {};
   cargandoProductos: boolean = false;
 
+  busquedaNombre: string = '';
+  hayNombreIngresado: boolean = false;
+
   @ViewChild('contenedorFiltros') contenedorFiltros!: ElementRef;
 
   constructor(private productService: ProductService) {}
@@ -57,7 +60,6 @@ export class ProductListComponent implements OnInit {
         this.productos = data;
         this.productosOriginales = data;
         this.cargandoProductos = false;
-        console.log('Productos cargados:', data);
       },
       error: (err: HttpErrorResponse) => {
         console.error('Error al cargar productos:', err);
@@ -73,7 +75,6 @@ export class ProductListComponent implements OnInit {
   filtrarProductos(filtros: any) {
     this.filtrosActivos = filtros;
     this.cargandoProductos = true;
-    console.log('📦 Filtros aplicados:', filtros);
 
     const ordenarPorVistas = this.ordenSeleccionado === 'vistas';
     const filtrosConOrden = {
@@ -107,6 +108,27 @@ export class ProductListComponent implements OnInit {
     );
   }
 
+  buscarProductosPorNombre() {
+    if (!this.busquedaNombre.trim()) {
+      this.cargarTodosLosProductos();
+      this.hayNombreIngresado = false;
+      return;
+    }
+
+    this.cargandoProductos = true;
+    this.hayNombreIngresado = true;
+    this.productService.getProductsByName(this.busquedaNombre.trim()).subscribe({
+      next: (productos) => {
+        this.productos = productos;
+        this.cargandoProductos = false;
+      },
+      error: (err) => {
+        this.productos = [];
+        this.cargandoProductos = false;
+      },
+    });
+  }
+
   private cargarTodosLosProductos() {
     const ordenarPorVistas = this.ordenSeleccionado === 'vistas';
 
@@ -116,7 +138,6 @@ export class ProductListComponent implements OnInit {
         this.cargandoProductos = false;
       },
       error: (err) => {
-        console.error('Error al cargar todos los productos:', err);
         this.productos = [];
         this.cargandoProductos = false;
       },
@@ -156,7 +177,6 @@ export class ProductListComponent implements OnInit {
         this.cargandoProductos = false;
       },
       error: (err) => {
-        console.error('Error (todos los filtros):', err);
         this.productos = [];
         this.cargandoProductos = false;
       },
@@ -174,7 +194,6 @@ export class ProductListComponent implements OnInit {
         this.cargandoProductos = false;
       },
       error: (err) => {
-        console.error('Error (carrera + curso):', err);
         this.productos = [];
         this.cargandoProductos = false;
       },
@@ -192,7 +211,6 @@ export class ProductListComponent implements OnInit {
         this.cargandoProductos = false;
       },
       error: (err) => {
-        console.error('Error (categoría):', err);
         this.productos = [];
         this.cargandoProductos = false;
       },
@@ -200,7 +218,6 @@ export class ProductListComponent implements OnInit {
   }
 
   private filtrarPorCarrera(carreraId: number, ordenarPorVistas: boolean) {
-    console.log('🔍 Filtrando por carrera:', carreraId, 'ordenarPorVistas:', ordenarPorVistas);
 
     const service = ordenarPorVistas ?
       this.productService.getProductsByCareerViews(carreraId) :
@@ -208,15 +225,10 @@ export class ProductListComponent implements OnInit {
 
     service.subscribe({
       next: (productos) => {
-        console.log('✅ Productos recibidos del backend por carrera:', productos.length, productos);
         this.productos = this.aplicarFiltrosLocales(productos, this.filtrosActivos);
         this.cargandoProductos = false;
       },
       error: (err) => {
-        console.error('❌ Error al filtrar por carrera:', err);
-        console.error('🔗 URL que falló:', err.url);
-        console.error('📄 Status:', err.status);
-        console.error('📝 Mensaje:', err.message);
         this.productos = [];
         this.cargandoProductos = false;
       },
@@ -230,7 +242,6 @@ export class ProductListComponent implements OnInit {
         this.cargandoProductos = false;
       },
       error: (err) => {
-        console.error('Error al cargar productos para filtro local:', err);
         this.productos = [];
         this.cargandoProductos = false;
       },
@@ -246,7 +257,6 @@ export class ProductListComponent implements OnInit {
       productosFiltrados = productosFiltrados.filter(producto =>
         filtros.estados.includes(producto.estado)
       );
-      console.log(`Filtro por estado: ${productosFiltrados.length} de ${productosIniciales} productos`);
     }
 
     // Filtrar por precio mínimo
@@ -255,7 +265,6 @@ export class ProductListComponent implements OnInit {
       productosFiltrados = productosFiltrados.filter(producto =>
         producto.precio >= filtros.precioMin
       );
-      console.log(`Filtro por precio mínimo (${filtros.precioMin}): ${productosFiltrados.length} de ${antesDelFiltro} productos`);
     }
 
     // Filtrar por precio máximo
@@ -264,7 +273,6 @@ export class ProductListComponent implements OnInit {
       productosFiltrados = productosFiltrados.filter(producto =>
         producto.precio <= filtros.precioMax
       );
-      console.log(`Filtro por precio máximo (${filtros.precioMax}): ${productosFiltrados.length} de ${antesDelFiltro} productos`);
     }
 
     // Filtrar por múltiples categorías (si no se usó el filtro de servidor)
@@ -275,7 +283,6 @@ export class ProductListComponent implements OnInit {
           filtros.categorias.includes(categoria.id)
         )
       );
-      console.log(`Filtro por categorías múltiples: ${productosFiltrados.length} de ${antesDelFiltro} productos`);
     }
 
     // Filtrar por múltiples carreras (si no se usó el filtro de servidor)
@@ -286,7 +293,6 @@ export class ProductListComponent implements OnInit {
           filtros.carreras.includes(cursoCarrera.curso_carrera.carrera.id)
         )
       );
-      console.log(`Filtro por carreras múltiples: ${productosFiltrados.length} de ${antesDelFiltro} productos`);
     }
 
     // Filtrar por múltiples cursos (si no se usó el filtro de servidor)
@@ -297,10 +303,8 @@ export class ProductListComponent implements OnInit {
           filtros.cursos.includes(cursoCarrera.curso_carrera.curso.id)
         )
       );
-      console.log(`Filtro por cursos múltiples: ${productosFiltrados.length} de ${antesDelFiltro} productos`);
     }
 
-    console.log(`Resultado final del filtrado: ${productosFiltrados.length} productos de ${productosIniciales} iniciales`);
     return productosFiltrados;
   }
 
@@ -333,6 +337,8 @@ export class ProductListComponent implements OnInit {
       precioMax: null
     };
     this.ordenSeleccionado = '';
+    this.busquedaNombre = '';
+    this.hayNombreIngresado = false;
     this.filtrarProductos(this.filtrosActivos);
   }
 

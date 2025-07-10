@@ -1,61 +1,62 @@
 <app-navbar></app-navbar>
 
-<div class="container">
-  <div class="p-4 d-flex align-items-center justify-content-center gap-3 search-box w-100">
-
-    <!-- Input que se ajusta al espacio disponible -->
-    <input
-      type="text"
-      placeholder="Ingrese producto"
-      class="form-control search-input flex-grow-1"
-      name="busqueda"
-      ngModel
-    />
-
-    <div #contenedorFiltros class="position-relative d-inline-block">
-      <!-- Botón -->
-      <button class="search-filter-button" (click)="alternarFiltros()">Filtros</button>
-
-      <!-- Ventana de filtros flotante -->
-      <div
-        *ngIf="mostrarFiltros"
-        class="bg-white border rounded shadow p-3 mt-2 position-absolute z-3 end-0"
-        style="min-width: 300px"
-      >
-        <app-filter-product-list
-          (filtrosAplicados)="filtrarProductos($event)"
-        ></app-filter-product-list>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="container-fluid">
+<div class="container-fluid contenedor-boton-buscar">
   <div class="row justify-content-center align-items-center">
-    <div class="col-8 text-start">
+    <div class="col-10 text-start">
       <a routerLink="/product-list" class="btn btn-primary" style="background-color: #CC0A00; border: none">Buscar productos</a>
     </div>
   </div>
 </div>
 
-<div class="container mt-4">
+<div class="container-fluid my-4">
 
-  <!-- Sección: Tendencia -->
-  <h3 class="mb-3">🔥 Tendencia</h3>
-  <div class="horizontal-scroll">
-    <app-product-card *ngFor="let producto of productosTrendy" [producto]="producto"></app-product-card>
-  </div>
+  <div class="row justify-content-center align-items-center">
 
-  <!-- Sección: Recientes -->
-  <h3 class="mt-5 mb-3">🕒 Recientes</h3>
-  <div class="horizontal-scroll">
-    <app-product-card *ngFor="let producto of productosRecientes" [producto]="producto"></app-product-card>
-  </div>
+    <div class="col-4 text-center">
+       <!-- Sección: Tendencia -->
+      <h3 class="mt-5 mb-3">🔥 Tendencia</h3>
+      <div class="horizontal-scroll justify-content-center">
+        <div class="container-fluid" >
+          <div class="row justify-content-center align-items-center">
+            <div class="col-8 text-center" *ngFor="let producto of productosTrendy" style="margin-top: 2rem; margin-bottom: 2rem">
+              <app-product-card [producto]="producto"></app-product-card>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <!-- Sección: Top-Intercambios -->
-  <h3 class="mt-5 mb-3">🌟 Top-Intercambios</h3>
-  <div class="horizontal-scroll">
-    <app-product-card *ngFor="let producto of productosTopintercambios" [producto]="producto"></app-product-card>
+    </div>
+    <div class="col-4 text-center">
+
+      <!-- Sección: Recientes -->
+      <h3 class="mt-5 mb-3">🕒 Recientes</h3>
+      <div class="horizontal-scroll justify-content-center">
+        <div class="container-fluid" >
+          <div class="row justify-content-center align-items-center">
+            <div class="col-8 text-center" *ngFor="let producto of productosRecientes" style="margin-top: 2rem; margin-bottom: 2rem">
+              <app-product-card [producto]="producto"></app-product-card>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-4 text-center">
+
+      <!-- Sección: Top-Intercambios -->
+      <h3 class="mt-5 mb-3">🌟 Top-Intercambios</h3>
+      <div class="horizontal-scroll justify-content-center">
+        <div class="container-fluid" >
+          <div class="row justify-content-center align-items-center">
+            <div class="col-8 text-center" *ngFor="let producto of productosTopintercambios" style="margin-top: 2rem; margin-bottom: 2rem">
+              <app-product-card [producto]="producto"></app-product-card>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
   </div>
 
 </div>

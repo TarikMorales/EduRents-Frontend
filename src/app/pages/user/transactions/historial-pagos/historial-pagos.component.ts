@@ -1,3 +1,4 @@
+import { Reclamo } from './../../../../shared/model/transaction/reclamo.model';
 import { Component, OnInit } from '@angular/core';
 import { TransactionService } from '../../../../core/services/transaction.service';
 import { TransactionDTO } from '../../../../shared/model/transaction/transaction.model';
@@ -9,12 +10,13 @@ import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { NavbarComponent } from "../../../../shared/components/navbar/navbar.component";
 import { FooterComponent } from "../../../../shared/components/footer/footer.component";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-historial-pagos',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, NavbarComponent, FooterComponent], // ¡Importante!
-  providers: [DatePipe], // Para usar el pipe date
+  imports: [CommonModule, FormsModule, RouterLink, NavbarComponent, FooterComponent],
+  providers: [DatePipe],
   templateUrl: './historial-pagos.component.html',
   styleUrls: ['./historial-pagos.component.css']
 })
@@ -23,47 +25,81 @@ export class HistorialPagosComponent implements OnInit {
   filtroMetodoPago: string = '';
   filtroEstado: string = '';
   idUsuario: number | null = null;
+  token: string = '';
 
   constructor(
     private transactionService: TransactionService,
     private authService: AuthService,
+    private router: Router,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-  const user = this.authService.getUser();
-  if (user) {
-    this.idUsuario = user.id;
+    const user = this.authService.getUser();
+    if (user) {
+      this.idUsuario = user.id;
+      this.token = user.token;
 
-    this.route.queryParams.subscribe(params => {
-      if (params['estado']) this.filtroEstado = params['estado'];
-      if (params['metodo']) this.filtroMetodoPago = params['metodo'];
-      this.filtrar();
-    });
-  }}
+      this.route.queryParams.subscribe(params => {
+        if (params['estado']) this.filtroEstado = params['estado'];
+        if (params['metodo']) this.filtroMetodoPago = params['metodo'];
+        this.filtrar();
+      });
+
+      this.filtrar(); // importante
+    }
+  }
 
   filtrar(): void {
     if (!this.idUsuario) return;
 
-    this.transactionService.getTransactionsByUser(this.idUsuario!, this.filtroEstado, this.filtroMetodoPago)
-      .subscribe(data => {
-        this.transacciones = data;
+    this.transactionService
+      .getTransactionsByUser(this.idUsuario, this.token, this.filtroEstado, this.filtroMetodoPago)
+      .subscribe({
+        next: (data) => this.transacciones = data,
+        complete: () => console.log(this.transacciones),
+        error: (err) => console.error('Error al filtrar transacciones:', err)
       });
   }
 
-  confirmar(id: number) {
-    this.transactionService.confirmarTransaccion(id).subscribe(() => this.filtrar());
+  confirmar(idTransaccion: number, idProducto: number): void {
+    if (!this.token) return;
+    this.transactionService.confirmarTransaccion(idTransaccion, this.token).subscribe(() => {
+      this.transactionService.actualizarStockProducto(idProducto, this.token).subscribe();
+      this.filtrar();
+    });
   }
 
-  cancelar(id: number) {
-    this.transactionService.cancelarTransaccion(id).subscribe(() => this.filtrar());
+  cancelar(id: number): void {
+    if (!this.token) return;
+    this.transactionService.cancelarTransaccion(id, this.token).subscribe(() => this.filtrar());
   }
 
-  reclamar(id: number) {
+  reclamar(id: number): void {
+    if (!this.token) return;
     const motivo = prompt('Escribe el motivo del reclamo:');
+    const motivo_reclamo : Reclamo = { motivo_reclamo: motivo || '' };
     if (motivo) {
-      this.transactionService.reclamarTransaccion(id, motivo).subscribe(() => this.filtrar());
+      this.transactionService.reclamarTransaccion(id, motivo_reclamo, this.token).subscribe(() => this.filtrar());
     }
+  }
+
+  verDetalle(transaccion: TransactionDTO): void {
+    if (!transaccion || !transaccion.id || !transaccion.metodo_pago || !this.idUsuario) {
+      console.warn('Transacción inválida al intentar ver detalle.');
+      return;
+    }
+
+    const ruta = transaccion.metodo_pago === 'EFECTIVO'
+      ? '/transaccion-efectivo'
+      : '/transaccion-guardada-virtual';
+
+    this.router.navigate([ruta], {
+      queryParams: {
+        idTransaccion: transaccion.id,
+        idUsuario: this.idUsuario
+      }
+    });
   }
 
   getEstadoColor(estado: string): string {

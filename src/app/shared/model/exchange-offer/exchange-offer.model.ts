@@ -1,12 +1,11 @@
+import { ExchangeStatus } from "../product-filter/exchanges/exchange-status.enum";
+import { User } from "../product-filter/user/user";
+import { ProductResponse } from "../product/product-response.model";
+
 export interface ExchangeOfferResponse {
   id: number;
-  idSolicitante: number;
-  idProductoSolicitado: number;
-  productoSolicitadoNombre: string;
-  productoSolicitadoImagenUrl?: string;
-  idProductoOfrecido: number;
-  productoOfrecidoNombre: string;
-  productoOfrecidoImagenUrl?: string;
-  estado: 'PENDIENTE' | 'ACEPTADA' | 'RECHAZADA' | 'CANCELADA';
-  fechaCreacion: Date;
+  usuario: User;
+  producto: ProductResponse;
+  mensaje_propuesta: string;
+  estado: ExchangeStatus;
 }

@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { UserProfile } from '../../shared/model/profile/user-profile.model';
 import { Observable, tap } from 'rxjs';
 import { UserSeller } from '../../shared/model/profile/user-seller.model';
+import { SellerRequest } from '../../shared/model/profile/seller-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class UserService {
 
   private baseURL = `${environment.baseURL}/user/auth/users`;
   private baseURLSeller = `${environment.baseURL}/user/auth/sellers`;
+  private baseURLSellerData = `${environment.baseURL}/public/sellers`;
   private http = inject(HttpClient);
   private storageService = inject(StorageService);
 
@@ -56,8 +58,8 @@ export class UserService {
     );
   }
 
-  userSeller(userId: number, token: string): Observable<UserSeller> {
-    return this.http.post<UserSeller>(`${this.baseURLSeller}/user/${userId}`, null, {
+  makeSeller(userId: number, sellerData: SellerRequest, token: string): Observable<UserSeller> {
+    return this.http.post<UserSeller>(`${this.baseURLSeller}/user/${userId}`, sellerData, {
       headers: { Authorization: `Bearer ${token}` }
     }).pipe(
       tap(userSeller => {
@@ -68,6 +70,12 @@ export class UserService {
         }
         this.storageService.setUserSellerData(userSeller);
       })
+    );
+  }
+
+  getUserSellerData(userId: number): Observable<UserSeller> {
+    return this.http.get<UserSeller>(`${this.baseURLSellerData}/${userId}`).pipe(
+      tap(userSeller => this.storageService.setUserSellerData(userSeller))
     );
   }
 

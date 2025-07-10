@@ -20,19 +20,19 @@
   <div class="d-grid gap-3 mt-4">
     <div class="row justify-content-center">
       <div class="col-md-5 mb-2">
-        <button class="btn btn-danger w-100" (click)="confirmarPago()">Confirmar pago</button>
+        <button class="btn btn-danger w-100" (click)="confirmarPago()" [disabled]="haConfirmadoPago">Confirmar pago</button>
       </div>
       <div class="col-md-5 mb-2">
-        <button class="btn btn-danger w-100" (click)="irHistorial()">Ir a confirmar pagos</button>
+        <button class="btn btn-danger w-100" (click)="irHistorial()" [disabled]="haConfirmadoPago">Ir a confirmar pagos</button>
       </div>
     </div>
 
     <div class="row justify-content-center">
       <div class="col-md-5 mb-2">
-        <button class="btn btn-outline-danger w-100" (click)="cancelarTransaccion()">Cancelar transacción</button>
+        <button class="btn btn-outline-danger w-100" (click)="cancelarTransaccion()" [disabled]="haConfirmadoPago">Cancelar transacción</button>
       </div>
       <div class="col-md-5 mb-2">
-        <button class="btn btn-outline-danger w-100" (click)="reclamarEntrega()">Reclamar entrega</button>
+        <button class="btn btn-outline-danger w-100" (click)="reclamarEntrega()" [disabled]="haHechoReclamo">Reclamar entrega</button>
       </div>
     </div>
   </div>
@@ -42,7 +42,7 @@
     <p class="mb-0">{{ motivoReclamo }}</p>
   </div>
 
-  <button class="btn btn-link mt-4 text-danger" (click)="volver()">← Volver al inicio</button>
+  <button class="btn btn-link mt-4 text-danger" (click)="volver()">← Volver</button>
 </div>
 
 <app-footer></app-footer>

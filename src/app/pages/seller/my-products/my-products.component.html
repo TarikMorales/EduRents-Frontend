@@ -13,15 +13,15 @@
                     <div class="col-3">
                         <h1 class="texto-general texto-titulo">Mis publicaciones</h1>
                     </div>
-                    <div class="col-2">
+                    <div class="col-3">
                         <a routerLink="/seller/new-product" class="texto-general btn-crear">Crear un nuevo producto</a>
                     </div>
-                    <div class="col-6"></div>
+                    <div class="col-5"></div>
                     <div *ngIf="hayProductos" class="col-12 contenedor-publicaciones">
                         <div class="container-fluid">
                             <div class="row justify-content-center align-items-center">
 
-                                <div *ngFor="let producto of productos" class="col-3 text-center">
+                                <div *ngFor="let producto of productos" class="col-3 text-center my-3">
                                     <div class="container-fluid contenedor-producto">
                                         <div class="row justify-content-center align-items-center">
                                             <div class="col-12 contenedor-imagen-producto">

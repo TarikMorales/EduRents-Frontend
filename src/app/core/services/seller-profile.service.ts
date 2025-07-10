@@ -5,17 +5,6 @@ import { Observable } from 'rxjs';
 import { SellerProfileResponse } from '../../shared/model/public-resources/seller-profile-response.model';
 import { Image } from '../../shared/model/product/image.model';
 
-export interface SellerDTO {
-  id: number;
-  nombre: string;
-  carrera: string;
-  ciclo: string;
-  universidad: string;
-  foto: string;
-  biografia: string;
-  tratos: number;
-}
-
 export interface SellerReputationDTO {
   confiabilidad: boolean;
   sin_demoras: boolean;
@@ -46,8 +35,8 @@ export class SellerProfileService {
     return this.http.get<SellerProfileResponse>(`${this.baseUrl}/${id}`);
   }
 
-  getSellerByName(name: string): Observable<SellerDTO> {
-    return this.http.get<SellerDTO>(`${this.baseUrl}/name/${name}`);
+  getSellerByName(name: string): Observable<SellerProfileResponse> {
+    return this.http.get<SellerProfileResponse>(`${this.baseUrl}/name/${name}`);
   }
 
   getSellerReputationById(id: number): Observable<SellerReputationDTO> {

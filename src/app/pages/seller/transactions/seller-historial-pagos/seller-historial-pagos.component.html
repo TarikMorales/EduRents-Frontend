@@ -1,25 +1,53 @@
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
   <h3 class="mb-4">Historial de Transacciones (Vendedor)</h3>
 
+  <!-- Filtros -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <label for="metodoSelect">Método de Pago</label>
+      <select id="metodoSelect" class="form-select" [(ngModel)]="filtroMetodoPago" (change)="filtrar()">
+        <option value="">Todos</option>
+        <option value="EFECTIVO">Efectivo</option>
+        <option value="TARJETA">Tarjeta</option>
+        <option value="BANCA">Banca</option>
+        <option value="GOOGLEPAY">Google Pay</option>
+        <option value="APPLEPAY">Apple Pay</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label for="estadoSelect">Estado</label>
+      <select id="estadoSelect" class="form-select" [(ngModel)]="filtroEstado" (change)="filtrar()">
+        <option value="">Todos</option>
+        <option value="PENDIENTE">PENDIENTE</option>
+        <option value="PAGADO">PAGADO</option>
+        <option value="CANCELADO">CANCELADO</option>
+        <option value="RECLAMO_ENVIADO">RECLAMADO</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Lista de transacciones -->
   <div *ngIf="transacciones.length === 0">No se encontraron transacciones.</div>
 
-  <div class="card mb-3" *ngFor="let t of transacciones">
-    <div class="card-body">
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <h5>Producto #{{ t.idProducto }}</h5>
-          <p>
-            Método: {{ t.metodoPago }} |
-            <span [ngClass]="getEstadoColor(t.estado)">
-              Estado: {{ t.estado }}
-            </span>
+  <div class="card mb-4" *ngFor="let t of transacciones">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img [src]="t.producto.imagenes[0].url" class="img-fluid rounded-start" alt="Producto">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ t.producto.nombre || 'Producto' }}</h5>
+          <p class="card-text mb-1"><strong>Precio:</strong> S/ {{ t.producto.precio || '---' }}</p>
+          <p class="card-text mb-1"><strong>Método de Pago:</strong> {{ t.metodo_pago || '---' }}</p>
+          <p class="card-text mb-1">
+            <strong>Estado:</strong>
+            <span [ngClass]="getEstadoColor(t.estado)"> {{ t.estado || '---' }}</span>
           </p>
-          <p>Precio: <strong>S/ {{ t.precio }}</strong></p>
-          <p>Fecha: {{ t.fechaCreacion | date: 'mediumDate' }}</p>
-        </div>
-        <div>
-          <!-- Aquí no van botones para confirmar ni cancelar -->
-          <span class="badge bg-secondary">Transacción de cliente</span>
+          <p class="card-text mb-1"><strong>Comprador:</strong> Usuario #{{ t.usuario.id || '---' }}</p>
+          <p class="card-text">
+            <small class="text-muted">Fecha: {{ t.fecha_transaccion | date:'mediumDate' }}</small>
+          </p>
+          <div class="badge bg-secondary mt-2">Transacción recibida</div>
         </div>
       </div>
     </div>

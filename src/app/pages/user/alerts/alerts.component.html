@@ -1,1 +1,148 @@
-<p>alerts works!</p>
+<app-navbar></app-navbar>
+<div class="container" style="margin-top: 10rem; margin-bottom: 10rem;">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">
+          <mat-icon class="me-2">notifications</mat-icon>
+          Mis Alertas
+        </h2>
+        <div class="d-flex align-items-center">
+          <mat-chip *ngIf="getUnviewedCount() > 0" color="warn">
+            {{ getUnviewedCount() }} sin leer
+          </mat-chip>
+          <button mat-icon-button (click)="loadAlerts()" [disabled]="loading">
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="loading" class="text-center py-5">
+        <mat-spinner diameter="50" class="mx-auto"></mat-spinner>
+        <p class="mt-3 text-muted">Cargando alertas...</p>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="error && !loading" class="text-center py-5">
+        <mat-icon class="text-danger" style="font-size: 4rem; width: 4rem; height: 4rem;">error</mat-icon>
+        <h4 class="mt-3 text-danger">Error al cargar las alertas</h4>
+        <p class="text-muted">No se pudieron cargar las alertas. Inténtalo de nuevo.</p>
+        <button mat-raised-button color="primary" (click)="loadAlerts()">
+          <mat-icon>refresh</mat-icon>
+          Reintentar
+        </button>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!loading && !error && alerts.length === 0" class="text-center py-5">
+        <mat-icon class="text-muted" style="font-size: 4rem; width: 4rem; height: 4rem;">notifications_off</mat-icon>
+        <h4 class="mt-3 text-muted">No tienes alertas</h4>
+        <p class="text-muted">Cuando sigas productos, recibirás alertas aquí cuando haya cambios.</p>
+        <button mat-raised-button color="primary" routerLink="/product-list-home">
+          <mat-icon>search</mat-icon>
+          Explorar Productos
+        </button>
+      </div>
+
+      <!-- Alerts List -->
+      <div *ngIf="!loading && !error && alerts.length > 0" class="row">
+        <div class="col-12">
+          <div class="alert-list">
+            <mat-card *ngFor="let alert of alerts" class="mb-3" [class.unviewed]="!alert.viewed">
+              <mat-card-content>
+                <div class="row align-items-center">
+                  <!-- Product Image -->
+                  <div class="col-md-2 col-sm-3 col-4">
+                    <div class="product-image-container">
+                      <img
+                        [src]="alert.productImage || 'assets/NoImage.png'"
+                        [alt]="alert.productName"
+                        class="product-image"
+                        (error)="onImageError($event)"
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Product Info -->
+                  <div class="col-md-6 col-sm-5 col-8">
+                    <h5 class="mb-1">{{ alert.productName }}</h5>
+                    <div class="alert-type mb-2">
+                      <span class="badge bg-secondary">{{ getAlertTypeLabel(alert.tipo ?? '') }}</span>
+                    </div>
+                    <div class="alert-message mb-2" *ngIf="alert.mensaje">
+                      <span>{{ alert.mensaje }}</span>
+                    </div>
+                    <p class="text-success fw-bold mb-1">S/ {{ alert.productPrice | number:'1.2-2' }}</p>
+                    <div class="container-fluid">
+                      <div class="row justify-content-between align-items-center">
+                        <div class="col-1">
+                          <mat-icon class="mt-3" style="font-size: 1rem;">schedule</mat-icon>
+                        </div>
+                        <div class="col-11">
+                          <span class="text-muted small mb-0">
+                            {{ formatDate(alert.createdAt) }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Status and Actions -->
+                  <div class="col-md-4 col-sm-4 col-12 mt-3 mt-md-0">
+                    <div class="d-flex flex-column gap-2">
+                      <!-- Status Chip -->
+                      <div class="d-flex justify-content-center">
+                        <mat-chip
+                          [color]="alert.viewed ? 'default' : 'warn'"
+                          class="status-chip"
+                        >
+                          <mat-icon class="me-1" style="font-size: 1rem;">
+                            {{ alert.viewed ? 'visibility' : 'visibility_off' }}
+                          </mat-icon>
+                          {{ alert.viewed ? 'Vista' : 'Sin leer' }}
+                        </mat-chip>
+                      </div>
+
+                      <!-- Action Buttons -->
+                      <div class="d-flex justify-content-center gap-2">
+                        <button
+                          mat-mini-fab
+                          color="primary"
+                          (click)="viewProduct(alert)"
+                          matTooltip="Ver producto"
+                        >
+                          <mat-icon>visibility</mat-icon>
+                        </button>
+
+                        <button
+                          *ngIf="!alert.viewed"
+                          mat-mini-fab
+                          color="accent"
+                          (click)="markAsViewed(alert)"
+                          matTooltip="Marcar como vista"
+                        >
+                          <mat-icon>check</mat-icon>
+                        </button>
+
+                        <button
+                          mat-mini-fab
+                          color="warn"
+                          (click)="deleteAlert(alert)"
+                          matTooltip="Eliminar alerta"
+                        >
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

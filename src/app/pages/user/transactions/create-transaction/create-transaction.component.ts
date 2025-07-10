@@ -6,6 +6,11 @@ import { NavbarComponent } from "../../../../shared/components/navbar/navbar.com
 import { FooterComponent } from "../../../../shared/components/footer/footer.component";
 import { AuthService } from '../../../../core/services/auth.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Product } from '../../../../shared/model/product-filter/product/producto';
+import { ActivatedRoute } from '@angular/router';
+import { ProductDetailService } from '../../../../core/services/product-detail.service';
+import { TransactionService } from '../../../../core/services/transaction.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-create-transaction',
@@ -17,22 +22,87 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 export class CreateTransactionComponent implements OnInit {
   transactionForm: FormGroup;
   selectedMetodo: string | null = null;
+  product?: Product;
+  idUsuario: number | null = null;
+  token: string = '';
+  errorTransaccionExistente = false;
+
   private authService = inject(AuthService);
   private snackBar = inject(MatSnackBar);
+  private location = inject(Location);
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private productService: ProductDetailService,
+    private transactionService: TransactionService
+  ) {
     this.transactionForm = this.fb.group({
-      idProducto: ['1', Validators.required],
+      idProducto: ['', Validators.required],
       metodoPago: [null, Validators.required]
     });
   }
 
   ngOnInit(): void {
-    if (!this.authService.getUser()) {
+    const user = this.authService.getUser();
+
+    if (!user) {
       this.showSnackBar('Debes iniciar sesión para continuar con la transacción.');
       this.router.navigate(['/auth/login']);
       return;
     }
+
+    this.idUsuario = user.id;
+    this.token = user.token;
+
+    this.route.queryParams.subscribe(params => {
+      const idProductoRaw = params['idProducto'];
+
+      if (!idProductoRaw || isNaN(+idProductoRaw)) {
+        this.showSnackBar('No se pudo identificar el producto.');
+        return;
+      }
+
+      const idProducto = +idProductoRaw;
+
+      // ⚠️ Cargar primero en el form para evitar errores de undefined
+      this.transactionForm.patchValue({ idProducto });
+
+      this.cargarProducto(idProducto);
+      this.verificarTransaccionPendienteExistente(idProducto, this.idUsuario!, this.token);
+    });
+  }
+
+  cargarProducto(id: number): void {
+    this.productService.getProductById(id).subscribe({
+      next: data => this.product = data,
+      error: () => this.showSnackBar('Error al cargar el producto.')
+    });
+  }
+
+  verificarTransaccionPendienteExistente(idProducto: number, idUsuario: number, token: string): void {
+    this.transactionService.getTransactionsByUser(idUsuario, token).subscribe({
+      next: (transacciones) => {
+        const transaccionExistente = transacciones.find(transaccion =>
+          transaccion.producto.id === idProducto && (transaccion.estado === 'PENDIENTE')
+        );
+        if (transaccionExistente) {
+          this.errorTransaccionExistente = true;
+          this.showSnackBar('Ya tienes una transacción pendiente para este producto.');
+        } else {
+          this.errorTransaccionExistente = false;
+        }
+      },
+      error: (err) => {
+        if (err.status === 404) {
+          this.errorTransaccionExistente = false;
+        } else {
+          console.error('Error al verificar transacción existente:', err);
+          this.showSnackBar('Error al verificar transacción existente.');
+        }
+      }
+    });
   }
 
   selectMetodo(metodo: string): void {
@@ -41,41 +111,83 @@ export class CreateTransactionComponent implements OnInit {
   }
 
   submitTransaction(): void {
-    if (this.transactionForm.valid) {
-      const metodo = this.transactionForm.value.metodoPago;
+    if (this.errorTransaccionExistente) {
+      this.showSnackBar('Ya realizaste una transacción sobre este producto.');
+      return;
+    }
 
-      switch (metodo) {
-        case 'EFECTIVO':
-          this.router.navigate(['/transaccion-efectivo']);
-          break;
-        case 'TARJETA':
-          this.router.navigate(['/pago-tarjeta']);
-          break;
-        case 'GOOGLEPAY':
-          this.router.navigate(['/pago/google-pay']);
-          break;
-        case 'APPLEPAY':
-          this.router.navigate(['/pago/apple-pay']);
-          break;
-        case 'BANCA':
-          this.router.navigate(['/pago/banca']);
-          break;
-        default:
-          console.warn('Método de pago no reconocido');
-      }
+    if (!this.product) {
+      this.showSnackBar('El producto aún no se ha cargado correctamente.');
+      return;
+    }
+
+    if (this.transactionForm.valid && this.idUsuario) {
+      const metodo = this.transactionForm.value.metodoPago;
+      const idProducto = this.transactionForm.value.idProducto;
+
+      const payload = {
+        id_usuario: this.idUsuario,
+        id_producto: idProducto,
+        metodo_pago: metodo
+      };
+
+      console.log('Payload enviado:', payload);
+      console.log('Token enviado:', this.token);
+
+      this.transactionService.crearTransaccion(payload, this.token).subscribe({
+        next: (response) => {
+          this.showSnackBar('Transacción creada exitosamente');
+
+          if (metodo === 'EFECTIVO') {
+            this.router.navigate(['/transaccion-efectivo'], {
+              queryParams: { idTransaccion: response.id }
+            });
+          } else {
+
+            switch (metodo) {
+              case 'TARJETA':
+                this.router.navigate(['/pago-tarjeta'], {
+                  queryParams: { idTransaccion: response.id }
+                });
+                break;
+              case 'BANCA':
+                this.router.navigate(['/pago/banca'], {
+                  queryParams: { idTransaccion: response.id }
+                });
+                break;
+              case 'GOOGLEPAY':
+                this.router.navigate(['/pago/google-pay'], {
+                  queryParams: { idTransaccion: response.id }
+                });
+                break;
+              case 'APPLEPAY':
+                this.router.navigate(['/pago/apple-pay'], {
+                  queryParams: { idTransaccion: response.id }
+                });
+                break;
+              default:
+                this.showSnackBar('Método de pago no reconocido');
+            }
+          }
+        },
+        error: (err) => {
+          console.error('Error al crear transacción:', err);
+          this.showSnackBar('Error al crear la transacción');
+        }
+      });
     } else {
-      console.warn('Formulario inválido');
+      this.showSnackBar('Completa todos los campos antes de continuar.');
     }
   }
 
   goBack(): void {
-    this.router.navigate(['/']);
+    this.location.back();
   }
 
-  private showSnackBar(message: string): void{
-    this.snackBar.open(message, 'Close',{
-      duration: 2000,
+  private showSnackBar(message: string): void {
+    this.snackBar.open(message, 'Cerrar', {
+      duration: 3000,
       verticalPosition: 'top'
-    })
+    });
   }
 }

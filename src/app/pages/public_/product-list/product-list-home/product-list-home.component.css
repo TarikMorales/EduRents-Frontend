@@ -41,3 +41,8 @@ body{
   scroll-snap-align: start;
   min-width: 250px; /* Ajusta al tamaño de tu tarjeta */
 }
+
+.contenedor-boton-buscar{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}

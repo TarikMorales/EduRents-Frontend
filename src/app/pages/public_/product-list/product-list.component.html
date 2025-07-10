@@ -5,10 +5,17 @@
 
     <!-- Input que se ajusta al espacio disponible -->
     <input
+      id ="searchInput"
+      [(ngModel)]="busquedaNombre"
       type="text"
       placeholder="Ingrese producto"
       class="form-control search-input flex-grow-1"
     />
+
+    <!-- Botón de búsqueda -->
+    <button class="btn btn-primary search-button" style="background-color: #CC0A00; border: none" (click)="buscarProductosPorNombre()">
+      <i class="material-icons py-2">search</i>
+    </button>
 
     <div #contenedorFiltros class="position-relative d-inline-block">
       <!-- Botón -->
@@ -49,7 +56,7 @@
 
     <!-- Botón para limpiar filtros -->
     <button
-      *ngIf="tieneFiltrosActivos()"
+      *ngIf="tieneFiltrosActivos() || hayNombreIngresado"
       class="btn btn-sm btn-outline-primary"
       (click)="limpiarFiltros()"
     >
@@ -59,7 +66,7 @@
   </div>
 
   <!-- Contador de productos -->
-  <div class="p-3 text-muted" style="margin-bottom: 10rem;">
+  <div class="p-3 text-muted" style="margin-bottom: 5rem;">
     <ng-container *ngIf="!cargandoProductos">
       <span *ngIf="tieneProductos">
         Se encontraron {{ cantidadProductos }} producto{{ cantidadProductos === 1 ? '' : 's' }}
@@ -82,8 +89,17 @@
 
   <!-- Lista de productos -->
   <div *ngIf="!cargandoProductos && tieneProductos" class="d-flex flex-wrap gap-5 justify-content-center">
-    <app-product-card *ngFor="let producto of productos" [producto]="producto">
-    </app-product-card>
+
+    <div class="container-fluid">
+      <div class="row justify-content-center align-items-center">
+
+        <div class="col-4" *ngFor="let producto of productos" style="margin-top: 2rem; margin-bottom: 2rem">
+          <app-product-card [producto]="producto"></app-product-card>
+
+        </div>
+
+      </div>
+    </div>
   </div>
 
   <!-- Mensaje cuando no hay productos -->

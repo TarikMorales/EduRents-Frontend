@@ -10,8 +10,8 @@ export class ProductDetailService {
 
   private baseUrl = `${environment.baseURL}/public/products`; // Use environment configuration
   private http = inject(HttpClient);
-  
-  constructor() { 
+
+  constructor() {
     // console.log('ProductDetailService initialized with baseUrl:', this.baseUrl);
     // console.log('Environment baseUrl:', environment.baseURL);
     // console.log('Full environment object:', environment);
@@ -99,14 +99,16 @@ export class ProductDetailService {
   // HU10 - Endpoint 04: GET /{id}/exchange
   getExchange(id: number): Observable<any> {
     const url = `${this.baseUrl}/${id}/exchange`;
-    console.log(`Fetching exchange info for product ID: ${id} from: ${url}`);
     return this.http.get(url).pipe(
       catchError(error => {
-        console.warn(`Error fetching exchange info for product ${id}:`, error);
-        console.log('Using mock data for exchange');
         return of(this.mockExchange);
       })
     );
+  }
+
+  incrementViewCount(id: number): Observable<any> {
+    const url = `${this.baseUrl}/${id}/views`;
+    return this.http.post(url, {});
   }
 
 }

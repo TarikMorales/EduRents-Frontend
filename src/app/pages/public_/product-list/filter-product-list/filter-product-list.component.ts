@@ -98,12 +98,10 @@ export class FilterProductListComponent implements OnInit {
       const selectedCareerId = this.carrerasSeleccionadas[0];
       this.courseService.getCoursesByCareer(selectedCareerId).subscribe({
         next: (data) => {
-          console.log('✅ Cursos recibidos:', data);
           //this.mostrarCursosDropdown = true;
           this.cursos = data;
         },
         error: (err) => {
-          console.error('Error al obtener cursos:', err);
           this.cursos = [];
         }
       });
@@ -152,13 +150,12 @@ export class FilterProductListComponent implements OnInit {
       cursos: this.cursosSeleccionados,
       precioMin: this.precioMin,
       precioMax: this.precioMax,
-      estado: this.estadosSeleccionados[0] ?? undefined // solo uno por ahora
+      estados: this.estadosSeleccionados // cambiado a plural para consistencia
     };
 
     // Guardar en localStorage
     localStorage.setItem('filtrosGuardados', JSON.stringify(filtrosParaEnviar));
 
-    console.log('📋 Filtros aplicados desde el componente de filtros:', filtrosParaEnviar);
     this.filtrosAplicados.emit(filtrosParaEnviar);
   }
 
@@ -184,7 +181,7 @@ export class FilterProductListComponent implements OnInit {
     this.cursosSeleccionados = datos.cursos || [];
     this.precioMin = datos.precioMin ?? null;
     this.precioMax = datos.precioMax ?? null;
-    this.estadosSeleccionados = datos.estado ? [datos.estado] : [];
+    this.estadosSeleccionados = datos.estados || [];
 
     // ✅ Cargar cursos si hay una carrera seleccionada
     if (this.carrerasSeleccionadas.length === 1) {
@@ -207,7 +204,7 @@ export class FilterProductListComponent implements OnInit {
       cursos: this.cursosSeleccionados,
       precioMin: this.precioMin,
       precioMax: this.precioMax,
-      estado: this.estadosSeleccionados[0] ?? null
+      estados: this.estadosSeleccionados
     };
 
     localStorage.setItem('filtrosGuardados', JSON.stringify(filtrosParaGuardar));

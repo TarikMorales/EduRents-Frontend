@@ -1,5 +1,6 @@
 export interface ExchangeOfferRequest {
-  idSolicitante: number;
-  idProductoSolicitado: number;
-  idProductoOfrecido: number;
+  id_usuario: number;
+  id_producto: number;
+  mensaje_propuesta: string;
+  estado?: string;
 }

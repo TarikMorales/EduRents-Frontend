@@ -84,6 +84,7 @@ export class EditProductComponent implements OnInit{
     }).subscribe(({ cursosCarreras, producto }) => {
       this.opcionesCursosCarreras = cursosCarreras;
       this.producto = producto;
+      this.productId = producto.id;
     
       let foto = producto.imagenes.length > 0 ? producto.imagenes[0].url : 'https://colorsremain.com/wp-content/plugins/elementor/assets/images/placeholder.png';
       let categoria = producto.categorias.length > 0 ? producto.categorias[0].id : null;
@@ -118,6 +119,8 @@ export class EditProductComponent implements OnInit{
     if(this.editProductForm.invalid){
       return;
     };
+
+    console.log()
 
     let categorias : number[] = [];
     categorias.push(Number(this.editProductForm.value.categoria));

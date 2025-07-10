@@ -16,37 +16,39 @@ import { ExchangeOfferResponse } from '../../../../shared/model/exchange-offer/e
   styleUrls: ['./historial-intercambios.component.css']
 })
 export class HistorialIntercambiosComponent implements OnInit {
-  intercambios: ExchangeOfferResponse[] = [];
+  ofertas: ExchangeOfferResponse[] = [];
   idUsuario: number | null = null;
+  token: string = '';
 
   constructor(
-    private authService: AuthService,
-    private exchangeService: ExchangeOfferService
+    private exchangeService: ExchangeOfferService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     const user = this.authService.getUser();
     if (user) {
       this.idUsuario = user.id;
-      this.cargarIntercambios();
+      this.token = user.token;
+      this.cargarOfertas();
     }
+
+
   }
 
-  cargarIntercambios(): void {
-    if (!this.idUsuario) return;
-
-    this.exchangeService.getOffersByUser(this.idUsuario!)
-      .subscribe(data => {
-        this.intercambios = data;
-      });
+  cargarOfertas(): void {
+    if (!this.idUsuario || !this.token) return;
+    this.exchangeService.getOfertasPorUsuario(this.idUsuario, this.token).subscribe({
+      next: (data) => this.ofertas = data,
+      error: () => this.ofertas = []
+    });
   }
 
   getEstadoColor(estado: string): string {
     switch (estado) {
       case 'PENDIENTE': return 'text-warning';
       case 'ACEPTADA': return 'text-success';
-      case 'RECHAZADA': return 'text-danger';
-      case 'CANCELADA': return 'text-secondary';
+      case 'RECHAZADO': return 'text-danger';
       default: return '';
     }
   }

@@ -18,12 +18,16 @@ export class HistorialGeneralComponent implements OnInit {
 
   private snackBar = inject(MatSnackBar);
   private authService = inject(AuthService);
+  esVendedor : boolean = false;
 
   ngOnInit(): void {
     if (!this.authService.isAuthenticated()) {
       this.showSnackBar('Por favor, inicia sesión para acceder a esta sección.');
       this.router.navigate(['/auth/login']);
       return;
+    }
+    if (this.authService.getUser()?.rol === 'SELLER') {
+      this.esVendedor = true;
     }
   }
 
@@ -39,5 +43,5 @@ export class HistorialGeneralComponent implements OnInit {
       verticalPosition: 'top'
     })
   }
-  
+
 }

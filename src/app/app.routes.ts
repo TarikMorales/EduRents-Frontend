@@ -19,6 +19,7 @@ import { ProductListComponent } from './pages/public_/product-list/product-list.
 import { ProductCardComponent } from './pages/public_/product-list/product-card/product-card.component';
 import { FilterProductListComponent } from './pages/public_/product-list/filter-product-list/filter-product-list.component';
 import { ProductListHomeComponent } from './pages/public_/product-list/product-list-home/product-list-home.component';
+import { CreateExchangeOfferComponent } from './pages/user/exchange-offer/create-exchange-offer/create-exchange-offer.component';
 
 export const routes: Routes = [
     {
@@ -41,7 +42,6 @@ export const routes: Routes = [
         path: '',
         component: LandingComponent
     },
-    { path: 'create-transaction', component: CreateTransactionComponent },
     { path: 'pago-confirmado', component: PagoConfirmadoComponent },
     { path: 'reclamar-entrega', component: ReclamarEntregaComponent },
     { path: 'historial-pagos', component: HistorialPagosComponent },
@@ -49,7 +49,6 @@ export const routes: Routes = [
     { path: 'pago/google-pay', component: GooglePayComponent },
     { path: 'pago/apple-pay', component: ApplePayComponent },
     { path: 'pago/banca', component: BancaComponent },
-    { path: 'transaccion-guardada-virtual', component: TransaccionGuardadaVirtualComponent },
     { path: 'create-transaction', component: CreateTransactionComponent },
     { path: 'pago-tarjeta', component: CreatePaymentCardComponent },
     { path: 'transaccion-efectivo', component: TransaccionEfectivoComponent },
@@ -73,6 +72,10 @@ export const routes: Routes = [
     {
       path: 'product-list-home',
       component: ProductListHomeComponent,
+    },
+    {
+      path: 'create-exchange-offer',
+      component: CreateExchangeOfferComponent
     }
 ];
 

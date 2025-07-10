@@ -35,6 +35,12 @@
     margin-top: 2rem;
 }
 
+.contenedor-datos-extra-vendedor{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-top: 2px solid #4F4F4F;
+}
+
 .texto-general{
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
@@ -66,7 +72,7 @@
     padding-bottom: 1rem
 }
 
-.texto-descripcion{
+.texto-descripcion, .texto-datos-extra-label{
     font-weight: 600;
 }
 

@@ -27,14 +27,6 @@ export class ReclamoEnviadoComponent implements OnInit {
   }
 
   volverATransaccion(): void {
-    if (this.tipo === 'efectivo') {
-      this.router.navigate(['/transaccion-efectivo'], {
-        queryParams: { reclamo: this.motivo }
-      });
-    } else {
-      this.router.navigate(['/transaccion-guardada-virtual'], {
-        queryParams: { reclamo: this.motivo }
-      });
-    }
+    this.router.navigate(['/mi-historial']);
   }
 }
