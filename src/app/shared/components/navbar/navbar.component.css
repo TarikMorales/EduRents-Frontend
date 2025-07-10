@@ -1,0 +1,51 @@
+.contenedor-navbar{
+    width: 100%;
+    padding: 1rem;
+    background-color: #F10C00;
+}
+
+.texto-general{
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    padding: 0;
+    margin: 0;
+}
+
+.logo-navbar, .img-usuario{
+    max-width: 50px;
+}
+
+.titulo-navbar{
+    color: white;
+    font-size: 2rem;
+    margin: 0;
+}
+
+.texto-nombre-usuario{
+    color: white;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.texto-link{
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.texto-link:hover {
+    background-color: #CC0A00;
+}
+
+.btn-sesion{
+    background-color: #F10C00;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+}

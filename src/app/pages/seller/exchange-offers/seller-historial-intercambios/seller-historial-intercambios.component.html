@@ -1,0 +1,56 @@
+<div class="container mt-5">
+  <h3 class="mb-4">Historial de Ofertas de Intercambio (Vendedor)</h3>
+
+  <div *ngIf="ofertas.length === 0">No se encontraron ofertas de intercambio.</div>
+
+  <div class="card mb-3" *ngFor="let oferta of ofertas">
+    <div class="card-body">
+      <div class="row">
+        <!-- Producto solicitado -->
+        <div class="col-md-5 d-flex">
+          <img *ngIf="oferta.productoSolicitadoImagenUrl"
+               [src]="oferta.productoSolicitadoImagenUrl"
+               alt="Producto solicitado"
+               class="img-fluid me-3"
+               width="100">
+          <div>
+            <h6>Producto solicitado:</h6>
+            <p class="mb-0"><strong>{{ oferta.productoSolicitadoNombre }}</strong></p>
+          </div>
+        </div>
+
+        <!-- Producto ofrecido -->
+        <div class="col-md-5 d-flex">
+          <img *ngIf="oferta.productoOfrecidoImagenUrl"
+               [src]="oferta.productoOfrecidoImagenUrl"
+               alt="Producto ofrecido"
+               class="img-fluid me-3"
+               width="100">
+          <div>
+            <h6>Producto ofrecido:</h6>
+            <p class="mb-0"><strong>{{ oferta.productoOfrecidoNombre }}</strong></p>
+          </div>
+        </div>
+
+        <!-- Estado y acciones -->
+        <div class="col-md-2 text-end">
+          <p class="mb-1">Estado:</p>
+          <span [ngClass]="getEstadoColor(oferta.estado)">
+            <strong>{{ oferta.estado }}</strong>
+          </span>
+          <p class="mt-2"><small>{{ oferta.fechaCreacion | date:'mediumDate' }}</small></p>
+
+          <!-- Botones si está pendiente -->
+          <div class="mt-2" *ngIf="oferta.estado === 'PENDIENTE'">
+            <button class="btn btn-success btn-sm me-1" (click)="aceptar(oferta.id)">Aceptar</button>
+            <button class="btn btn-danger btn-sm" (click)="rechazar(oferta.id)">Rechazar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <a routerLink="/" class="btn btn-outline-danger">← Volver al inicio</a>
+  </div>
+</div>

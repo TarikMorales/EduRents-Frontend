@@ -1,0 +1,24 @@
+<app-navbar></app-navbar>
+<div class="container mt-5" style="margin-bottom: 10rem;">
+  <h3 class="mb-4">Proponer Intercambio</h3>
+
+  <form [formGroup]="form" (ngSubmit)="enviarPropuesta()">
+    <div class="mb-3">
+      <label for="mensaje" class="form-label">Mensaje de propuesta</label>
+      <textarea
+        id="mensaje"
+        class="form-control"
+        rows="5"
+        formControlName="mensaje_propuesta"
+        placeholder="Escribe tu mensaje aquí..."
+      ></textarea>
+      <div *ngIf="form.get('mensaje_propuesta')?.invalid && form.get('mensaje_propuesta')?.touched" class="text-danger">
+        El mensaje es obligatorio y no puede exceder los 500 caracteres.
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary me-3" [disabled]="form.invalid">Enviar propuesta</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="goBack()">Cancelar</button>
+  </form>
+</div>
+<app-footer></app-footer>

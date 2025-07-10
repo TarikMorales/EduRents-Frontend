@@ -1,0 +1,32 @@
+
+
+<div class="container mt-5">
+  <h3 class="mb-4">Historial de Ofertas de Intercambio (Enviadas)</h3>
+
+  <div *ngIf="ofertas.length === 0">No has realizado ofertas de intercambio aún.</div>
+
+  <div class="card mb-3" *ngFor="let oferta of ofertas">
+    <div class="row g-0">
+      <div class="col-md-4 d-flex justify-content-center align-items-center">
+        <img [src]="oferta.productoSolicitadoImagenUrl || 'assets/producto-demo.jpg'" class="img-fluid rounded-start" style="max-height: 160px;">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">Producto solicitado: {{ oferta.productoSolicitadoNombre }}</h5>
+          <p class="card-text mb-1"><strong>Producto ofrecido:</strong> {{ oferta.productoOfrecidoNombre }}</p>
+          <p class="card-text mb-1">
+            <strong>Estado:</strong>
+            <span [ngClass]="getEstadoColor(oferta.estado)">{{ oferta.estado }}</span>
+          </p>
+          <p class="card-text">
+            <small class="text-muted">Fecha: {{ oferta.fechaCreacion | date:'mediumDate' }}</small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <a routerLink="/" class="btn btn-outline-danger">← Volver al inicio</a>
+  </div>
+</div>
