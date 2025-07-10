@@ -1,1 +1,115 @@
-<p>product-list works!</p>
+<app-navbar></app-navbar>
+
+<div class="container" style="margin-top: 5rem;">
+  <div class="p-4 d-flex align-items-center justify-content-center gap-3 search-box w-100">
+
+    <!-- Input que se ajusta al espacio disponible -->
+    <input
+      type="text"
+      placeholder="Ingrese producto"
+      class="form-control search-input flex-grow-1"
+    />
+
+    <div #contenedorFiltros class="position-relative d-inline-block">
+      <!-- Botón -->
+      <button class="search-filter-button" (click)="alternarFiltros()">Filtros</button>
+
+      <!-- Ventana de filtros flotante -->
+      <div
+        *ngIf="mostrarFiltros"
+        class="bg-white border rounded shadow p-3 mt-2 position-absolute z-3 end-0"
+        style="min-width: 300px"
+      >
+        <app-filter-product-list
+          (filtrosAplicados)="filtrarProductos($event)"
+        ></app-filter-product-list>
+      </div>
+    </div>
+  </div>
+  <div class="p-4 d-flex align-items-center gap-2">
+
+    <!-- Botón desplegable de orden -->
+    <div class="dropdown">
+      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        Ordenar por
+      </button>
+      <ul class="dropdown-menu">
+        <li><button class="dropdown-item" (click)="cambiarOrden('vistas')">Vistas</button></li>
+      </ul>
+    </div>
+
+    <!-- Botón que muestra el orden activo y permite quitarlo -->
+    <button
+      *ngIf="ordenSeleccionado"
+      class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1"
+      (click)="quitarOrden()"
+    >
+      {{ ordenSeleccionado | titlecase }} ✕
+    </button>
+
+    <!-- Botón para limpiar filtros -->
+    <button
+      *ngIf="tieneFiltrosActivos()"
+      class="btn btn-sm btn-outline-primary"
+      (click)="limpiarFiltros()"
+    >
+      Limpiar filtros
+    </button>
+
+  </div>
+  
+  <!-- Contador de productos -->
+  <div class="p-3 text-muted" style="margin-bottom: 10rem;">
+    <ng-container *ngIf="!cargandoProductos">
+      <span *ngIf="tieneProductos">
+        Se encontraron {{ cantidadProductos }} producto{{ cantidadProductos === 1 ? '' : 's' }}
+      </span>
+      <span *ngIf="!tieneProductos && (tieneFiltrosActivos() || ordenSeleccionado)">
+        No se encontraron productos con los filtros aplicados
+      </span>
+    </ng-container>
+    <span *ngIf="cargandoProductos">Cargando productos...</span>
+  </div>
+</div>
+<div class="container mt-4" style="margin-bottom: 5rem;">
+  <!-- Mensaje de carga -->
+  <div *ngIf="cargandoProductos" class="d-flex justify-content-center align-items-center py-5">
+    <div class="spinner-border text-primary me-3" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <span class="text-muted">Cargando productos...</span>
+  </div>
+
+  <!-- Lista de productos -->
+  <div *ngIf="!cargandoProductos && tieneProductos" class="d-flex flex-wrap gap-5 justify-content-center">
+    <app-product-card *ngFor="let producto of productos" [producto]="producto">
+    </app-product-card>
+  </div>
+
+  <!-- Mensaje cuando no hay productos -->
+  <div *ngIf="!cargandoProductos && !tieneProductos" class="text-center py-5">
+    <div class="mb-4">
+      <i class="material-icons" style="font-size: 4rem; color: #6c757d;">search</i>
+    </div>
+    <h4 class="text-muted mb-3">No se han detectado productos</h4>
+    <p class="text-muted mb-4">
+      <ng-container *ngIf="tieneFiltrosActivos() || ordenSeleccionado">
+        No se encontraron productos que coincidan con los filtros aplicados.
+        <br>
+        Intenta ajustar los filtros o eliminarlos para ver más resultados.
+      </ng-container>
+      <ng-container *ngIf="!tieneFiltrosActivos() && !ordenSeleccionado">
+        En este momento no hay productos disponibles.
+      </ng-container>
+    </p>
+    <button 
+      *ngIf="tieneFiltrosActivos() || ordenSeleccionado" 
+      class="btn btn-primary" 
+      (click)="limpiarFiltros()"
+    >
+      Ver todos los productos
+    </button>
+  </div>
+</div>
+
+<app-footer></app-footer>

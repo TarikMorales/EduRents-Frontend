@@ -9,6 +9,7 @@ import { AlertsService, CreateAlertDTO } from '../../../core/services/alerts.ser
 import { AuthService } from '../../../core/services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+
 // Interfaces for type safety
 interface Product {
   id: number;
@@ -78,6 +79,7 @@ export class ProductDetailComponent implements OnInit {
   exchangeAvailable?: boolean;
   loading = true;
   error = false;
+  private location: Location;
 
   constructor(
     private route: ActivatedRoute, 
@@ -128,10 +130,21 @@ export class ProductDetailComponent implements OnInit {
   }
 
   getProductCarreers(): string {
-    return this.product?.cursos_carreras?.length ? this.product.cursos_carreras.join(', ') : '---';
+    let cursos_carreras = '';
+    if (this.product?.cursos_carreras?.length) {
+        for (const item of this.product.cursos_carreras) {
+            let curso_carrera = item.curso + '(' + item.carrera + ')';
+            cursos_carreras += curso_carrera + ', ';
+        }
+    }
+    return cursos_carreras || '---';
   }
   getProductCategories(): string {
-    return this.product?.categorias?.length ? this.product.categorias.join(', ') : '---';
+    let categorias = '';
+    if (this.product?.categorias?.length) {
+      categorias = this.product.categorias.map((cat: any) => cat.nombre || cat).join(', ');
+    }
+    return categorias || '---';
   }
 
   getProductDescription(): string {
@@ -139,7 +152,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   getProductImage(): string {
-    return this.product?.imagenes?.length ? this.product.imagenes[0] : 'assets/NoImage.png';
+    return this.product?.imagenes?.length ? this.product.imagenes[0].url : 'assets/NoImage.png';
   }
 
   getStockText(): string {
@@ -180,7 +193,7 @@ export class ProductDetailComponent implements OnInit {
 
   goToSellerProfile() {
     if (this.product?.vendedor?.id) {
-      this.router.navigate(['/public_/seller-profile', this.product.vendedor.id]);
+      this.router.navigate(['/public/seller-profile', this.product.vendedor.id]);
     }
   }
 

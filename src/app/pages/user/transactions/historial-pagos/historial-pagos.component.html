@@ -1,0 +1,61 @@
+<div class="container" style="margin-top: 5rem; margin-bottom: 20rem;">
+  <h3 class="mb-4">Historial de Transacciones</h3>
+
+  <!-- Filtros -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <label for="metodoSelect">Método de Pago</label>
+      <select id="metodoSelect" class="form-select" [(ngModel)]="filtroMetodoPago" (change)="filtrar()">
+        <option value="">Todos</option>
+        <option value="EFECTIVO">Efectivo</option>
+        <option value="TARJETA">Tarjeta</option>
+        <option value="BANCA">Banca</option>
+        <option value="GOOGLEPAY">Google Pay</option>
+        <option value="APPLEPAY">Apple Pay</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label for="estadoSelect">Estado</label>
+      <select id="estadoSelect" class="form-select" [(ngModel)]="filtroEstado" (change)="filtrar()">
+        <option value="">Todos</option>
+        <option value="PENDIENTE">Pendiente</option>
+        <option value="CONFIRMADA">Confirmada</option>
+        <option value="CANCELADA">Cancelada</option>
+        <option value="RECLAMADA">Reclamada</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Lista de transacciones -->
+  <div *ngIf="transacciones.length === 0">No hay transacciones que coincidan.</div>
+
+  <div class="card mb-4" *ngFor="let t of transacciones">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img [src]="t.imagenProducto || 'assets/producto-demo.jpg'" class="img-fluid rounded-start" alt="Producto">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ t.nombreProducto || 'Producto' }}</h5>
+          <p class="card-text mb-1"><strong>Precio:</strong> S/ {{ t.precio }}</p>
+          <p class="card-text mb-1"><strong>Método de Pago:</strong> {{ t.metodoPago }}</p>
+          <p class="card-text mb-1">
+            <strong>Estado:</strong>
+            <span [ngClass]="getEstadoColor(t.estado)">{{ t.estado }}</span>
+          </p>
+          <p class="card-text mb-1"><strong>Publicado por:</strong> {{ t.nombreVendedor || 'Vendedor' }}</p>
+          <p class="card-text">
+            <small class="text-muted">Fecha: {{ t.fechaCreacion | date:'mediumDate' }}</small>
+          </p>
+
+          <!-- Botones de acción -->
+          <div class="mt-2">
+            <button class="btn btn-success me-2" *ngIf="t.estado === 'PENDIENTE' || t.estado === 'RECLAMADA'" (click)="confirmar(t.id)">Confirmar</button>
+            <button class="btn btn-danger me-2" *ngIf="t.estado === 'PENDIENTE'" (click)="cancelar(t.id)">Cancelar</button>
+            <button class="btn btn-outline-secondary" *ngIf="t.estado !== 'CANCELADA' && t.estado !== 'RECLAMADA'" (click)="reclamar(t.id)">Reclamar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
