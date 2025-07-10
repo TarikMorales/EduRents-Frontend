@@ -1,0 +1,28 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-5">
+  <h3 class="mb-4">Apple Pay</h3>
+  <p>Ingresa tu Apple ID para completar el pago:</p>
+
+  <form [formGroup]="appleForm" (ngSubmit)="submit()">
+    <div class="mb-3">
+      <label class="form-label">Apple ID</label>
+      <input
+        type="email"
+        class="form-control"
+        formControlName="appleId"
+        placeholder="ejemplo@icloud.com"
+      />
+      <div class="text-danger mt-1" *ngIf="appleForm.get('appleId')?.invalid && appleForm.get('appleId')?.touched">
+        Debe ser un correo electrónico válido.
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between mt-4">
+      <button class="btn btn-secondary" type="button" (click)="volver()">Atrás</button>
+      <button class="btn btn-danger" type="submit" [disabled]="appleForm.invalid">Pagar</button>
+    </div>
+  </form>
+</div>
+
+<app-footer></app-footer>

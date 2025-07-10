@@ -28,6 +28,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    localStorage.removeItem('registroDesdeGoogle');
+
     // @ts-ignore
     google.accounts.id.initialize({
       // client_id: `${environment.googleClientId}`,

@@ -1,1 +1,198 @@
-<p>new-product works!</p>
+<app-navbar></app-navbar>
+
+<div class="container-fluid contenedor-general">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-10">
+            <div class="container-fluid">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-1">
+                        <a routerLink="/seller/my-products" class="btn btn-light">
+                            <img src="assets/back-arrow.PNG" alt="Volver" width="60">
+                        </a>
+                    </div>
+                    <div class="col-11">
+                        <h1 class="texto-general texto-titulo">Crear publicación de producto</h1>
+                    </div>
+
+                    <form class="justify-content-center" [formGroup]="productForm" (ngSubmit)="onsubmit()">
+
+
+                    <div class="col-12 contenedor-creacion-producto">
+
+                        <div class="row justify-content-around align-items-center">
+
+                            <div class="col-4 text-center contenedor-imagen-producto">
+                                <img [src]="foto" alt="Imagen del producto" class="img-fluid imagen-producto" (error)="onImageError()">
+                                <div class="container-fluid fila-input">
+                                    <div class="row justify-content-center align-items-center">
+                                        <div class="col-12 text-start">
+                                            <label for="productPhoto" class="texto-general texto-label">Foto</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input type="url" id="productPhoto" class="form-control input-producto" placeholder="Foto (en URL)" formControlName="url_imagen">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6 contenedor-inputs">
+
+                                    <div class="container-fluid">
+                                        <div class="row justify-content-center align-items-center">
+                                            <div class="col-12 fila-input">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <label for="productName" class="texto-general texto-label">Nombre</label>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <input type="text" id="productName" class="form-control input-producto" placeholder="Nombre del producto" formControlName="nombre">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <label for="productState" class="texto-general texto-label">Estado</label>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <select id="productState" class="form-select input-producto" formControlName="estado">
+                                                                            <option value="" disabled selected>Selecciona el estado del producto</option>
+                                                                            <option *ngFor="let estado of opcionesEstados" [value]="estado.value">{{ estado.label }}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 fila-input">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <label for="productDescription" class="texto-general texto-label">Descripción (min 20 caracteres)</label>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <input type="text" id="productDescription" class="form-control input-producto" placeholder="Descripción del producto" formControlName="descripcion">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <label for="productPrice" class="texto-general texto-label">Precio por Unidad (S/)</label>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <input type="number" id="productPrice" class="form-control input-producto" placeholder="Precio del producto" formControlName="precio">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 fila-input">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <label for="productCategory" class="texto-general texto-label">Categoría</label>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <select id="categoria" formControlName="categoria" class="form-select input-general" name="categoria" required>
+                                                                            <option value="" disabled selected>Selecciona una categoría</option>
+                                                                            <option *ngFor="let categoria of opcionesCategorias" [value]="categoria.id">{{ categoria.nombre }}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <label for="productCourseCareer" class="texto-general texto-label">Curso (Carrera)</label>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <select id="cursoCarrera" formControlName="curso_carrera" class="form-select input-general" name="curso_carrera" required>
+                                                                            <option value="" disabled selected>Selecciona un curso (carrera)</option>
+                                                                            <option *ngFor="let cursoCarrera of opcionesCursosCarreras" [value]="cursoCarrera.id">{{ cursoCarrera.curso }} ({{ cursoCarrera.carrera }})</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 fila-input">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <label for="productStock" class="texto-general texto-label">Stock</label>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <input type="number" id="productStock" class="form-control input-producto" placeholder="Stock del producto" formControlName="cantidad_disponible">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <label for="productExchange" class="texto-general texto-label">¿Acepta Intercambio?</label>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div *ngFor="let opcion of opcionesIntercambio">
+                                                                            <input
+                                                                                type="radio"
+                                                                                [value]="opcion.value"
+                                                                                formControlName="intercambio"
+                                                                                [id]="opcion.value"
+                                                                            />
+                                                                            <label [for]="opcion.value">{{ opcion.label }}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 text-center fila-input">
+                                                <button class="texto-general btn-crear" type="submit" [disabled]="productForm.invalid">Crear Producto</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            
+                            </div>
+
+
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

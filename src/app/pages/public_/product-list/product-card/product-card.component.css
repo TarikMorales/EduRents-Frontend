@@ -1,0 +1,11 @@
+.btn-crear{
+    text-align: center;
+    width: 80%;
+    background-color: #F10C00;
+    border: none;
+    color: #FFFFFF;
+    font-size: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+}

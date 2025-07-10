@@ -1,0 +1,1 @@
+export type ProductStatus = 'NUEVO' | 'SEMINUEVO' | 'USADO' | 'MUY_USADO';

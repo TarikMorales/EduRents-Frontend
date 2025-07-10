@@ -50,17 +50,13 @@ export class RegisterComponent implements OnInit {
     const state = navigation?.extras.state as { nombre?: string; correo?: string };
 
     if (state && (state.nombre || state.correo)) {
-      console.log('Recibido desde state:', state);
       datos = state;
       localStorage.setItem('registroDesdeGoogle', JSON.stringify(state));
     } else {
       const stored = localStorage.getItem('registroDesdeGoogle');
       if (stored) {
         datos = JSON.parse(stored);
-        console.log('Recuperado desde localStorage:', datos);
-      } else {
-        console.log('No se recibieron datos del estado de navegación.');
-      }
+      } 
     }
 
     // Si se obtuvieron datos, llenar el formulario
@@ -90,6 +86,7 @@ export class RegisterComponent implements OnInit {
     this.authService.register(credentials).subscribe({
       next: () => {
         this.showSnackBar('Registro exitoso');
+        localStorage.removeItem('registroDesdeGoogle');
         this.router.navigate(['/auth/login']);
       },
       error: () => {
