@@ -10,6 +10,7 @@ import { ProductService } from '../../../../core/services/product-filter/product
 import { NavbarComponent } from "../../../../shared/components/navbar/navbar.component";
 import { FooterComponent } from "../../../../shared/components/footer/footer.component";
 import { RouterLink } from '@angular/router';
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-product-home-list',
@@ -18,8 +19,8 @@ import { RouterLink } from '@angular/router';
     CommonModule, ProductCardComponent, FilterProductListComponent, HttpClientModule,
     NavbarComponent,
     FooterComponent,
-    RouterLink
-],
+    RouterLink, FormsModule
+  ],
   templateUrl: './product-list-home.component.html',
   styleUrl: './product-list-home.component.css'
 })

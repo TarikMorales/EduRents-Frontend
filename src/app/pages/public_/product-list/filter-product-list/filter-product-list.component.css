@@ -13,3 +13,8 @@ body{
   color: white;
   border-color: #dc3545;
 }
+.seleccionado {
+  background-color: #dc3545; /* rojo Bootstrap */
+  color: white;
+  border-color: #dc3545;
+}

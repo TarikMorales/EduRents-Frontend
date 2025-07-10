@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule} from "@angular/forms";
 import { EventEmitter, Output } from '@angular/core';
@@ -17,12 +17,34 @@ import { Course } from '../../../../shared/model/product-filter/course';
   styleUrl: './filter-product-list.component.css'
 })
 export class FilterProductListComponent implements OnInit {
+  // Datos cargados
   categorias: Category[] = [];
   carreras: Career[] = [];
-  cursos: Course[] = []; // Course tiene id, nombre, codigo
+  cursos: Course[] = [];
 
-  busquedaCurso: string = '';
+  // Filtros seleccionados
+  filtrosSeleccionados: number[] = [];
+  carrerasSeleccionadas: number[] = [];
   cursosSeleccionados: number[] = [];
+  estadosSeleccionados: string[] = [];
+
+  // Datos estáticos
+  carrerasDisponibles: string[] = ['Ingeniería', 'Administración', 'Medicina', 'Derecho', 'Diseño', 'Arquitectura'];
+  estadosDisponibles: string[] = ['Nuevo', 'Seminuevo', 'Usado', 'Muy usado'];
+
+  // Filtros de búsqueda
+  busquedaCurso: string = '';
+  precioMin: number | null = null;
+  precioMax: number | null = null;
+
+  // Control UI
+  mostrarCursosDropdown: boolean = false;
+
+  // Comunicación con el padre
+  @Output() filtrosAplicados = new EventEmitter<any>();
+
+  // Referencia al dropdown
+  @ViewChild('dropdownRef') dropdownRef!: ElementRef;
 
   constructor(private categoryService: CategoryService
               , private careerService: CareerService,
@@ -41,25 +63,13 @@ export class FilterProductListComponent implements OnInit {
     this.careerService.getAllCareers().subscribe({
       next: (data) => {
         this.carreras = data;
+        this.restaurarFiltrosGuardados(); // ← después de cargar carreras
       },
       error: (err) => {
         console.error('Error al obtener carreras:', err);
       }
     })
   }
-
-  filtrosSeleccionados: number[] = [];
-
-  carrerasDisponibles: string[] = ['Ingeniería', 'Administración', 'Medicina', 'Derecho', 'Diseño', 'Arquitectura'];
-  carrerasSeleccionadas: number[] = [];
-
-  estadosDisponibles: string[] = ['Nuevo', 'Seminuevo', 'Usado', 'Muy usado'];
-  estadosSeleccionados: string[] = [];
-
-  mostrarCursosDropdown: boolean = false;
-
-  precioMin: number | null = null;
-  precioMax: number | null = null;
 
   onCheckboxChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
@@ -70,6 +80,8 @@ export class FilterProductListComponent implements OnInit {
     } else {
       this.filtrosSeleccionados = this.filtrosSeleccionados.filter(id => id !== value);
     }
+
+    this.guardarFiltrosEnLocalStorage();
   }
 
   onCarreraChange(event: Event) {
@@ -98,8 +110,9 @@ export class FilterProductListComponent implements OnInit {
     } else {
       this.cursos = [];
     }
-  }
 
+    this.guardarFiltrosEnLocalStorage();
+  }
 
   onEstadoChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
@@ -110,6 +123,8 @@ export class FilterProductListComponent implements OnInit {
     } else {
       this.estadosSeleccionados = this.estadosSeleccionados.filter(e => e !== value);
     }
+
+    this.guardarFiltrosEnLocalStorage();
   }
 
   cursosFiltrados(): Course[] {
@@ -128,28 +143,86 @@ export class FilterProductListComponent implements OnInit {
     } else {
       this.cursosSeleccionados.push(curso.id); // selecciona
     }
+    this.guardarFiltrosEnLocalStorage();
   }
-
-    @Output() filtrosAplicados = new EventEmitter<any>();
   aplicarFiltros() {
     const filtrosParaEnviar = {
       categorias: this.filtrosSeleccionados,
       carreras: this.carrerasSeleccionadas,
-      estados: this.estadosSeleccionados,
       cursos: this.cursosSeleccionados,
       precioMin: this.precioMin,
-      precioMax: this.precioMax
+      precioMax: this.precioMax,
+      estado: this.estadosSeleccionados[0] ?? undefined // solo uno por ahora
     };
-    
+
+    // Guardar en localStorage
+    localStorage.setItem('filtrosGuardados', JSON.stringify(filtrosParaEnviar));
+
     console.log('📋 Filtros aplicados desde el componente de filtros:', filtrosParaEnviar);
-    console.log('🏫 Carreras seleccionadas específicamente:', this.carrerasSeleccionadas);
-    
     this.filtrosAplicados.emit(filtrosParaEnviar);
   }
 
-  close() {
-    console.log('Cerrando ventana de filtros');
-    // Aquí puedes ocultar el componente si es condicional (*ngIf)
+  limpiarFiltros() {
+    localStorage.removeItem('filtrosGuardados');
+
+    this.filtrosSeleccionados = [];
+    this.carrerasSeleccionadas = [];
+    this.cursosSeleccionados = [];
+    this.estadosSeleccionados = [];
+    this.precioMin = null;
+    this.precioMax = null;
+  }
+
+  restaurarFiltrosGuardados() {
+    const filtros = localStorage.getItem('filtrosGuardados');
+    if (!filtros) return;
+
+    const datos = JSON.parse(filtros);
+
+    this.filtrosSeleccionados = datos.categorias || [];
+    this.carrerasSeleccionadas = datos.carreras || [];
+    this.cursosSeleccionados = datos.cursos || [];
+    this.precioMin = datos.precioMin ?? null;
+    this.precioMax = datos.precioMax ?? null;
+    this.estadosSeleccionados = datos.estado ? [datos.estado] : [];
+
+    // ✅ Cargar cursos si hay una carrera seleccionada
+    if (this.carrerasSeleccionadas.length === 1) {
+      const selectedCareerId = this.carrerasSeleccionadas[0];
+      this.courseService.getCoursesByCareer(selectedCareerId).subscribe({
+        next: (cursos) => {
+          this.cursos = cursos;
+        },
+        error: (err) => {
+          console.error('Error al obtener cursos para restaurar:', err);
+          this.cursos = [];
+        }
+      });
+    }
+  }
+  guardarFiltrosEnLocalStorage() {
+    const filtrosParaGuardar = {
+      categorias: this.filtrosSeleccionados,
+      carreras: this.carrerasSeleccionadas,
+      cursos: this.cursosSeleccionados,
+      precioMin: this.precioMin,
+      precioMax: this.precioMax,
+      estado: this.estadosSeleccionados[0] ?? null
+    };
+
+    localStorage.setItem('filtrosGuardados', JSON.stringify(filtrosParaGuardar));
+  }
+
+  //Para cerrar el dropdown de cursos al dar click fuera
+  @HostListener('document:click', ['$event'])
+  onClickFuera(event: MouseEvent) {
+    if (
+      this.mostrarCursosDropdown &&
+      this.dropdownRef &&
+      !this.dropdownRef.nativeElement.contains(event.target)
+    ) {
+      this.mostrarCursosDropdown = false;
+    }
   }
 }
 

@@ -57,7 +57,7 @@
     </button>
 
   </div>
-  
+
   <!-- Contador de productos -->
   <div class="p-3 text-muted" style="margin-bottom: 10rem;">
     <ng-container *ngIf="!cargandoProductos">
@@ -102,9 +102,9 @@
         En este momento no hay productos disponibles.
       </ng-container>
     </p>
-    <button 
-      *ngIf="tieneFiltrosActivos() || ordenSeleccionado" 
-      class="btn btn-primary" 
+    <button
+      *ngIf="tieneFiltrosActivos() || ordenSeleccionado"
+      class="btn btn-primary"
       (click)="limpiarFiltros()"
     >
       Ver todos los productos
