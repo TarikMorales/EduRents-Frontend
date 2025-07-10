@@ -1,7 +1,4 @@
-import { Component, inject } from '@angular/core';
-=======
 import { Component, inject, OnInit } from '@angular/core';
-
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
@@ -92,6 +89,8 @@ export class LoginComponent implements OnInit {
         
           // Guardar en localStorage por si el usuario recarga la página
           localStorage.setItem('registroDesdeGoogle', JSON.stringify(datos));
+
+          this.showSnackBar('Usuario no registrado. Por favor, completa el registro.');
 
           this.router.navigate(['/auth/register'], {
             state: datos
